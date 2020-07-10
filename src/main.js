@@ -1,19 +1,27 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import vueEsign from 'vue-esign'
 
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
-import NutUI from '@nutui/nutui';
-import '@nutui/nutui/dist/nutui.css';
-
 Vue.config.productionTip = false
 
 Vue.use(Vant)
-Vue.use(NutUI)
+Vue.use(vueEsign)
 
-const whiteList = ['/login']
+const whiteList = [
+    '/login',
+    '/entrance/select-action',
+    '/merchant',
+    '/merchant/service-agreement',
+    '/merchant/success',
+    '/refund',
+    '/refund/refund-query',
+    '/refund/refund-confirm',
+    '/trade/payment-agreement'
+]
 
 router.beforeEach((to, from, next) => {
     if (to.meta.title) {
@@ -21,7 +29,7 @@ router.beforeEach((to, from, next) => {
     }
     const token = localStorage.getItem("login_token");
     if (to.path === '/login' && token) {
-        router.push({name:'home'})
+        router.push({name:'selectAction'})
     }
     if (whiteList.indexOf(to.path) !== -1) {
         next();
@@ -29,7 +37,7 @@ router.beforeEach((to, from, next) => {
         if (token) {
             next()
         } else {
-            router.push({name:'login'})
+            router.push({name:'selectAction'})
         }
     }
 })
