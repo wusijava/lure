@@ -52,51 +52,39 @@
                 <h2>四、争议解决</h2>
                 <p>本协议在履行过程中发生争议，可以通过协商解决；协商不成，双方均同意提请乙方所在地的仲裁委员会仲裁,按照申请仲裁时现行有效的网络仲裁规则进行网络仲裁并进行书面审理。败诉方应承担为解决本争议而产生的所有费用，包括但不限于仲裁费、律师费、公证费、交通费等。</p>
                 <van-row>
-                    <van-row style="margin-bottom: 10px;">
-                        <van-col span="12">
-                            <div class="sign-content">
-                                <p style="line-height: 60px;height: 60px;display: inline-block;float: left;text-indent: 0">
-                                    甲方：
-                                </p>
-                                <div class="sign-img2">
-                                    <img :src="signImg"
-                                         class="rotate"
-                                    />
-                                </div>
-                            </div>
-                        </van-col>
-                        <van-col span="12">
-                            <van-button plain hairline type="info" size="small" @click="show = true" style="margin-top: 10px">点击去签名</van-button>
-                        </van-col>
-                    </van-row>
-                    <van-col span="12">
-                        <p style="text-indent: 0">
-                            乙方：湖北点赞科技有限公司
-                        </p>
+                    <van-col span="9">
                         <img
                                 :src="companySignImg"
                                 class="companySignImg"
                         />
                     </van-col>
-                    <van-col span="12">
+                    <van-col span="15">
+                        <div class="sign-content">
+                            <p style="line-height: 60px;height: 60px;display: inline-block;float: left;">
+                                签名：
+                            </p>
+                            <button class="sign-btn" @click="show = true">点击去签名</button>
+
+<!--                            <div class="sign-img">-->
+<!--                                <img :src="signImg"-->
+<!--                                     class="rotate"-->
+<!--                                />-->
+<!--                            </div>-->
+                        </div>
+
+                    </van-col>
+                </van-row>
+                <van-row style="margin-bottom: 10px;">
+                    <van-col span="9">
+                    </van-col>
+                    <van-col span="15">
                         <p>日期：<span class="line">{{contractDetail.dateYear}}</span>年
                             <span class="line">{{contractDetail.dateMonth}}</span>月
                             <span class="line">{{contractDetail.dateDay}}</span>日
                         </p>
                     </van-col>
                 </van-row>
-
             </div>
-
-<!--            <van-row style="margin-top: 10px;">-->
-<!--                <van-col span="8">-->
-<!--                </van-col>-->
-<!--                <van-col span="8">-->
-<!--                    <van-button type="primary" @click="show = true" style="margin-top: 10px">点击去签名</van-button>-->
-<!--                </van-col>-->
-<!--                <van-col span="8">-->
-<!--                </van-col>-->
-<!--            </van-row>-->
 
             <van-popup v-model="show" style="width: 100%;height: 100%;text-align: center">
                 <div class="wrapper">
@@ -159,7 +147,7 @@
             }
         },
         mounted(){
-            this.queryContract();
+            // this.queryContract();
             this.timer();
             window.onresize = () => {
                 return (() => {
@@ -537,13 +525,13 @@
         width:100%;
         height:100px;
     }
-    .sign-img2 {
-        border: 0;
+    .sign-img {
         width:100px;
         height:100px;
         float: left;
+        border:0;
     }
-    .sign-img2 img {
+    .sign-img img {
         margin-left: 20px;
     }
     .rotate {
@@ -560,13 +548,21 @@
         height:35px;
         border: none;
     }
+    .sign-btn {
+        float: left;
+        border:1px dashed #bbbbbb;
+        width: 150px;
+        height: 100px;
+        color: #8a8a8a;
+        background-color: #ffffff;
+    }
     .companySignImg {
         width:100px;
         height:100px;
         border: none;
         position: relative;
-        top: -45px;
-        left: 50px;
+        top: -10px;
+        left: 10px;
         z-index: 99;
     }
 </style>
