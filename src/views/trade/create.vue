@@ -110,7 +110,7 @@
                     storeLegalPerson: null,
                     aliPayType: null,
                     userName: null,
-                    password:null
+                    password: null
                 }
             }
         },

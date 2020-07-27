@@ -33,7 +33,7 @@
                 </van-popup>
 
                 <van-field
-                        v-model="form.sellerNo"
+                        v-model="form.aliPayNo"
                         clearable
                         :clickable="false"
                         placeholder="请输入支付宝账号"
@@ -111,6 +111,17 @@
                 </van-popup>
 
                 <van-field
+                        v-model="form.address"
+                        clearable
+                        :clickable="false"
+                        placeholder="请输入详细地址"
+                        input-align="right"
+                        label-width="110"
+                        label="详细地址"
+                >
+                </van-field>
+
+                <van-field
                         v-model="form.storeLegalPerson"
                         clearable
                         :clickable="false"
@@ -174,7 +185,7 @@
             <div class="agreement">
                 <p>查看
                     <router-link tag="span"
-                                 :to="{path:'/merchant/service-agreement',query: {storeName: form.storeName}}">《服务协议》
+                                 :to="{path:'/merchant/service-agreement',query: {storeSubjectName: form.storeSubjectName}}">《服务协议》
                     </router-link>
                 </p>
             </div>
@@ -193,13 +204,12 @@
 <script>
     import {submit} from '../../api/merchant'
     import areaJson from '@/util/area'
-    import util from '../../util/util';
 
     export default {
         name: "merchantIndex",
         data() {
             return {
-                appId: '202005041652231204911',
+                appId: '',
                 area: '请选择营业执照地址',
                 showArea: false,
                 loading: false,
@@ -209,22 +219,23 @@
                 type: '请选择支付宝类型',
                 columns: ['个人', '企业'],
                 form: {
-                    sellerNo: null,//支付宝账号
-                    contactName: null,
-                    contactPhone: null,
-                    storeSubjectName: null,
-                    storeSubjectCertNo: null,
-                    storeProvince: null,
-                    storeProvinceCode: null,
-                    storeCity: null,
-                    storeCityCode: null,
-                    storeCounty: null,
-                    storeCountyCode: null,
-                    wayId: null,
-                    storeLegalPerson: null,
-                    aliPayType: null,
-                    userName: null,
-                    password:null
+                    aliPayType: '',//支付类型
+                    aliPayNo: '',//支付宝账号
+                    wayId: '', //渠道编码
+                    storeLegalPerson: '',//法人
+                    contactName: '',//联系人姓名
+                    contactPhone: '',//联系人电话
+                    storeSubjectName: '',//营业执照名称
+                    storeSubjectCertNo: '',//营业执照编号
+                    storeProvince: '',//省
+                    storeProvinceCode: '',
+                    storeCity: '',//市
+                    storeCityCode: '',
+                    storeCounty: '',//区
+                    storeCountyCode: '',
+                    address: '',//详细地址
+                    userName: '',//登录用户名
+                    password: '',//登录密码
                 },
                 showForm: true
             }
@@ -234,7 +245,7 @@
         methods: {
             onConfirm(value) {
                 if(value == '个人') {
-                    if(this.form.storeLegalPerson == null) {
+                    if(this.form.storeLegalPerson == null || this.form.storeLegalPerson == '') {
                         this.$toast({
                             message: '经营者/法人不能为空',
                             icon: 'warning-o'
@@ -243,9 +254,8 @@
                         this.type = value;
                         this.form.aliPayType = 0;
                     }
-
                 }else {
-                    if(this.form.storeSubjectName == null) {
+                    if(this.form.storeSubjectName == null || this.form.storeSubjectName == '') {
                         this.$toast({
                             message: '营业执照名称不能为空',
                             icon: 'warning-o'
@@ -260,25 +270,21 @@
             async submit() {
                 this.loading = true;
                 try {
-                    if (util.getUrlKey("appId")) {
-                        util.setSessionValue("appId", util.getUrlKey("appId"));
-                    }
                     const result = await submit(this.form);
-                    console.log(result.data)
                     this.loading = false;
-                    if (result.code != '20000') {
+                    if (result.data.code != '20000') {
                         this.$toast({
-                            message: result.msg,
+                            message: result.data.msg,
                             icon: 'warning-o'
                         });
                     } else {
                         this.$toast({
-                            message: result.msg,
+                            message: result.data.data,
                             icon: 'clock-o'
                         });
                         this.$router.push({
                             name: 'merchantSuccess',
-                            query: {merchantNo: result.data.merchantNo, password: result.data.password}
+                            query: {merchantNo: this.form.userName, merchantPwd: this.form.password}
                         })
                     }
                 } catch (e) {

@@ -3,12 +3,12 @@ const method = {
         login: '/web/v1/login',
     },
     merchant:{
-        submit: 'zanclick.Pay.Create.Merchant',
+        submit: '/h5/v1/merchant/merchantApply',
     },
     trade:{
         createOrder:'com.zanclick.createOrder',
         queryState:'com.zanclick.query.orderState',
-        create:'com.zanclick.create.auth.prePay',
+        create:'/h5/v1/create/auth/prePay',
         queryContract:'con.zanclick.zcpay.contract.getOrderDetail',
         saveContract:'con.zanclick.zcpay.contract.saveNameAndCertNo',
     },

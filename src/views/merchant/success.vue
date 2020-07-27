@@ -41,10 +41,9 @@
         },
         mounted() {
             this.merchantNo = this.$route.query.merchantNo;
-            this.merchantPwd = this.$route.query.password;
-        },
+            this.merchantPwd = this.$route.query.merchantPwd;
+        }
     }
-
 </script>
 
 <style scoped>

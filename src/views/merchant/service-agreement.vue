@@ -3,7 +3,7 @@
 
         <p style="text-align: center;font-size: 18px;padding-top: 15px">湖北直连信用购机服务合作协议</p>
 
-        <span style="font-weight: bold">甲方</span>：{{this.$route.query.storeName}}<br>
+        <span style="font-weight: bold">甲方</span>：{{this.$route.query.storeSubjectName}}<br>
         <span style="font-weight: bold">乙方</span>：湖北点赞科技有限公司
 
         <div class="service-content">
@@ -60,7 +60,7 @@
 
 <style scoped>
     .box{
-        padding: 0 15px;
+        padding: 0 15px 15px;
         font-size: 14px;
     }
     .service-content p{

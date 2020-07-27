@@ -147,7 +147,7 @@
             }
         },
         mounted(){
-            // this.queryContract();
+            this.queryContract();
             this.timer();
             window.onresize = () => {
                 return (() => {
