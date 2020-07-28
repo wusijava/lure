@@ -145,6 +145,8 @@
 
                 <van-field
                         v-model="form.contactPhone"
+                        type="tel"
+                        maxlength="13"
                         clearable
                         :clickable="false"
                         placeholder="请输入联系电话"
@@ -160,6 +162,8 @@
             <van-cell-group>
                 <van-field
                         v-model="form.userName"
+                        type="tel"
+                        maxlength="13"
                         clearable
                         :clickable="false"
                         placeholder="请输入商户登陆手机号"
