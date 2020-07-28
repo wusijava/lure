@@ -1,6 +1,26 @@
 import axios from '../config/axios'
 import api from './'
 
+export async function getStore(params){
+    const result = await axios.post(api.trade.store,params);
+    return result;
+}
+
+export async function getMealList(params){
+    const result = await axios.post(api.trade.mealList,params);
+    return result;
+}
+
+export async function getCashierList(params){
+    const result = await axios.post(api.trade.cashierList,params);
+    return result;
+}
+
+export async function getPayDetail(params){
+    const result = await axios.post(api.trade.payDetail,params);
+    return result;
+}
+
 export async function createOrder(params){
     const result = await axios.post(api.trade.createOrder,params);
     return result;

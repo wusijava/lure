@@ -53,26 +53,27 @@
                 username: '',
                 password: '',
                 ifDisplay: false,
-                infoShow: false,
-                msg:''
+                infoShow: false
             }
         },
         mounted() {
-            console.log(this.$route.query.type)
         },
         methods: {
             toLogin() {
                 if(this.username == '' || this.password == '') {
                     this.infoShow = true
-                    this.msg = '用户名密码不能为空'
+                    this.$dialog.alert({
+                        message:'用户名密码不能为空',
+                    })
                 } else{
                     let query = new Object()
                     query.username = this.username
                     query.password = this.password
                     login(query).then(json =>{
                         console.log(json.data)
-                        if(json.data.code === "20000") {
-                            localStorage.setItem('login_token', json.headers.authorization)
+                        if(json.data.code === '20000') {
+                            localStorage.setItem('login_token', json.headers.authorization);
+                            localStorage.setItem('username', json.data.data.username);
                             if(this.$route.query.type == 1) {
                                 this.$router.push({name:'tradeIndex'})
                             }
@@ -81,11 +82,13 @@
                             }
                         }else {
                             this.infoShow = true
-                            this.msg = json.data.msg
+                            this.$dialog.alert({
+                                message:json.data.msg,
+                            })
                         }
                     })
                 }
-            },
+            }
         }
     }
 </script>

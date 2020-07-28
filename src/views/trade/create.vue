@@ -1,12 +1,16 @@
 <template>
     <div class="box" v-if="showForm===true">
         <van-cell-group>
-            <van-cell :title="title" :label="content" title-class="title"/>
+            <van-cell
+                    :title="detail.name"
+                    :label="detail.desc"
+                    title-class="title"
+            />
             <van-field
-                    v-model="form.userName"
+                    v-model="detail.settleAmt"
                     clearable
                     :clickable="false"
-                    placeholder="534.3"
+                    :placeholder="detail.settleAmt"
                     input-align="right"
                     label-width="110"
                     label="套餐金额"
@@ -14,10 +18,11 @@
             >
             </van-field>
             <van-field
-                    v-model="form.userName"
+                    v-model="detail.num"
                     clearable
                     :clickable="false"
-                    placeholder="24"
+                    type="digit"
+                    :placeholder="detail.num + '期'"
                     input-align="right"
                     label-width="110"
                     label="套餐期数"
@@ -25,10 +30,10 @@
             >
             </van-field>
             <van-field
-                    v-model="form.userName"
+                    v-model="detail.payAmt"
                     clearable
                     :clickable="false"
-                    placeholder="600"
+                    :placeholder="detail.payAmt"
                     input-align="right"
                     label-width="110"
                     label="冻结金额"
@@ -36,7 +41,7 @@
             >
             </van-field>
             <van-field
-                    v-model="form.userName"
+                    v-model="form.customerName"
                     clearable
                     :clickable="false"
                     placeholder="请输入客户姓名"
@@ -46,7 +51,7 @@
             >
             </van-field>
             <van-field
-                    v-model="form.userName"
+                    v-model="form.customerPhone"
                     clearable
                     :clickable="false"
                     placeholder="请输入办理业务手机号"
@@ -56,7 +61,7 @@
             >
             </van-field>
             <van-field
-                    v-model="form.password"
+                    v-model="form.customerCertNo"
                     clearable
                     :clickable="false"
                     placeholder="请输入身份证号"
@@ -65,6 +70,36 @@
                     label="客户身份证号"
             >
             </van-field>
+
+            <van-cell
+                    v-if="cashier == '请选择营业员'"
+                    title="选择营业员"
+                    is-link
+                    :value="cashier"
+                    @click="showPicker = true">
+            </van-cell>
+
+            <van-field
+                    v-else
+                    is-link
+                    :value="cashier"
+                    @click="showPicker = true"
+                    input-align="right"
+                    label-width="110"
+                    label="选择营业员"
+            />
+
+            <van-popup
+                    v-model="showPicker"
+                    position="bottom"
+            >
+                <van-picker
+                        show-toolbar
+                        :columns="cashierList"
+                        @cancel="showPicker = false"
+                        @confirm="onConfirm"
+                />
+            </van-popup>
         </van-cell-group>
 
         <div class="box2" style="margin: 15px">
@@ -81,7 +116,7 @@
 </template>
 
 <script>
-    import {submit} from '../../api/merchant'
+    import {getCashierList} from '../../api/trade'
     import areaJson from '@/util/area'
     import util from '../../util/util';
 
@@ -89,35 +124,64 @@
         name: "merchantIndex",
         data() {
             return {
-                appId: '202005041652231204911',
                 loading: false,
                 showForm: true,
-                title: '套餐一号',
-                content: '兑换时间法华寺见好就收分开发的',
+                detail: {},
                 form: {
-                    sellerNo: null,//支付宝账号
-                    contactName: null,
-                    contactPhone: null,
-                    storeSubjectName: null,
-                    storeSubjectCertNo: null,
-                    storeProvince: null,
-                    storeProvinceCode: null,
-                    storeCity: null,
-                    storeCityCode: null,
-                    storeCounty: null,
-                    storeCountyCode: null,
-                    wayId: null,
-                    storeLegalPerson: null,
-                    aliPayType: null,
-                    userName: null,
-                    password: null
-                }
+                    customerName: '',
+                    customerPhone: '',
+                    customerCertNo: ''
+                },
+                showPicker: false,
+                cashier: '请选择营业员',
+                cashierList: [],
             }
         },
         mounted() {
+            this.detail = this.$route.query.mealDetail
+            this.wayId = this.$route.query.wayId
+            this.getCashierList()
+            // this.getPayDetail()
         },
         methods: {
+            getCashierList: async function() {
+                let params = {}
+                params.wayId = this.wayId
+
+                const result = await getCashierList(params)
+                console.log(result.data)
+                if(result.data.code == '20000') {
+                   this.cashier = result.data.data
+                }else{
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
+                this.showPicker = false;
+            },
+            onConfirm() {
+
+            },
             async submit() {
+                let params = {};
+                params.mealId = this.detail.id
+                params.customerName = this.form.customerName
+                params.customerPhone = this.form.customerPhone
+                params.customerCertNo = this.form.customerCertNo
+                params.cashierId = this.cashier.id
+                params.wayId = this.wayId
+                const result = await getCashierList(params)
+                console.log(result.data)
+                if(result.data.code == '20000') {
+                    console.log(result.data)
+                    this.cashier = result.data.data
+                }else{
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
                 this.$router.push({name:'pay'});
             },
         }

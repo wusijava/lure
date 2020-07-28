@@ -3,7 +3,7 @@
         <div class="main">
             <p>请顾客将支付宝打开，“扫一扫”向我付款</p>
             <div class="content-title">
-                <p>套餐1111</p>
+                <p>{{detail.mealTitle}}</p>
             </div>
             <div class="content">
                 <div class="content-code">
@@ -20,23 +20,23 @@
                     <div class="content-item">
                         <div class="receive">
                             <img src="../../assets/img/icon_receive@2x.png">
-                            <p>￥<span style="font-size: 22px;font-weight: bold;">534.00</span></p>
+                            <p>￥<span style="font-size: 22px;font-weight: bold;">{{detail.settleAmount}}</span></p>
                         </div>
                         <div class="pay">
                             <img src="../../assets/img/icon_pay@2x.png">
-                            <p style="margin-top:15px;">分<span style="font-weight: bold">24</span>期(含手续费)</p>
-                            <p>￥<span style="font-size: 22px;font-weight: bold;">600.00</span>&nbsp;/期</p>
+                            <p style="margin-top:15px;">分<span style="font-weight: bold">{{detail.num}}</span>期(含手续费)</p>
+                            <p>￥<span style="font-size: 22px;font-weight: bold;">{{detail.amount}}</span>&nbsp;/期</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <p style="text-align: left">注：该订单冻结期数为12期，每期还款金额50.00元</p>
+            <p style="text-align: left">注：该订单冻结期数为{{detail.num}}期，每期还款金额{{detail.eachMoney}}元</p>
         </div>
     </div>
 </template>
 
 <script>
-    import {tradeStateQuery,createOrder} from "../../api/trade";
+    import {getPayDetail,createOrder} from "../../api/trade";
     import util from '../../util/util';
     import QrCode from "../../components/QrCode";
 
@@ -46,50 +46,38 @@
             return {
                 pay: null,
                 url: null,
-                queryInterval: null
+                queryInterval: null,
+                detail: {}
             }
         },
         components:{
             QrCode
         },
         mounted() {
-            // this.createPay();
+            this.getPayDetail();
         },
         methods: {
-            async queryStatus(){
-                let params = {};
-                const result = await tradeStateQuery(params);
-                if(result.code=="20000"){
-                    const state = result.data.orderStatus;
-                    if(state=="PAY_SUCCESS"){
-                        clearInterval(this.queryInterval);
-                        this.queryInterval = null;
-                        location.href = '/h5/auth/success'
-                    }else if(state=="PAY_CLOSED"){
-                        clearInterval(this.queryInterval);
-                        this.queryInterval = null;
-                        this.$dialog.confirm({
-                            message: '交易超时,是否重新创建?'
-                        }).then(() => {
-                            this.reload();
-                        }).catch(() => {
-                            this.$router.push({path:'/auth/fail',query:{desc:'交易超时,订单关闭'}})
-                        });
-                    }
+            getPayDetail: async function() {
+                let params = {}
+                params.tradeNo = '123'
+                const result = await getPayDetail(params)
+                console.log(result.data)
+                if(result.code == '20000') {
+                    this.detail = result.data
+                    console.log(result.data)
+                }else {
+                    this.$toast({
+                        message: result.message,
+                        icon: 'warning-o'
+                    });
                 }
             },
             async createPay(){
-                if (util.getUrlKey("appId")){
-                    util.setSessionValue("appId",util.getUrlKey("appId"));
-                }
-                if (util.getUrlKey("cipherJson")){
-                    util.setSessionValue("cipherJson",util.getUrlKey("cipherJson"));
-                }
                 let params = {};
                 const result = await createOrder(params);
                 if(result.code == "20000"){
                     this.pay = result.data;
-                    this.url = this.pay.url + "?appId="+util.getSessionValue("appId")+"&cipherJson="+ encodeURIComponent(util.getSessionValue("cipherJson"));
+                    this.url = this.pay.url;
                     this.queryInterval = setInterval(this.queryStatus,5000);
                 }else {
                     this.$dialog.alert({

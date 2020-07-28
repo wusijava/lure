@@ -2,9 +2,9 @@
     <div class="box">
         <div class="title">
             <img src="../../assets/img/icon_merchant@2x.png"/>
-            <h3>{{store}}</h3>
+            <h3>{{store.storeName}}</h3>
             <p>
-                {{area}}
+                {{storeProvince}}-{{storeCity}}
                 <img src="../../assets/img/btn_mine_skip@3x.png"
                      style="width: 11px;height: 7px; margin-left: 5px;"
                      @click="showArea = true"
@@ -18,7 +18,6 @@
             >
                 <van-area :area-list="areaList"
                           :columns-num="2"
-                          value="420000"
                           @confirm="confirmArea"
                           @cancel="showArea=false"
                 />
@@ -26,38 +25,31 @@
         </div>
         <div class="content">
             <van-tabs v-model="active" animated swipeable color="#587FFF" title-active-color="#3385ff" title-inactive-color="#2c3e50"
-                      line-width="40">
-                <van-tab title="异业">
-                    <div class="radio-check" v-for="(item,index) in stateList"
-                         :key="index"
+                      line-width="40" @change="changeTab">
+                <van-tab v-for="(item,index) in mealList" :key="item.name" :value="index" :title="item.name">
+                    <div class="radio-check" v-for="(i,index) in item.mealInfoList"
                          :class="activeState==index ? 'activeClass' : '' "
                     >
-                        <input type="radio" name="num"
-                               :value="item.stateStr"
-                               @click="changeState(index)"
+                        <input type="radio"
+                               :value="index"
+                               @click="changeState(index, i)"
                         >
                         <label>
-                            <h2>{{item.title}}</h2>
-                            {{item.stateStr}}
+                            <h2>{{i.name}}</h2>
+                            {{i.desc}}
                         </label>
                     </div>
                 </van-tab>
-                <van-tab title="手机购">
-                    手机购
-                </van-tab>
-                <van-tab title="其他">
-                    其他
-                </van-tab>
             </van-tabs>
         </div>
-        <div class="footer">
+        <div id="footer">
             <van-row>
                 <van-col span="8">
-                    <h1><span>￥</span>200</h1>
+                    <h1><span>￥{{info.payAmt}}</span></h1>
                 </van-col>
                 <van-col span="8" style="margin-top: 12px">
-                    <p>冻结金额：300</p>
-                    <p>￥832/期*24</p>
+                    <p>冻结金额：{{info.settleAmt}}</p>
+                    <p>￥{{info.eachAmt}}/期*{{info.num}}</p>
                 </van-col>
                 <van-col span="8">
                     <van-button type="info" size="large" block @click="toPay">下一步</van-button>
@@ -68,7 +60,7 @@
 </template>
 
 <script>
-    // import {getList} from '@/api/trade'
+    import {getStore,getMealList} from '../../api/trade'
     import areaJson from '@/util/area'
     import util from '../../util/util';
 
@@ -76,126 +68,109 @@
         name: "tradeIndex",
         data() {
             return {
-                store: '武汉市大武汉1911店',
+                store: {},
+                area: '',
                 showArea: false,
                 areaList: areaJson,
-                area: '湖北',
                 storeProvince: '',
                 storeProvinceCode: '',
                 storeCity: '',
                 storeCityCode: '',
                 active: 'a',
-                activeList: ['异业','手机购','其他'],
-                stateList:[
-                    {
-                        id: 1,
-                        state: '',
-                        title: '套餐名称11',
-                        stateStr: '套餐描述套餐描述套餐描述套餐描述套餐描述11'
-                    },
-                    {
-                        id: 2,
-                        state: 0,
-                        title: '套餐名称22',
-                        stateStr: '套餐描述套餐描述套餐描述套餐描述套餐描述22'
-                    },
-                    {
-                        id: 2,
-                        state: 0,
-                        title: '套餐名称22',
-                        stateStr: '套餐描述套餐描述套餐描述套'
-                    },
-                    {
-                        id: 3,
-                        state: 0,
-                        title: '套餐名称33',
-                        stateStr: '套餐描述套餐描述套餐描述套餐描述套'
-                    },
-                    {
-                        id: 4,
-                        state: 0,
-                        title: '套餐名称44',
-                        stateStr: '套餐描述套餐描述套餐描述套餐描述套餐描述22'
-                    },
-                    {
-                        id: 5,
-                        state: 0,
-                        title: '套餐名称55',
-                        stateStr: '套餐描述套餐描述套餐描述套餐描述套餐描述22'
-                    },
-                ],
-                activeState: 0
+                mealList:[],
+                activeState: 0,
+                info: {}
             }
         },
         mounted() {
-            this.getList()
+            this.getStore();
         },
         methods: {
-            getList: async function() {
+            getStore: async function() {
                 let params = {};
-                const result = await getList(params);
-
+                params.username = localStorage.getItem('username')
+                const result = await getStore(params);
                 const toast = this.$toast.loading({
                     duration: 0, // 持续展示 toast
                     forbidClick: true,
                     message: '请稍后...',
                 });
-                let second = 3;
+                let second = 4;
                 const timer = setInterval(() => {
                     second--;
-                    if (second) {
-                        if(result.status !== 200) {
-                            toast.message = `网络异常，请重新查询`;
-                        }
-                    } else {
-                        if (result.data.code == 20000) {
-                            if(result.data.data.content.length > 0) {
-                                this.showEmpty = false;
-                                this.list = result.data.data.content;
-                            }else {
-                                this.showEmpty = true;
-                                this.list = [];
-                                this.pageTotal = 0;
-                                this.currentPage = 0;
-                            }
-                        }else if( result.data.code == 40015) {
-                            this.$dialog.alert({
-                                message: result.data.msg,
-                            }).then(() => {
-                                this.$router.push({name:'login'})
-                            });
-                        }else {
-                            this.$dialog.alert({
-                                message: result.data.msg
-                            })
-                        }
-                        clearInterval(timer);
-                        this.$toast.clear();
+                    if(result.data.code == '20000') {
+                        this.store = result.data.data
+                        this.storeProvince = result.data.data.provinceName
+                        this.storeCity = result.data.data.cityName
+                        this.storeProvinceCode = result.data.data.provinceCode
+                        this.storeCityCode = result.data.data.cityCode
+                        this.getList();
+                    }else {
+                        this.$toast({
+                            message: result.data.msg,
+                            icon: 'warning-o'
+                        });
+                        this.$router.push({name:'login'})
                     }
+                    clearInterval(timer);
                 }, 1000);
             },
+            getList: async function() {
+                let params = {};
+                if(this.storeCityCode == null) {
+                    params.type = 1 //1、省 2、市
+                }else {
+                    params.type = 2
+                }
+                params.areaCode = this.storeCityCode
+
+                const result = await getMealList(params);
+                if (result.data.code == '20000') {
+                    this.$toast.clear();
+                    if(result.data.data.length > 0) {
+                        this.mealList = result.data.data
+                        this.info = this.mealList[0].mealInfoList[0]
+                    }else {
+                        this.mealList = [];
+                    }
+                }else if( result.data.code == '40015') {
+                    this.$dialog.alert({
+                        message: result.data.msg,
+                    }).then(() => {
+                        this.$router.push({name:'login'})
+                    });
+                }else {
+                    this.$dialog.alert({
+                        message: result.data.msg
+                    })
+                }
+            },
             confirmArea(arr) {
-                this.area = '';
                 if (arr[0]) {
-                    this.area += arr[0].name;
                     this.storeProvince = arr[0].name;
                     this.storeProvinceCode = arr[0].code;
-                    this.storeProvinceCode = "200";
                 }
                 if (arr[1]) {
-                    this.area += arr[1].name;
                     this.storeCity = arr[1].name;
                     this.storeCityCode = arr[1].code;
-
                 }
                 this.showArea = false;
+                this.getList();
             },
-            changeState(index){
+            changeState(index, item){
                 //把index值赋给active，点击改变样式
-                this.activeState=index;
+                this.activeState = index;
+                this.info = item
+            },
+            changeTab: function(name) {
+                this.activeState = name;
+                this.info = this.mealList[name].mealInfoList[0]
             },
             toPay() {
-                this.$router.push({name:'create'});
+                this.$router.push({
+                    name:'create',
+                    query: {mealDetail: this.info, wayId: this.store.wayId }
+                });
             }
         }
     }
@@ -287,8 +262,10 @@
         display: block;
         height: 100%;
     }
-    .footer {
+    #footer {
         position: fixed;
+        display: block;
+        z-index: 999;
         bottom: 0;
         height: 80px;
         width: 100%;
@@ -300,17 +277,17 @@
         line-height: 78px;
         border-radius: 0;
     }
-    .footer p {
+    #footer p {
         font-size: 0.75rem;
         margin: 5px 0;
         text-align: center;
     }
-    .footer h1 {
+    #footer h1 {
         font-size: 2.25rem;
         text-align: center;
         line-height: 26px;
     }
-    .footer span {
+    #footer span {
         font-size: 1.125rem;
     }
 </style>
