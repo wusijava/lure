@@ -273,10 +273,9 @@
                 this.showPicker = false;
             },
             async submit() {
-                this.loading = true;
                 if(this.form.contactPhone.length != 11) {
                     this.$toast({
-                        message: '请输入正确的手机号',
+                        message: '请输入正确的联系电话',
                         icon: 'warning-o'
                     });
                     return;
@@ -288,6 +287,7 @@
                     });
                     return;
                 }
+                this.loading = true;
                 try {
                     const result = await submit(this.form);
                     this.loading = false;
