@@ -1,49 +1,5 @@
 <template>
     <div class="box" v-if="showForm===true">
-        <div>
-            <van-cell-group>
-                <van-cell
-                        v-if="type == '请选择支付宝类型'"
-                        title="支付宝类型"
-                        is-link
-                        :value="type"
-                        @click="showPicker = true">
-                </van-cell>
-
-                <van-field
-                        v-else
-                        is-link
-                        :value="type"
-                        @click="showPicker = true"
-                        input-align="right"
-                        label-width="110"
-                        label="支付宝类型"
-                />
-
-                <van-popup
-                        v-model="showPicker"
-                        position="bottom"
-                >
-                    <van-picker
-                            show-toolbar
-                            :columns="columns"
-                            @cancel="showPicker = false"
-                            @confirm="onConfirm"
-                    />
-                </van-popup>
-
-                <van-field
-                        v-model="form.aliPayNo"
-                        clearable
-                        :clickable="false"
-                        placeholder="请输入支付宝账号"
-                        input-align="right"
-                        label-width="110"
-                        label="支付宝账号"
-                >
-                </van-field>
-            </van-cell-group>
-        </div>
         <div class="box2">
             <van-cell-group>
                 <van-field
@@ -180,6 +136,51 @@
                         input-align="right"
                         label-width="110"
                         label="商户登陆密码"
+                >
+                </van-field>
+            </van-cell-group>
+        </div>
+
+        <div class="box2">
+            <van-cell-group>
+                <van-cell
+                        v-if="type == '请选择支付宝类型'"
+                        title="支付宝类型"
+                        is-link
+                        :value="type"
+                        @click="showPicker = true">
+                </van-cell>
+
+                <van-field
+                        v-else
+                        is-link
+                        :value="type"
+                        @click="showPicker = true"
+                        input-align="right"
+                        label-width="110"
+                        label="支付宝类型"
+                />
+
+                <van-popup
+                        v-model="showPicker"
+                        position="bottom"
+                >
+                    <van-picker
+                            show-toolbar
+                            :columns="columns"
+                            @cancel="showPicker = false"
+                            @confirm="onConfirm"
+                    />
+                </van-popup>
+
+                <van-field
+                        v-model="form.aliPayNo"
+                        clearable
+                        :clickable="false"
+                        placeholder="请输入支付宝账号"
+                        input-align="right"
+                        label-width="110"
+                        label="支付宝账号"
                 >
                 </van-field>
             </van-cell-group>
