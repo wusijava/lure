@@ -102,7 +102,7 @@
                 <van-field
                         v-model="form.contactPhone"
                         type="tel"
-                        maxlength="13"
+                        maxlength="11"
                         clearable
                         :clickable="false"
                         placeholder="请输入联系电话"
@@ -119,7 +119,7 @@
                 <van-field
                         v-model="form.userName"
                         type="tel"
-                        maxlength="13"
+                        maxlength="11"
                         clearable
                         :clickable="false"
                         placeholder="请输入商户登陆手机号"
@@ -274,6 +274,20 @@
             },
             async submit() {
                 this.loading = true;
+                if(this.form.contactPhone.length != 11) {
+                    this.$toast({
+                        message: '请输入正确的手机号',
+                        icon: 'warning-o'
+                    });
+                    return;
+                }
+                if(this.form.userName.length != 11) {
+                    this.$toast({
+                        message: '请输入正确的手机号',
+                        icon: 'warning-o'
+                    });
+                    return;
+                }
                 try {
                     const result = await submit(this.form);
                     this.loading = false;
