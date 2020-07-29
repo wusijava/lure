@@ -9,20 +9,20 @@
         </div>
         <div class="content">
             <img :src="one">
-            <span>请妥善保存您的管理后台账号和密码，勿轻易泄露给他人，可登录管理后台查看审核结果。网址：<a>http://hfq.zanclick.cn</a></span>
+            <span>请妥善保存您的管理后台账号和密码，勿轻易泄露给他人，可登录管理后台查看审核结果。网址：<a>http://47.114.76.55/admin</a></span>
             <br>
             <span>
             <br/>账号：{{merchantNo}}
             <br/>密码：{{merchantPwd}}
             </span>
             <br/>
-            <img :src="two"><span>请保存下方二维码，在审核通过后打开支付宝扫一扫，点击右上角相册，选择保存的二维码图片进行识别，完成签约。</span>
+            <img :src="two"><span>请在审核通过后使用收款支付宝账号在支付宝APP内搜索“点赞收银台”生活号，点击菜单“商户-开通自动收款”，完成签约。</span>
         </div>
-        <div class="code">
-            <div class="code-licence">
-                <img :src="qr" style="width: 140px;height: 140px;">
-            </div>
-        </div>
+        <!--<div class="code">-->
+            <!--<div class="code-licence">-->
+                <!--<img :src="qr" style="width: 140px;height: 140px;">-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </template>
 

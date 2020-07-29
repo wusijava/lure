@@ -1,6 +1,6 @@
 const method = {
     user:{
-        login: '/web/v1/login',
+        login: '/login',
     },
     merchant:{
         submit: '/merchant/merchantApply',
@@ -17,7 +17,7 @@ const method = {
         saveContract:'con.zanclick.zcpay.contract.saveNameAndCertNo',
     },
     upload:{
-        getUploadToken:'upload/getToken'
+        getUploadToken:'/upload/getToken'
     },
 }
 export default method;
