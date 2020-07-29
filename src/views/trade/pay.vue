@@ -20,12 +20,12 @@
                     <div class="content-item">
                         <div class="receive">
                             <img src="../../assets/img/icon_receive@2x.png">
-                            <p>￥<span style="font-size: 22px;font-weight: bold;">{{detail.settleAmount}}</span></p>
+                            <p>￥<span style="font-size: 22px;font-weight: bold;">{{detail.amount}}</span></p>
                         </div>
                         <div class="pay">
                             <img src="../../assets/img/icon_pay@2x.png">
                             <p style="margin-top:15px;">分<span style="font-weight: bold">{{detail.num}}</span>期(含手续费)</p>
-                            <p>￥<span style="font-size: 22px;font-weight: bold;">{{detail.amount}}</span>&nbsp;/期</p>
+                            <p>￥<span style="font-size: 22px;font-weight: bold;">{{detail.eachMoney}}</span>&nbsp;/期</p>
                         </div>
                     </div>
                 </div>
@@ -36,17 +36,16 @@
 </template>
 
 <script>
-    import {getPayDetail,createOrder} from "../../api/trade";
-    import util from '../../util/util';
+    import {getPayDetail} from "../../api/trade";
     import QrCode from "../../components/QrCode";
 
     export default {
         name: "pay",
         data() {
             return {
-                pay: null,
-                url: null,
-                queryInterval: null,
+                pay: '',
+                url: '',
+                queryInterval: '',
                 detail: {}
             }
         },
@@ -59,30 +58,16 @@
         methods: {
             getPayDetail: async function() {
                 let params = {}
-                params.tradeNo = '123'
+                params.tradeNo = this.$route.query.tradeNo
                 const result = await getPayDetail(params)
                 console.log(result.data)
-                if(result.code == '20000') {
-                    this.detail = result.data
-                    console.log(result.data)
+                if(result.data.code == '20000') {
+                    this.detail = result.data.data
+                    this.url = this.detail.url;
                 }else {
                     this.$toast({
-                        message: result.message,
+                        message: result.data.msg,
                         icon: 'warning-o'
-                    });
-                }
-            },
-            async createPay(){
-                let params = {};
-                const result = await createOrder(params);
-                if(result.code == "20000"){
-                    this.pay = result.data;
-                    this.url = this.pay.url;
-                    this.queryInterval = setInterval(this.queryStatus,5000);
-                }else {
-                    this.$dialog.alert({
-                        title: "订单创建失败",
-                        message: result.message,
                     });
                 }
             },
@@ -130,11 +115,12 @@
         text-align: center;
     }
     .content-code{
-        /*padding:15px 47px ;*/
+        /*padding:15px 42px ;*/
     }
     .content-code .code{
-        width: 100%;
+        width: 290px;
         height: auto;
+        margin: 0 auto;
         background-color: #ffffff;
     }
     .content-item{

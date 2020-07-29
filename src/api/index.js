@@ -6,15 +6,15 @@ const method = {
         submit: '/merchant/merchantApply',
     },
     trade:{
-        store: '/meal/getStoreInfo',
-        mealList: '/meal/getMealList',
-        cashierList: '/meal/getCashierList',
-        createOrder:'/trade/createOrder',
-        payDetail:'/meal/getPayDetail',
+        store: 'api/merchantStore/getStoreInfo',
+        mealList: 'api/meal/getMealList',
+        cashierList: 'api/merchantStore/getCashierList',
+        createOrder:'api/trade/createOrder',
+        payDetail:'api/trade/getPayDetail',
         queryState:'com.zanclick.query.orderState',
-        create:'/create/auth/prePay',
-        queryContract:'con.zanclick.zcpay.contract.getOrderDetail',
-        saveContract:'con.zanclick.zcpay.contract.saveNameAndCertNo',
+        create:'create/auth/prePay',
+        queryContract:'contract/orderDetailTest',
+        saveContract:'contract/signatureUpload',
     },
     upload:{
         getUploadToken:'/upload/getToken'

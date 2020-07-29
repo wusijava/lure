@@ -197,13 +197,14 @@
                 const result = await queryContract(params);
                 console.log(result.data)
                 if(result.data.code=="20000"){
-                    this.contractDetail = result.data
+                    this.contractDetail = result.data.data
                     if (this.contractDetail.bizType != undefined && this.contractDetail.bizType != null) {
                         this.bizType = this.contractDetail.bizType
                     }
                 }else {
-                    this.$dialog.alert({
-                        message: result.msg,
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
                     });
                 }
             },

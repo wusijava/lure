@@ -25,8 +25,12 @@
         </div>
         <div class="content">
             <van-tabs v-model="active" animated swipeable color="#587FFF" title-active-color="#3385ff" title-inactive-color="#2c3e50"
-                      line-width="40" @change="changeTab">
-                <van-tab v-for="(item,index) in mealList" :key="item.name" :value="index" :title="item.name">
+                      line-width="50" :ellipsis="false" @change="changeTab">
+                <van-tab v-if="mealList.length > 0" v-for="(item,index) in mealList" :key="item.name" :value="index" :title="item.name"
+                         title-style="width: 100px;word-break:break-all;height:50px;line-height:18px;
+                                      display: flex;align-items: center;justify-content: space-around;flex-direction: column;
+                                     "
+                >
                     <div class="radio-check" v-for="(i,index) in item.mealInfoList"
                          :class="activeState==index ? 'activeClass' : '' "
                     >
@@ -79,7 +83,8 @@
                 active: 'a',
                 mealList:[],
                 activeState: 0,
-                info: {}
+                info: {},
+                empty: true
             }
         },
         mounted() {
@@ -119,31 +124,47 @@
                 let params = {};
                 if(this.storeCityCode == null) {
                     params.type = 1 //1、省 2、市
-                }else {
+                    params.areaCode = this.storeCityCode
+                }else if(this.storeCityCode == '420001') {
+                    params.type = 1
+                    params.areaCode = this.storeProvinceCode
+                } else {
                     params.type = 2
+                    params.areaCode = this.storeCityCode
                 }
-                params.areaCode = this.storeCityCode
 
                 const result = await getMealList(params);
-                if (result.data.code == '20000') {
-                    this.$toast.clear();
-                    if(result.data.data.length > 0) {
-                        this.mealList = result.data.data
-                        this.info = this.mealList[0].mealInfoList[0]
-                    }else {
-                        this.mealList = [];
-                    }
-                }else if( result.data.code == '40015') {
-                    this.$dialog.alert({
-                        message: result.data.msg,
-                    }).then(() => {
+                const toast = this.$toast.loading({
+                    duration: 0, // 持续展示 toast
+                    forbidClick: true,
+                    message: '请稍后...',
+                });
+                let second = 4;
+                const timer = setInterval(() => {
+                    second--;
+                    if (result.data.code == '20000') {
+                        this.$toast.clear();
+                        if (result.data.data.length > 0) {
+                            this.mealList = result.data.data
+                            this.info = this.mealList[0].mealInfoList[0]
+                        } else {
+                            this.mealList = ['暂无数据']
+                        }
+                    } else if (result.data.code == '40015') {
+                        this.$toast({
+                            message: result.data.msg,
+                            icon: 'warning-o'
+                        });
                         this.$router.push({name:'login'})
-                    });
-                }else {
-                    this.$dialog.alert({
-                        message: result.data.msg
-                    })
-                }
+                    } else {
+                        this.$toast({
+                            message: result.data.msg,
+                            icon: 'warning-o'
+                        });
+                        this.$router.push({name:'login'})
+                    }
+                    clearInterval(timer);
+                },1000)
             },
             confirmArea(arr) {
                 if (arr[0]) {
@@ -163,13 +184,20 @@
                 this.info = item
             },
             changeTab: function(name) {
+                console.log(name)
                 this.activeState = name;
                 this.info = this.mealList[name].mealInfoList[0]
             },
             toPay() {
+                localStorage.setItem('info', JSON.stringify(this.info));
+                localStorage.setItem('store', JSON.stringify(this.store))
                 this.$router.push({
                     name:'create',
-                    query: {mealDetail: this.info, wayId: this.store.wayId }
+                    // query: {
+                    //     mealDetail: this.info,
+                    //     wayId:this.store.wayId,
+                    //     storeNo:this.store.storeNo
+                    // }
                 });
             }
         }
@@ -189,16 +217,20 @@
     .title, .content {
         background: #ffffff;
         position: relative;
-        padding: 15px;
+        padding: 10px;
         margin-bottom: 10px;
     }
     .content {
         margin-bottom: 80px;
-        padding-top: 0;
     }
+    .content >>> .van-tabs--line .van-tabs__wrap {
+        height: 50px;
+    }
+
     .title h3 {
         display: inline;
         margin: 0 0 0 10px;
+        font-size: 1.1em;
     }
     .title p {
         margin: 0 0 0 44px;
