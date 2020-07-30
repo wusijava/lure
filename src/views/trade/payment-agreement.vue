@@ -5,12 +5,12 @@
                 <p>湖北移动分期支付协议</p>
             </div>
             <div class="agree-content" style="margin-top: 30px">
-                <p style="text-indent: 0">甲方：<span class="line" style="width: 150px;">{{contractDetail.packageStr}}</span></p>
+                <p style="text-indent: 0">甲方：<span class="line" style="width: 150px;">{{contractDetail.userName}}</span></p>
                 <p style="text-indent: 0">乙方：湖北点赞科技有限公司</p>
                 <p>甲方是具有完全民事行为能力的自然人，因具有购买商品或服务的需求，同意办理分期业务，本协议在甲方通过湖北移动XXX（以下简称“XXX”）扫码支付确认开始生效，甲方知晓有关责任或权利限制条款，经甲方本人充分审阅，已经完全知悉并充分理解条款的内容及相应法律后果，并无疑问、分歧或异议。</p>
                 <p>甲方在湖北移动指定渠道门店办理分期业务，与乙方就办理和分期业务签订本协议。</p>
                 <h2>一、业务内容</h2>
-                <p>甲乙双方一致同意：甲方在<span class="line" style="width: 150px;"></span>门店购买商品时，针对商品价格与商品首付金额的差额部分由甲方分期支付，乙方由此取得对于甲方应收账款，乙方分月从甲方支付宝冻结金额中分期划扣。</p>
+                <p>甲乙双方一致同意：甲方在<span class="line">{{contractDetail.merchantName}}</span>门店购买商品时，针对商品价格与商品首付金额的差额部分由甲方分期支付，乙方由此取得对于甲方应收账款，乙方分月从甲方支付宝冻结金额中分期划扣。</p>
             </div>
             <div class="agree-content" style="margin-top: 10px">
                 <h2>分期服务信息卡</h2>
@@ -23,18 +23,19 @@
                             <th>扣款金额</th>
                         </tr>
                         <tr>
-                            <td style="text-align: left">&nbsp;&nbsp;￥{{contractDetail.payAmt}}</td>
+                            <td style="text-align: left">&nbsp;&nbsp;￥{{contractDetail.payAmount}}</td>
                             <td>{{contractDetail.num}}期(月)&nbsp;&nbsp;</td>
                             <td>{{contractDetail.num}}月&nbsp;&nbsp;</td>
-                            <td>{{contractDetail.rpyAmt}}元/月&nbsp;&nbsp;</td>
+                            <td>{{contractDetail.eachAmount}}元/月&nbsp;&nbsp;</td>
                         </tr>
                     </table>
                 </div>
                 <p v-if="bizType == 1">
-                    甲方办理业务号码<span class="line">{{contractDetail.userPhone}}</span>，
-                    并授权乙方对其支付宝账户进行冻结，冻结金额为<span class="line">{{contractDetail.payAmt}}</span>元，
+                    甲方办理业务号码<span class="line">{{contractDetail.userMobile}}</span>，
+                    并授权乙方对其支付宝账户进行冻结，冻结金额为<span class="line">{{contractDetail.payAmount}}</span>元，
                     冻结时长为<span class="line">{{contractDetail.num}}</span>月。
-                    乙方将于次月开始转支付，在每月20日从冻结金额中转支付还款{{contractDetail.num}}元，转支付24次。
+                    乙方将于次月开始转支付，在每月20日从冻结金额中转支付还款<span class="line">
+                    {{contractDetail.eachAmount}}</span>元，转支付<span class="line">{{contractDetail.num}}</span>次。
                 </p>
                 <p v-if="bizType == 2">
                     甲方办理业务号码<span class="line">{{contractDetail.userPhone}}</span>，
@@ -51,11 +52,11 @@
                 <p>2、在本次分期生效后超过14天的，本业务无法取消，可到店申请提前还款，申请提前还款后，您的支付宝内冻结金额会全部转支付，若冻结的支付宝相关账户权益是花呗额度，则转支付后的花呗账单还款即可，若冻结的是非花呗额度，则无需向花呗还款。</p>
                 <h2>四、争议解决</h2>
                 <p>本协议在履行过程中发生争议，可以通过协商解决；协商不成，双方均同意提请乙方所在地的仲裁委员会仲裁,按照申请仲裁时现行有效的网络仲裁规则进行网络仲裁并进行书面审理。败诉方应承担为解决本争议而产生的所有费用，包括但不限于仲裁费、律师费、公证费、交通费等。</p>
-                <van-row>
+                <van-row style="margin-top: 10px">
                     <van-col span="9">
                         <img
-                                :src="companySignImg"
-                                class="companySignImg"
+                            :src="companySignImg"
+                            class="companySignImg"
                         />
                     </van-col>
                     <van-col span="15">
@@ -63,13 +64,14 @@
                             <p style="line-height: 60px;height: 60px;display: inline-block;float: left;">
                                 签名：
                             </p>
-                            <button class="sign-btn" @click="show = true">点击去签名</button>
 
-<!--                            <div class="sign-img">-->
-<!--                                <img :src="signImg"-->
-<!--                                     class="rotate"-->
-<!--                                />-->
-<!--                            </div>-->
+                            <button v-if="signImg == ''" class="sign-btn" @click="show = true">点击去签名</button>
+
+                            <div class="sign-img" v-if="signImg != ''">
+                                <img :src="signImg"
+                                     class="rotate"
+                                />
+                            </div>
                         </div>
 
                     </van-col>
@@ -78,9 +80,9 @@
                     <van-col span="9">
                     </van-col>
                     <van-col span="15">
-                        <p>日期：<span class="line">{{contractDetail.dateYear}}</span>年
-                            <span class="line">{{contractDetail.dateMonth}}</span>月
-                            <span class="line">{{contractDetail.dateDay}}</span>日
+                        <p>日期：<span class="line">{{contractDetail.year}}</span>年
+                            <span class="line">{{contractDetail.month}}</span>月
+                            <span class="line">{{contractDetail.day}}</span>日
                         </p>
                     </van-col>
                 </van-row>
@@ -114,13 +116,13 @@
 <script>
     import * as qiniu from 'qiniu-js';
     import {getUploadToken} from "../../api/upload";
-    import {create, tradeStateQuery, queryContract, saveContract} from "../../api/trade";
-    import util from '../../util/util';
+    import {create, queryContract, saveContract} from "../../api/trade";
 
     export default {
         name: 'payment-agreement',
         data(){
             return {
+                tradeNo: '',
                 outOrderNo: '',
                 lineWidth: 4,
                 lineColor: '#000000',
@@ -131,7 +133,8 @@
                 totalTime: 10,
                 disabled: true,
                 alipays: '',
-                signImg: require('@/assets/img/white.gif'),
+                signImg: '',
+                // signImg: '',
                 contractDetail:{},
                 bizType: 1,
                 userNameImg: null,
@@ -147,6 +150,7 @@
             }
         },
         mounted(){
+            this.outTradeNo = this.$route.query.outTradeNo;
             this.queryContract();
             this.timer();
             window.onresize = () => {
@@ -169,33 +173,10 @@
             }
         },
         methods: {
-            // async queryOrder(){
-            //     if (util.getUrlKey("appId")){
-            //         util.setSessionValue("appId",util.getUrlKey("appId"));
-            //     }
-            //     if (util.getUrlKey("cipherJson")){
-            //         util.setSessionValue("cipherJson",util.getUrlKey("cipherJson"));
-            //     }
-            //     let params = {};
-            //     const result = await tradeStateQuery(params);
-            //     this.$toast.clear();
-            //     if(result.code=="20000"){
-            //         const state = result.data.orderStatus;
-            //         if(state != "WAIT_PAY"){
-            //             this.$dialog.alert({
-            //                 message: "交易超时，请刷新二维码后再试",
-            //             });
-            //         }else {
-            //             this.pay = result.data;
-            //             this.queryContract();
-            //         }
-            //     }
-            // },
             async queryContract(){
                 let params = {};
-                params.outOrderNo = '123';
+                params.outTradeNo = this.outTradeNo;
                 const result = await queryContract(params);
-                console.log(result.data)
                 if(result.data.code=="20000"){
                     this.contractDetail = result.data.data
                     if (this.contractDetail.bizType != undefined && this.contractDetail.bizType != null) {
@@ -236,7 +217,7 @@
                     this.resultImg = res
 
                     let blob = this.dataURLtoBlob(res);
-                    let file = this.blobToFile(blob, this.getFileName(this.contractDetail.userPhone));
+                    let file = this.blobToFile(blob, this.getFileName(this.contractDetail.userMobile));
                     let data = await this.getUploadToken("alipays");
 
                     if (data) {
@@ -244,14 +225,12 @@
                         this.userNameImg = url;
                         this.uploadToQiniu(file, data.token, data.key, url, "alipays");
                     }
-
                 }).catch(err => {
                     console.log(err)
                     this.$dialog.alert({
                         message: '没有签名内容',
                     });
                 })
-
             },
             //判断返回值不为空
             getFileName: function(str) {
@@ -265,7 +244,7 @@
                 return fileName;
             },
             async getUploadToken(type) {
-                let result = await getUploadToken({orderno: "enamephoto", type: type});
+                let result = await getUploadToken({outOrderNo: this.outTradeNo, type: type});
                 let data = result.data;
                 if (data.code == "20000") {
                     return data.data;
@@ -326,18 +305,28 @@
             },
             async toSaveContract() {
                 let params = {};
-                params.outOrderNo = this.pay.outOrderNo;
+                params.outOrderNo = this.outTradeNo;
                 params.userNameImg = this.userNameImg;
+                params.userMobile = this.contractDetail.userMobile;
+                this.$toast.loading({
+                    duration:0,
+                    mask: true,
+                    message: '请稍后...',
+
+                });
                 const result = await saveContract(params);
-                if(result.code == "20000") {
+                this.$toast.clear();
+                if(result.data.code == '20000') {
                     this.signSaveSuccess = true;
-                    this.$dialog.alert({
-                        message: result.message
+                    this.$toast({
+                        message: result.data.data,
+                        icon: 'success'
                     });
                     this.signImg = this.userNameImg;
                 }else {
-                    this.$dialog.alert({
-                        message: result.message
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
                     });
                 }
             },
@@ -361,21 +350,20 @@
                     return;
                 }
                 let params = {};
+                params.outTradeNo = this.outTradeNo
                 this.$toast.loading({
                     duration:0,
                     mask: true,
                     message: '请稍后...',
-
                 });
                 const result = await create(params);
                 this.$toast.clear();
-                if(result.code == "20000"){
-                    let qrCodeUrl = result.data.qrCodeUrl;
+                if(result.data.code == '20000'){
+                    let qrCodeUrl = result.data.data.qrCodeUrl;
                     window.location.href = qrCodeUrl;
                 }else {
                     this.$dialog.alert({
-                        title: "支付异常",
-                        message: result.message,
+                        message: result.data.msg,
                     });
                 }
             },
@@ -400,6 +388,7 @@
 <style scoped>
     .box{
         width: 100%;
+        background: #ffffff;
     }
     .content {
         padding: 10px 10px 20px 10px;
@@ -476,7 +465,9 @@
         display: inline-block;
         border-bottom: 1px solid #8B8989;
         position: relative;
-        bottom:0px;
+        bottom:0;
+        text-indent: 0;
+        padding: 0 5px;
     }
     .van-button--normal {
         padding: 0 15px;
@@ -527,13 +518,14 @@
         height:100px;
     }
     .sign-img {
-        width:100px;
+        width:150px;
         height:100px;
-        float: left;
-        border:0;
+        position: relative;
+        top: 0px;
+        left: 20%;
     }
-    .sign-img img {
-        margin-left: 20px;
+    .sign-img img[src='']{
+        border: none;
     }
     .rotate {
         width:60px;
@@ -545,9 +537,8 @@
         -o-transform:rotate(270deg); /* Opera */
     }
     .signImg {
-        width:120px;
-        height:35px;
-        border: none;
+        width:150px;
+        height:45px;
     }
     .sign-btn {
         float: left;

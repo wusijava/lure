@@ -24,12 +24,13 @@
             </van-popup>
         </div>
         <div class="content">
-            <van-tabs v-model="active" animated swipeable color="#587FFF" title-active-color="#3385ff" title-inactive-color="#2c3e50"
-                      line-width="50" :ellipsis="false" @change="changeTab">
-                <van-tab v-if="mealList.length > 0" v-for="(item,index) in mealList" :key="item.name" :value="index" :title="item.name"
+            <div v-show="empty" style="width: 100%;padding: 10px;text-align: center;">该地区暂无数据</div>
+            <van-tabs v-if="mealList.length > 0" v-model="active" animated swipeable :scrollspy="scrollspy"
+                      color="#587FFF" title-active-color="#3385ff" title-inactive-color="#2c3e50"
+                      line-width="50" :ellipsis="false" @change="changeTab" ref="vanTabs">
+                <van-tab v-for="(item,index) in mealList" :key="item.name" :value="item.id" :title="item.name" :name="index"
                          title-style="width: 100px;word-break:break-all;height:50px;line-height:18px;
-                                      display: flex;align-items: center;justify-content: space-around;flex-direction: column;
-                                     "
+                                      display: flex;align-items: center;justify-content: space-around;flex-direction: column;"
                 >
                     <div class="radio-check" v-for="(i,index) in item.mealInfoList"
                          :class="activeState==index ? 'activeClass' : '' "
@@ -46,7 +47,7 @@
                 </van-tab>
             </van-tabs>
         </div>
-        <div id="footer">
+        <div class="footer" v-if="info != null">
             <van-row>
                 <van-col span="8">
                     <h1><span>￥{{info.payAmt}}</span></h1>
@@ -57,6 +58,20 @@
                 </van-col>
                 <van-col span="8">
                     <van-button type="info" size="large" block @click="toPay">下一步</van-button>
+                </van-col>
+            </van-row>
+        </div>
+        <div class="footer" v-else>
+            <van-row>
+                <van-col span="8">
+                    <h1><span></span></h1>
+                </van-col>
+                <van-col span="8" style="margin-top: 12px">
+                    <p></p>
+                    <p></p>
+                </van-col>
+                <van-col span="8">
+                    <van-button type="default" size="large" block disabled>下一步</van-button>
                 </van-col>
             </van-row>
         </div>
@@ -81,10 +96,11 @@
                 storeCity: '',
                 storeCityCode: '',
                 active: 'a',
+                scrollspy: false,
                 mealList:[],
                 activeState: 0,
                 info: {},
-                empty: true
+                empty: false
             }
         },
         mounted() {
@@ -115,7 +131,6 @@
                             message: result.data.msg,
                             icon: 'warning-o'
                         });
-                        this.$router.push({name:'login'})
                     }
                     clearInterval(timer);
                 }, 1000);
@@ -132,39 +147,41 @@
                     params.type = 2
                     params.areaCode = this.storeCityCode
                 }
-
-                const result = await getMealList(params);
                 const toast = this.$toast.loading({
                     duration: 0, // 持续展示 toast
                     forbidClick: true,
                     message: '请稍后...',
                 });
-                let second = 4;
-                const timer = setInterval(() => {
-                    second--;
-                    if (result.data.code == '20000') {
-                        this.$toast.clear();
-                        if (result.data.data.length > 0) {
-                            this.mealList = result.data.data
-                            this.info = this.mealList[0].mealInfoList[0]
-                        } else {
-                            this.mealList = ['暂无数据']
+                const result = await getMealList(params);
+                if (result.data.code == '20000') {
+                    this.$toast.clear();
+                    this.mealList = []
+                    if(result.data.data.length <= 0) {
+                        this.empty = true
+                        this.info = null
+                    }else {
+                        this.empty = false
+                        this.mealList = result.data.data
+                        this.info = this.mealList[0].mealInfoList[0]
+                        this.active = 0
+                        if(this.$refs.vanTabs) {
+                            this.scrollspy = true;
+                            this.$refs.vanTabs.scrollTo(0)
+                            this.scrollspy = false;
                         }
-                    } else if (result.data.code == '40015') {
-                        this.$toast({
-                            message: result.data.msg,
-                            icon: 'warning-o'
-                        });
-                        this.$router.push({name:'login'})
-                    } else {
-                        this.$toast({
-                            message: result.data.msg,
-                            icon: 'warning-o'
-                        });
-                        this.$router.push({name:'login'})
                     }
-                    clearInterval(timer);
-                },1000)
+                } else if (result.data.code == '40015') {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                } else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
+                this.$nextTick()
             },
             confirmArea(arr) {
                 if (arr[0]) {
@@ -177,6 +194,7 @@
                 }
                 this.showArea = false;
                 this.getList();
+
             },
             changeState(index, item){
                 //把index值赋给active，点击改变样式
@@ -184,21 +202,13 @@
                 this.info = item
             },
             changeTab: function(name) {
-                console.log(name)
-                this.activeState = name;
+                this.activeState = 0;
                 this.info = this.mealList[name].mealInfoList[0]
             },
             toPay() {
                 localStorage.setItem('info', JSON.stringify(this.info));
                 localStorage.setItem('store', JSON.stringify(this.store))
-                this.$router.push({
-                    name:'create',
-                    // query: {
-                    //     mealDetail: this.info,
-                    //     wayId:this.store.wayId,
-                    //     storeNo:this.store.storeNo
-                    // }
-                });
+                this.$router.push({name:'create'});
             }
         }
     }
@@ -294,7 +304,7 @@
         display: block;
         height: 100%;
     }
-    #footer {
+    .footer {
         position: fixed;
         display: block;
         z-index: 999;
@@ -309,17 +319,17 @@
         line-height: 78px;
         border-radius: 0;
     }
-    #footer p {
+    .footer p {
         font-size: 0.75rem;
         margin: 5px 0;
         text-align: center;
     }
-    #footer h1 {
+    .footer h1 {
         font-size: 2.25rem;
         text-align: center;
         line-height: 26px;
     }
-    #footer span {
+    .footer span {
         font-size: 1.125rem;
     }
 </style>

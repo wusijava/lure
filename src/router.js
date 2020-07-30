@@ -23,7 +23,7 @@ export default new Router({
             name: 'login',
             component: () => import('./views/login.vue'),
             meta: {
-                title: '办单登陆'
+                title: '办单登录'
             }
         },
         {
@@ -120,6 +120,22 @@ export default new Router({
             component: () => import('./views/order/list.vue'),
             meta: {
                 title: '订单列表'
+            }
+        },
+        {
+            path:'/trade/fail',
+            name:'authFail',
+            component:() => import('./views/trade/auth-fail.vue'),
+            meta: {
+                title: '收款失败'
+            }
+        },
+        {
+            path:'/trade/success',
+            name:'authSuccess',
+            component:() => import('./views/trade/auth-success.vue'),
+            meta: {
+                title: '授权成功'
             }
         },
     ]

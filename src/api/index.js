@@ -11,9 +11,9 @@ const method = {
         cashierList: 'api/merchantStore/getCashierList',
         createOrder:'api/trade/createOrder',
         payDetail:'api/trade/getPayDetail',
-        queryState:'com.zanclick.query.orderState',
-        create:'create/auth/prePay',
-        queryContract:'contract/orderDetailTest',
+        create:'createAuthPrePay',
+        queryContract:'orderDetail',
+        queryState:'api/trade/queryTradeState',
         saveContract:'contract/signatureUpload',
     },
     upload:{

@@ -6,7 +6,7 @@
                 <van-field
                         v-model="username"
                         name="账号"
-                        placeholder="请输入商户登陆手机号"
+                        placeholder="请输入门店账号"
                         clearable
                 />
                 <div v-if="ifDisplay">
@@ -14,7 +14,7 @@
                             v-model="password"
                             type="text"
                             name="密码"
-                            placeholder="请输入登陆密码"
+                            placeholder="请输入登录密码"
                             clearable
                     />
                     <span class="eyes-open" @click="ifDisplay = !ifDisplay">
@@ -26,7 +26,7 @@
                             v-model="password"
                             type="password"
                             name="密码"
-                            placeholder="请输入登陆密码"
+                            placeholder="请输入登录密码"
                             clearable
                     />
                     <span class="eyes-closed" @click="ifDisplay = !ifDisplay">

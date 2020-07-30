@@ -108,7 +108,7 @@
         </van-cell-group>
 
         <div class="box2" style="margin: 15px">
-            <van-button class="button" @click="submit" type="info" size="large" :loading="loading">确认并付款</van-button>
+            <van-button class="button" @click="submit" type="info" size="large" :loading="loading">确认并收款</van-button>
         </div>
     </div>
 
@@ -145,7 +145,6 @@
         mounted() {
             this.detail = JSON.parse(localStorage.getItem('info'))
             this.getCashierList()
-            console.log(JSON.parse(localStorage.getItem('store')).wayId)
         },
         methods: {
             getCashierList: async function() {
@@ -184,9 +183,26 @@
                     });
                     return;
                 }
+                let phone = /^1[3456789]\d{9}$/;
+                if(phone.test(this.customerPhone) === false) {
+                    this.$toast({
+                        message: '手机号格式不正确',
+                        icon: 'warning-o'
+                    });
+                    return;
+                }
                 if(this.customerCertNo == '' || this.customerCertNo == null) {
                     this.$toast({
                         message: '身份证号不能为空',
+                        icon: 'warning-o'
+                    });
+                    return;
+                }
+                // 身份证号校验
+                let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                if(reg.test(this.customerCertNo) === false) {
+                    this.$toast({
+                        message: '身份证输入不合法',
                         icon: 'warning-o'
                     });
                     return;
@@ -209,13 +225,13 @@
                 const result = await createOrder(params)
                 if(result.data.code == '20000') {
                     this.tradeNo = result.data.data.tradeNo
+                    this.$router.push({name:'pay', query:{tradeNo: this.tradeNo}});
                 }else{
                     this.$toast({
                         message: result.data.msg,
                         icon: 'warning-o'
                     });
                 }
-                this.$router.push({name:'pay', query:{tradeNo: this.tradeNo}});
             }
         }
     }
