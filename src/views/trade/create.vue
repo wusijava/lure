@@ -79,14 +79,14 @@
                     title="选择营业员"
                     is-link
                     :value="cashier"
-                    @click="showPicker = true">
+                    @click="showCashier">
             </van-cell>
 
             <van-field
                     v-else
                     is-link
                     :value="cashier"
-                    @click="showPicker = true"
+                    @click="showCashier"
                     input-align="right"
                     label-width="110"
                     label="选择营业员"
@@ -161,6 +161,17 @@
                     });
                 }
                 this.showPicker = false;
+            },
+            showCashier() {
+                if(this.cashierList.length > 0) {
+                    this.showPicker = true
+                }else {
+                    this.showPicker = false
+                    this.$toast({
+                        message: '请先在门店管理后台添加收银员',
+                        icon: 'warning-o'
+                    });
+                }
             },
             onConfirm(value) {
                 this.cashier = value.name;

@@ -138,5 +138,13 @@ export default new Router({
                 title: '授权成功'
             }
         },
+        {
+            path:'/refund/success',
+            name:'refundSuccess',
+            component:() => import('./views/refund/refund-success.vue'),
+            meta: {
+                title: '退款成功'
+            }
+        },
     ]
 })

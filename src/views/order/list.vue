@@ -38,9 +38,8 @@
                         name="手机号"
                         placeholder="输入办理手机号"
                         clearable
-                        type="number"
+                        type="tel"
                         v-model="query.phoneNumber"
-                        @blur.native.capture="onInputBlur"
                 />
                 <!-- 4 -->
                 <!-- 选择开始时间弹窗 -->
@@ -77,24 +76,29 @@
                 <van-field
                         readonly
                         clickable
-                        name="areaPicker"
-                        v-model="area"
+                        :value="area"
                         placeholder="请选择地区"
                         @click="showArea = true"
-                />
-                <van-popup v-model="showArea" position="bottom">
-                    <van-picker
-                            title="选择地区"
-                            show-toolbar
-                            :columns="areaColumns"
-                            @confirm="onConfirmArea"
-                            @cancel="onCancel"
+                >
+                </van-field>
+                <van-popup
+                        v-model="showArea"
+                        position="bottom"
+                        :style="{ height: '50%' }"
+                        round
+                >
+                    <van-area :area-list="areaList"
+                          value="420000"
+                          :columns-num="2"
+                          @confirm="confirmArea"
+                          @cancel="showArea = false"
                     />
                 </van-popup>
 
                 <div class="radio">
                     <p>请选择交易状态</p>
-                    <div class="radio-check" v-for="(item,index) in stateList" :key="item.state" :class="activeState==index ? 'activeClass' : '' ">
+                    <div class="radio-check" v-for="(item,index) in stateList" :key="item.state"
+                         :class="activeState==index ? 'activeClass' : '' ">
                         <input type="radio" name="num"
                                :value="item.stateStr"
                                @click="changeState(index,item.state)"
@@ -105,7 +109,8 @@
 
                 <div class="radio">
                     <p>请选择业务类型</p>
-                    <div class="radio-check" v-for="(item,index) in bizTypeList" :key="item.type" :class="activeType==index ? 'activeClass' : '' ">
+                    <div class="radio-check" v-for="(item,index) in bizTypeList" :key="item.type"
+                         :class="activeType==index ? 'activeClass' : '' ">
                         <input type="radio" name="num"
                                :value="item.bizType"
                                @click="changeType(index,item.type)"
@@ -135,29 +140,16 @@
         <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
             <h4>订单详情</h4>
             <div class="detail-main">
-                <p><span class="left">和商会订单号</span><span class="right">{{details.outOrderNo}}</span></p>
-                <p><span class="left">订单类型</span><span class="right">{{details.bizTypeDesc}}</span></p>
-                <p v-if="details.authNo == null || details.authNo.length <= 36"><span class="left">授权订单号</span><span class="right">{{details.authNo}}</span></p>
-                <p v-if="details.authNo !== null && details.authNo.length > 36" class="overflow-hide"><span class="left">授权订单号</span><span class="right">{{details.authNo}}</span></p>
-                <p><span class="left">办理手机</span><span class="right">{{details.phoneNumber}}</span></p>
-                <p><span class="left">捆绑期数</span><span class="right">{{details.num}}</span></p>
-                <p><span class="left">冻结金额</span><span class="right">{{details.amount}}</span></p>
-                <p><span class="left">结算金额</span><span class="right">{{details.settleAmount}}</span></p>
-                <p><span class="left">返佣金额</span><span class="right">{{details.rebate}}</span></p>
-                <p><span class="left">红包金额</span><span class="right">{{details.redPacketAmount}}</span></p>
-                <p><span class="left">红包领取状态</span><span class="right">{{details.redPacketStateDesc}}</span></p>
-                <p><span class="left">红包领取账号</span><span class="right">{{details.redPacketSellerNo}}</span></p>
-                <p v-if="details.storeName == null || details.storeName.length <= 36"><span class="left">门店名称</span><span class="right">{{details.storeName}}</span></p>
-                <p v-if="details.storeName !== null && details.storeName.length > 36" class="overflow-hide"><span class="left">门店名称</span><span class="right">{{details.storeName}}</span></p>
-                <p><span class="left">渠道编码</span><span class="right">{{details.wayId}}</span></p>
-                <p v-if="details.title == null || details.title.length <= 36"><span class="left">套餐标题</span><span class="right">{{details.title}}</span></p>
-                <p v-if="details.title !== null && details.title.length > 36" class="overflow-hide"><span class="left">套餐标题</span><span class="right">{{details.title}}</span></p>
-                <p><span class="left">收款账号</span><span class="right">{{details.sellerNo}}</span></p>
-                <p><span class="left">收款人</span><span class="right">{{details.name}}</span></p>
-                <p><span class="left">交易时间</span><span class="right">{{details.createTime}}</span></p>
-                <p><span class="left">结束时间</span><span class="right">{{details.finishTime}}</span></p>
-                <p><span class="left">订单状态</span><span class="right">{{details.stateStr}}</span></p>
-                <p><span class="left">当前状态</span><span class="right">{{details.dealStateStr}}</span></p>
+<!--                <p v-for="item in detailList">-->
+<!--                    <span class="left">{{item.key}}</span><span class="right">{{item.value}}</span>-->
+<!--                </p>-->
+                <p v-for="item in detailList" v-if="item.key == null || item.key.length <= 36">
+                    <span class="left">{{item.key}}</span><span class="right">{{item.value}}</span>
+                </p>
+                <p v-for="item in detailList" v-if="item.key !== null || item.key.length > 36">
+                    <span class="left">{{item.key}}</span><span class="right">{{item.value}}</span>
+                </p>
+
             </div>
         </van-popup>
 
@@ -174,15 +166,15 @@
                             {{item.stateStr}}
                         </p>
                     </van-col>
-                    <van-col span="4"><p style="letter-spacing: -1px">{{item.createTimeSort}}</p></van-col>
-                    <van-col span="15"><p style="text-align: right">订单编号：{{item.outOrderNo}}</p></van-col>
+                    <van-col span="4"><p style="letter-spacing: -1px">{{item.timeStr}}</p></van-col>
+                    <van-col span="15"><p style="text-align: right">订单编号：{{item.tradeNo}}</p></van-col>
                 </van-row>
                 <van-row style="padding: 5px 0;">
                     <van-col span="12"><h4>结算金额</h4></van-col>
                     <van-col span="12"><h4 style="text-align: right">{{item.settleAmount}}</h4></van-col>
                 </van-row>
                 <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;">办理手机：{{item.phoneNumber}}</p></van-col>
+                    <van-col span="12"><p style="margin-top: 5px;">办理手机：{{item.mobile}}</p></van-col>
                     <van-col span="12" style="text-align: right">
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
                             详情
@@ -199,51 +191,13 @@
 
 <script>
     import moment from 'moment';
-    // import {orderList} from "../../api/order";
+    import areaJson from '@/util/area'
+    import {orderList,orderDetail} from "../../api/order";
     export default {
         name: 'order-list',
         data() {
             return {
-                list: [
-                    {
-                        amount: "360",
-                        authNo: null,
-                        bizType: 1,
-                        bizTypeDesc: "和分期业务",
-                        createTime: "2020-07-07 03:14:04",
-                        createTimeSort: "07-07 03:14",
-                        dealState: 4,
-                        dealStateStr: "等待通知",
-                        finishTime: "",
-                        id: 262,
-                        informFile: null,
-                        informFileHold: null,
-                        loanTime: "",
-                        merchantNo: "DZZMH123456",
-                        name: "章慕寒",
-                        num: 36,
-                        outOrderNo: "159406281814185269646",
-                        outTradeNo: null,
-                        overTimeState: null,
-                        phoneNumber: "13027129244",
-                        reason: "等待通知",
-                        rebate: null,
-                        rebateState: null,
-                        redPacketAmount: null,
-                        redPacketSellerNo: null,
-                        redPacketStateDesc: "未领取",
-                        redPacketTypeDesc: "无",
-                        sellerNo: "987744792@qq.com",
-                        settleAmount: "300.00",
-                        showRebate: null,
-                        state: 0,
-                        stateStr: "等待支付",
-                        storeName: "3C数码专卖店（点赞测试）",
-                        title: "10元升档_插卡类（点赞测试）",
-                        type: null,
-                        wayId: "ZMH123456",
-                    }
-                ],
+                list: [],
                 fontColor:{
                     color: '#666'
                 },
@@ -258,96 +212,9 @@
                 minDate: new Date(2020, 0, 1),
                 maxDate: new Date(2025, 10, 1),
                 showArea: false,
+                areaList: areaJson,
                 area: '',
                 areaCode: '',
-                areaColumns: [
-                    {
-                        text: '全部',
-                        code: 0
-                    },
-                    {
-                        text: '广州市',
-                        code: 200
-                    },
-                    {
-                        text: '汕尾市',
-                        code: 660
-                    },
-                    {
-                        text: '阳江市',
-                        code: 200
-                    },
-                    {
-                        text: '揭阳市',
-                        code: 663
-                    },
-                    {
-                        text: '茂名市',
-                        code: 668
-                    },
-                    {
-                        text: '江门市',
-                        code: 750
-                    },{
-                        text: '韶关市',
-                        code: 751
-                    },{
-                        text: '惠州市',
-                        code: 752
-                    },
-                    {
-                        text: '梅州市',
-                        code: 753
-                    },
-                    {
-                        text: '汕头市',
-                        code: 754
-                    },
-                    {
-                        text: '深圳市',
-                        code: 755
-                    },
-                    {
-                        text: '珠海市',
-                        code: 756
-                    },
-                    {
-                        text: '佛山市',
-                        code: 757
-                    },
-                    {
-                        text: '肇庆市',
-                        code: 758
-                    },
-                    {
-                        text: '湛江市',
-                        code: 759
-                    },
-                    {
-                        text: '中山市',
-                        code: 760
-                    },
-                    {
-                        text: '河源市',
-                        code: 762
-                    },
-                    {
-                        text: '清远市',
-                        code: 763
-                    },
-                    {
-                        text: '云浮市',
-                        code: 766
-                    },
-                    {
-                        text: '潮州市',
-                        code: 768
-                    },
-                    {
-                        text: '东莞市',
-                        code: 767
-                    }
-                ],
                 stateList:[
                     {
                         id: 1,
@@ -401,6 +268,7 @@
                 state: 0,
                 activeType: 0,
                 type: 0,
+                detailList: [],
                 details: {
                     authNo: '',
                     title: '',
@@ -415,7 +283,13 @@
                     outOrderNo: '',
                     wayId: '',
                     sellerNo: '',
-                    phoneNumber:''
+                    phoneNumber:'',
+                    storeProvince: '',//省
+                    storeProvinceCode: '',
+                    storeCity: '',//市
+                    storeCityCode: '',
+                    storeCounty: '',//区
+                    storeCountyCode: '',
                 },
                 showEmpty: false
             }
@@ -481,9 +355,20 @@
                 if (this.query.phoneNumber){
                     params.phoneNumber = this.query.phoneNumber;
                 }
-                if (this.areaCode){
-                    params.city = this.areaCode;
+
+                if(this.area != '') {
+                    if(this.query.storeCityCode == null) {
+                        params.type = 1 //1、省 2、市
+                        params.areaCode = this.query.storeCityCode
+                    }else if(this.query.storeCityCode == '420001') {
+                        params.type = 1
+                        params.areaCode = this.query.storeProvinceCode
+                    } else {
+                        params.type = 2
+                        params.areaCode = this.query.storeCityCode
+                    }
                 }
+
                 if (this.date != '') {
                     params.startTime = this.beginDate;
                     params.endTime = this.overDate;
@@ -496,56 +381,45 @@
                 }
 
                 const result = await orderList(params);
-
-                const toast = this.$toast.loading({
+                this.$toast.loading({
                     duration: 0, // 持续展示 toast
                     forbidClick: true,
                     message: '请稍后...',
                 });
-                let second = 3;
-                const timer = setInterval(() => {
-                    second--;
-                    if (second) {
-                        if(result.status !== 200) {
-                            toast.message = `网络异常，请重新查询`;
-                        }
-                    } else {
-                        if (result.data.code == 20000) {
-                            if(result.data.data.content.length > 0) {
-                                this.showEmpty = false;
-                                this.list = result.data.data.content;
-                                this.pageTotal = result.data.data.totalPages;
-                            }else {
-                                this.showEmpty = true;
-                                this.list = [];
-                                this.pageTotal = 0;
-                                this.currentPage = 0;
-                            }
-                        }else if( result.data.code == 40015) {
-                            this.$dialog.alert({
-                                message: result.data.msg,
-                            }).then(() => {
-                                this.$router.push({name:'login'})
-                            });
-                        }else {
-                            this.$dialog.alert({
-                                message: result.data.msg
-                            })
-                        }
-                        clearInterval(timer);
-                        this.$toast.clear();
+                if (result.data.code == '20000') {
+                    this.$toast.clear();
+                    if(result.data.data.content.length > 0) {
+                        this.showEmpty = false;
+                        this.list = result.data.data.content;
+                        this.pageTotal = result.data.data.totalPages;
+                    }else {
+                        this.showEmpty = true;
+                        this.list = [];
+                        this.pageTotal = 0;
+                        this.currentPage = 0;
                     }
-                }, 1000);
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
             },
             changePage: function (cp) {
                 this.getList((cp-1), 10)
             },
-            onConfirmArea(obj) {
-                this.showArea = false;
-                this.area = obj.text;
-                this.areaCode = obj.code;
-            },
-            onCancel() {
+            confirmArea(arr) {
+                this.area = '';
+                if (arr[0]) {
+                    this.area += arr[0].name;
+                    this.query.storeProvince = arr[0].name;
+                    this.query.storeProvinceCode = arr[0].code;
+                }
+                if (arr[1]) {
+                    this.area += '-' + arr[1].name;
+                    this.query.storeCity = arr[1].name;
+                    this.query.storeCityCode = arr[1].code;
+                }
                 this.showArea = false;
             },
             changeState(index,i){
@@ -560,7 +434,19 @@
             },
             toDetails: async function(info) {
                 this.showDetails = true;
-                this.details = info
+                let params = {}
+                params.tradeNo = info.tradeNo
+                const result = await orderDetail(params)
+                console.log(result.data)
+                if(result.data.code == '20000') {
+                    // this.showDetails = true;
+                    this.detailList = result.data.data
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
             }
         }
     }
@@ -673,12 +559,12 @@
     .search .btn-search{
         width: 100%;
     }
-
     .radio-label,
     .radio-check {
         display: inline-block;
         position: relative;
         margin-right: 5px;
+        margin-top: 6px;
     }
     .radio-check input[type="radio"] {
         appearance: none; /*清楚默认样式*/

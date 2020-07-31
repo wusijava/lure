@@ -2,12 +2,14 @@
     <div class="box">
         <van-form style="margin-top: 10px" @submit="toSearch">
             <van-field
-                    v-model="username"
+                    v-model="form.outTradeNo"
+                    clearable
                     type="text"
                     placeholder="请输入湖北移动订单编号"
             />
             <van-field
-                    v-model="password"
+                    v-model="form.wayId"
+                    clearable
                     type="text"
                     placeholder="请输入门店渠道编号"
             />
@@ -21,22 +23,49 @@
 </template>
 
 <script>
-    import {submit} from '@/api/merchant'
-    import util from '../../util/util';
+    import {queryRefund} from '../../api/refund';
 
     export default {
         name: "refundIndex",
         data() {
             return {
-                username: '',
-                password: '',
+                form: {}
             }
         },
         mounted() {
         },
         methods: {
-            toSearch() {
-                this.$router.push({name:'refundConfirm'});
+            toSearch: async function() {
+                if(this.form.outTradeNo == '' || this.form.outTradeNo == null) {
+                    this.$toast({
+                        message: '订单编号不能为空',
+                        icon: 'warning-o'
+                    });
+                    return;
+                }
+                if(this.form.wayId == '' || this.form.wayId == null) {
+                    this.$toast({
+                        message: '渠道编码不能为空',
+                        icon: 'warning-o'
+                    });
+                    return;
+                }
+                const result = await queryRefund(this.form)
+                console.log(result.data)
+                if(result.data.code == '20000') {
+                    this.form = result.data.data;
+                    this.$router.push({
+                        name:'refundConfirm',
+                        query:{
+                            outTradeNo: this.form.outTradeNo,
+                            wayId:this.form.wayId
+                        }});
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
             }
         }
     }

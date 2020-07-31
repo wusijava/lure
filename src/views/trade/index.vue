@@ -147,7 +147,7 @@
                     params.type = 2
                     params.areaCode = this.storeCityCode
                 }
-                const toast = this.$toast.loading({
+                this.$toast.loading({
                     duration: 0, // 持续展示 toast
                     forbidClick: true,
                     message: '请稍后...',
@@ -170,12 +170,7 @@
                             this.scrollspy = false;
                         }
                     }
-                } else if (result.data.code == '40015') {
-                    this.$toast({
-                        message: result.data.msg,
-                        icon: 'warning-o'
-                    });
-                } else {
+                }else {
                     this.$toast({
                         message: result.data.msg,
                         icon: 'warning-o'
