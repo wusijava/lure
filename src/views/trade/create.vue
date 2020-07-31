@@ -144,33 +144,30 @@
         },
         mounted() {
             this.detail = JSON.parse(localStorage.getItem('info'))
-            this.getCashierList()
         },
         methods: {
-            getCashierList: async function() {
+            showCashier() {
                 let params = {}
                 params.storeNo = this.storeNo
-                const result = await getCashierList(params)
-                if(result.data.code == '20000') {
-                    this.cashierList = result.data.data
-                }else{
-                    this.$toast({
-                        message: result.data.msg,
-                        icon: 'warning-o'
-                    });
-                }
-                this.showPicker = false;
-            },
-            showCashier() {
-                if(this.cashierList.length > 0) {
-                    this.showPicker = true
-                }else {
-                    this.showPicker = false
-                    this.$toast({
-                        message: '请先在门店管理后台添加收银员',
-                        icon: 'warning-o'
-                    });
-                }
+                getCashierList(params).then(result =>{
+                    if(result.data.code == '20000') {
+                        this.cashierList = result.data.data
+                        if(this.cashierList.length > 0) {
+                            this.showPicker = true
+                        }else {
+                            this.showPicker = false
+                            this.$toast({
+                                message: '请先在门店管理后台添加收银员',
+                                icon: 'warning-o'
+                            });
+                        }
+                    }else{
+                        this.$toast({
+                            message: result.data.msg,
+                            icon: 'warning-o'
+                        });
+                    }
+                })
             },
             onConfirm(value) {
                 this.cashier = value.name;
