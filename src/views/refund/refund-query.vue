@@ -51,14 +51,13 @@
                     return;
                 }
                 const result = await queryRefund(this.form)
-                console.log(result.data)
                 if(result.data.code == '20000') {
                     this.form = result.data.data;
                     this.$router.push({
                         name:'refundConfirm',
                         query:{
                             outTradeNo: this.form.outTradeNo,
-                            wayId:this.form.wayId
+                            wayId: this.form.wayId
                         }});
                 }else {
                     this.$toast({

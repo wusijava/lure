@@ -110,30 +110,26 @@
             getStore: async function() {
                 let params = {};
                 params.username = localStorage.getItem('username')
-                const result = await getStore(params);
-                const toast = this.$toast.loading({
+                this.$toast.loading({
                     duration: 0, // 持续展示 toast
                     forbidClick: true,
                     message: '请稍后...',
                 });
-                let second = 4;
-                const timer = setInterval(() => {
-                    second--;
-                    if(result.data.code == '20000') {
-                        this.store = result.data.data
-                        this.storeProvince = result.data.data.provinceName
-                        this.storeCity = result.data.data.cityName
-                        this.storeProvinceCode = result.data.data.provinceCode
-                        this.storeCityCode = result.data.data.cityCode
-                        this.getList();
-                    }else {
-                        this.$toast({
-                            message: result.data.msg,
-                            icon: 'warning-o'
-                        });
-                    }
-                    clearInterval(timer);
-                }, 1000);
+                const result = await getStore(params);
+                this.$toast.clear();
+                if(result.data.code == '20000') {
+                    this.store = result.data.data
+                    this.storeProvince = result.data.data.provinceName
+                    this.storeCity = result.data.data.cityName
+                    this.storeProvinceCode = result.data.data.provinceCode
+                    this.storeCityCode = result.data.data.cityCode
+                    this.getList();
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
             },
             getList: async function() {
                 let params = {};
@@ -153,8 +149,8 @@
                     message: '请稍后...',
                 });
                 const result = await getMealList(params);
+                this.$toast.clear();
                 if (result.data.code == '20000') {
-                    this.$toast.clear();
                     this.mealList = []
                     if(result.data.data.length <= 0) {
                         this.empty = true

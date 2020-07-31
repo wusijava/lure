@@ -4,6 +4,11 @@ import Home from './views/Home.vue'
 
 Vue.use(Router)
 
+const VueRouterPush = Router.prototype.push
+Router.prototype.push = function push (to) {
+    return VueRouterPush.call(this, to).catch(err => err)
+}
+
 export default new Router({
     mode: 'history',
     base: 'h5',
@@ -24,6 +29,14 @@ export default new Router({
             component: () => import('./views/login.vue'),
             meta: {
                 title: '办单登录'
+            }
+        },
+        {
+            path: '/loginSearch',
+            name: 'loginSearch',
+            component: () => import('./views/login.vue'),
+            meta: {
+                title: '订单查询'
             }
         },
         {

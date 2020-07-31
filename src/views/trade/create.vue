@@ -150,7 +150,6 @@
             getCashierList: async function() {
                 let params = {}
                 params.storeNo = this.storeNo
-
                 const result = await getCashierList(params)
                 if(result.data.code == '20000') {
                     this.cashierList = result.data.data

@@ -82,7 +82,6 @@
                 let params = {}
                 params.tradeNo = this.$route.query.tradeNo
                 const result = await getPayDetail(params)
-                console.log(result.data)
                 if(result.data.code == '20000') {
                     this.detail = result.data.data
                     this.url = this.detail.url;

@@ -44,13 +44,13 @@
                 this.$router.push({name:'merchantIndex'});
             },
             toBusiness(info){
-                this.$router.push({name:'login', query: {type: info}});
+                this.$router.push({name:'login', query:{type: info}});
             },
             toRefund() {
                 this.$router.push({name:'refundQuery'});
             },
             toSearch(info) {
-                this.$router.push({name:'login', query: {type: info}});
+                this.$router.push({name:'loginSearch', query:{type: info}});
             }
         }
     }

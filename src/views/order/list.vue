@@ -9,7 +9,7 @@
                 <!-- 1 -->
                 <van-field
                         name="订单号"
-                        placeholder="输入和商汇订单号"
+                        placeholder="输入订单号"
                         clearable
                         type="number"
                         v-model="query.outOrderNo"
@@ -107,17 +107,17 @@
                     </div>
                 </div>
 
-                <div class="radio">
-                    <p>请选择业务类型</p>
-                    <div class="radio-check" v-for="(item,index) in bizTypeList" :key="item.type"
-                         :class="activeType==index ? 'activeClass' : '' ">
-                        <input type="radio" name="num"
-                               :value="item.bizType"
-                               @click="changeType(index,item.type)"
-                        >
-                        <label>{{item.bizType}}</label>
-                    </div>
-                </div>
+<!--                <div class="radio">-->
+<!--                    <p>请选择业务类型</p>-->
+<!--                    <div class="radio-check" v-for="(item,index) in bizTypeList" :key="item.type"-->
+<!--                         :class="activeType==index ? 'activeClass' : '' ">-->
+<!--                        <input type="radio" name="num"-->
+<!--                               :value="item.bizType"-->
+<!--                               @click="changeType(index,item.type)"-->
+<!--                        >-->
+<!--                        <label>{{item.bizType}}</label>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div class="search">
                     <van-row>
@@ -140,12 +140,10 @@
         <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
             <h4>订单详情</h4>
             <div class="detail-main">
-                <p v-for="item in detailList" v-if="item.key == null || item.key.length <= 36">
-                    <span class="left">{{item.key}}</span><span class="right">{{item.value}}</span>
-                </p>
-                <p v-for="item in detailList" v-if="item.key !== null || item.key.length > 36">
-                    <span class="left">{{item.key}}</span><span class="right">{{item.value}}</span>
-                </p>
+                <van-row type="flex" justify="space-between" v-for="item in detailList" style="margin-bottom: 10px;">
+                    <van-col span="6">{{item.key}}</van-col>
+                    <van-col span="18" class="right">{{item.value}}</van-col>
+                </van-row>
             </div>
         </van-popup>
 
@@ -372,15 +370,14 @@
                 if (this.activeType){
                     params.bizType = this.type;
                 }
-
-                const result = await orderList(params);
                 this.$toast.loading({
                     duration: 0, // 持续展示 toast
                     forbidClick: true,
                     message: '请稍后...',
                 });
+                const result = await orderList(params);
+                this.$toast.clear();
                 if (result.data.code == '20000') {
-                    this.$toast.clear();
                     if(result.data.data.content.length > 0) {
                         this.showEmpty = false;
                         this.list = result.data.data.content;
@@ -429,7 +426,6 @@
                 let params = {}
                 params.tradeNo = info.tradeNo
                 const result = await orderDetail(params)
-                console.log(result.data)
                 if(result.data.code == '20000') {
                     this.showDetails = true;
                     this.detailList = result.data.data.keyValues
@@ -473,7 +469,7 @@
         margin-bottom: 8px;
     }
     .content .list p {
-        font-size: 0.625rem;
+        font-size: 0.75em;
         margin: 0;
         line-height: 16px;
     }
@@ -504,7 +500,7 @@
         height:24px;
         min-width: 50px;
         line-height: 24px;
-        font-size: 0.625rem;
+        font-size: 0.75em;
     }
     .color-1{
         color: #2873FF;
@@ -532,10 +528,10 @@
         margin-bottom: 20px;
     }
     .radio p{
-        font-size: 0.625rem;
+        font-size: 0.75em;
     }
     .radio span{
-        font-size: 0.625rem;
+        font-size: 0.75em;
         background: #F3F3F5;
         border: 1px solid #F3F3F5;
         border-radius: 5px;
@@ -579,7 +575,7 @@
         display: inline-block;
         /* min-width: 50px; */
         height: 24px;
-        font-size: 0.625rem;
+        font-size: 0.75em;
         line-height: 24px;
         text-align: center;
         padding-right: 10px;
@@ -606,15 +602,12 @@
         border-radius: 3px;
     }
     .detail h4{
-        font-size: 1rem;
+        font-size: 1em;
         text-align: center;
     }
     .detail .detail-main{
         padding: 0 10px 10px 10px;
-    }
-    .detail .detail-main p{
-        font-size: 0.625rem;
-        line-height: 16px;
+        font-size: 0.75em;
     }
     .detail .detail-main .left{
         text-align: left;
@@ -622,10 +615,6 @@
     }
     .detail .detail-main .right{
         text-align: right;
-        float: right;
-        display: block;
-        width: 70%;
-        letter-spacing:0.5px;
     }
     .overflow-hide{
         height: 32px;

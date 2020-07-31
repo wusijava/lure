@@ -55,9 +55,7 @@
                 let params = {}
                 params.outTradeNo = this.outTradeNo;
                 params.wayId = this.wayId;
-
                 const result = await confirmRefund(params)
-                console.log(result.data)
                 if(result.data.code == '20000') {
                     this.tradeRefund = result.data.data;
                     this.queryInterval = setInterval(this.queryPayState, 5000);
