@@ -140,16 +140,12 @@
         <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
             <h4>订单详情</h4>
             <div class="detail-main">
-<!--                <p v-for="item in detailList">-->
-<!--                    <span class="left">{{item.key}}</span><span class="right">{{item.value}}</span>-->
-<!--                </p>-->
                 <p v-for="item in detailList" v-if="item.key == null || item.key.length <= 36">
                     <span class="left">{{item.key}}</span><span class="right">{{item.value}}</span>
                 </p>
                 <p v-for="item in detailList" v-if="item.key !== null || item.key.length > 36">
                     <span class="left">{{item.key}}</span><span class="right">{{item.value}}</span>
                 </p>
-
             </div>
         </van-popup>
 
@@ -357,15 +353,12 @@
                 }
 
                 if(this.area != '') {
-                    if(this.query.storeCityCode == null) {
-                        params.type = 1 //1、省 2、市
-                        params.areaCode = this.query.storeCityCode
-                    }else if(this.query.storeCityCode == '420001') {
-                        params.type = 1
-                        params.areaCode = this.query.storeProvinceCode
-                    } else {
-                        params.type = 2
-                        params.areaCode = this.query.storeCityCode
+                    if(this.query.storeCityCode == '420001') {
+                        params.provinceCode = this.query.storeProvinceCode
+                        params.cityCode = ''
+                    }else {
+                        params.provinceCode = this.query.storeProvinceCode
+                        params.cityCode = this.query.storeCityCode
                     }
                 }
 
@@ -433,14 +426,13 @@
                 this.type=i;
             },
             toDetails: async function(info) {
-                this.showDetails = true;
                 let params = {}
                 params.tradeNo = info.tradeNo
                 const result = await orderDetail(params)
                 console.log(result.data)
                 if(result.data.code == '20000') {
-                    // this.showDetails = true;
-                    this.detailList = result.data.data
+                    this.showDetails = true;
+                    this.detailList = result.data.data.keyValues
                 }else {
                     this.$toast({
                         message: result.data.msg,
