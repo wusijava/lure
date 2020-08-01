@@ -55,7 +55,7 @@
                     <h1><span>￥{{info.payAmt}}</span></h1>
                 </van-col>
                 <van-col span="8" style="margin-top: 12px">
-                    <p>冻结金额：{{info.settleAmt}}</p>
+                    <p>结算金额：{{info.settleAmt}}</p>
                     <p>￥{{info.eachAmt}}/期*{{info.num}}</p>
                 </van-col>
                 <van-col span="8">
