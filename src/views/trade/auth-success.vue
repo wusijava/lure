@@ -1,10 +1,10 @@
 <template>
     <div class="box">
-        <div class="main" v-if="pay != null">
+        <div class="main">
             <div style="text-align: center">
                 <img src="@/assets/img/icon_complete@2x.png" style="width: 70px;height: 100%;margin-top: 16px">
                 <p class="success">授权成功</p>
-                <p class="money"><span style="font-size: 20px">￥</span>{{pay.totalMoney}}</p>
+                <p class="money"><span style="font-size: 20px">￥</span>{{totalMoney}}</p>
             </div>
             <div class="info">
                 <div class="left">
@@ -12,8 +12,8 @@
                     <p>订单编号</p>
                 </div>
                 <div class="right">
-                    <p>{{pay.title}}</p>
-                    <p>{{pay.tradeNo}}</p>
+                    <p>{{title}}</p>
+                    <p>{{tradeNo}}</p>
                 </div>
             </div>
         </div>
@@ -21,31 +21,19 @@
 </template>
 
 <script>
-    import {tradeStateQuery} from "../../api/trade";
-
     export default {
         name: "authSuccess",
         data() {
             return {
-                pay:null,
-                url:null,
-                receiveRedPacket: 1 //1 可以领 0不可以领
+                title:this.$route.query.title,
+                tradeNo: this.$route.query.tradeNo,
+                totalMoney: this.$route.query.totalMoney
             }
         },
         mounted() {
-            this.queryStatus();
+
         },
         methods:{
-            async queryStatus(){
-                let params = {};
-                params.tradeNo = this.$route.query.tradeNo
-                const result = await tradeStateQuery(params)
-                if(result.data.code=="20000"){
-                    this.pay = result.data.data;
-                    this.url = this.pay.url;
-                    this.receiveRedPacket = result.data.receiveRedPacket
-                }
-            }
         }
     }
 </script>

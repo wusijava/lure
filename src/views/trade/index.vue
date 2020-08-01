@@ -1,9 +1,11 @@
 <template>
     <div class="box">
         <div class="title">
-            <img src="../../assets/img/icon_merchant@2x.png"/>
-            <h3>{{store.storeName}}</h3>
-            <p>
+            <van-row>
+                <van-col span="2"><img src="../../assets/img/icon_merchant@2x.png"/></van-col>
+                <van-col span="22"><h3 class="ellipsis">{{store.storeName}}</h3></van-col>
+            </van-row>
+            <p style="margin-top: 5px">
                 {{storeProvince}}-{{storeCity}}
                 <img src="../../assets/img/btn_mine_skip@3x.png"
                      style="width: 11px;height: 7px; margin-left: 5px;"
@@ -230,7 +232,6 @@
     }
 
     .title h3 {
-        display: inline;
         margin: 0 0 0 10px;
         font-size: 1.1em;
     }
@@ -324,4 +325,5 @@
     .footer span {
         font-size: 1.125rem;
     }
+
 </style>

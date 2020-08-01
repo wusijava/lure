@@ -60,13 +60,18 @@
                 let params = {};
                 params.tradeNo = this.$route.query.tradeNo
                 const result = await tradeStateQuery(params);
-                console.log(result)
                 if(result.data.code=="20000"){
                     const state = result.data.data.orderStatus;
                     if(state=="PAY_SUCCESS"){
                         clearInterval(this.queryInterval);
                         this.queryInterval = null;
-                        location.href = 'h5/trade/success'
+                        this.$router.push({
+                            path:'/trade/success',
+                            query:{
+                                title: result.data.data.title,
+                                tradeNo:result.data.data.tradeNo,
+                                totalMoney:result.data.data.totalMoney
+                            }})
                     }else if(state=="PAY_CLOSED"){
                         clearInterval(this.queryInterval);
                         this.queryInterval = null;
