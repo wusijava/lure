@@ -165,6 +165,7 @@
                             this.$refs.vanTabs.scrollTo(0)
                             this.scrollspy = false;
                         }
+                        this.activeState = 0
                     }
                 }else {
                     this.$toast({
@@ -188,6 +189,7 @@
 
             },
             changeState(index, item){
+                console.log(index)
                 //把index值赋给active，点击改变样式
                 this.activeState = index;
                 this.info = item
