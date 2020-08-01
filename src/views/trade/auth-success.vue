@@ -2,7 +2,7 @@
     <div class="box">
         <div class="main" v-if="pay != null">
             <div style="text-align: center">
-                <img :src="img" style="width: 70px;height: 100%;margin-top: 16px">
+                <img src="@/assets/img/icon_complete@2x.png" style="width: 70px;height: 100%;margin-top: 16px">
                 <p class="success">授权成功</p>
                 <p class="money"><span style="font-size: 20px">￥</span>{{pay.totalMoney}}</p>
             </div>
@@ -13,7 +13,7 @@
                 </div>
                 <div class="right">
                     <p>{{pay.title}}</p>
-                    <p>{{pay.orderNo}}</p>
+                    <p>{{pay.tradeNo}}</p>
                 </div>
             </div>
         </div>
@@ -22,7 +22,6 @@
 
 <script>
     import {tradeStateQuery} from "../../api/trade";
-    import QrCode from "../../components/QrCode";
 
     export default {
         name: "authSuccess",
@@ -30,13 +29,8 @@
             return {
                 pay:null,
                 url:null,
-                img:require('@/assets/img/icon_complete@2x.png'),
-                qr:require('@/assets/img/xieyi.png'),
                 receiveRedPacket: 1 //1 可以领 0不可以领
             }
-        },
-        components:{
-            QrCode
         },
         mounted() {
             this.queryStatus();
@@ -44,9 +38,10 @@
         methods:{
             async queryStatus(){
                 let params = {};
+                params.tradeNo = this.$route.query.tradeNo
                 const result = await tradeStateQuery(params)
-                if(result.code=="20000"){
-                    this.pay = result.data;
+                if(result.data.code=="20000"){
+                    this.pay = result.data.data;
                     this.url = this.pay.url;
                     this.receiveRedPacket = result.data.receiveRedPacket
                 }
@@ -71,7 +66,7 @@
         font-family: Roboto-Bold;
         color: #081828;
         font-size: 35px;
-        margin-top: -10px;
+        margin-top: 10px;
     }
     .info{
         display: flex;

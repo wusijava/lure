@@ -11,8 +11,8 @@
                         name="订单号"
                         placeholder="输入订单号"
                         clearable
-                        type="number"
-                        v-model="query.outOrderNo"
+                        type="text"
+                        v-model="query.tradeNo"
                 />
                 <!-- 1 -->
                 <!-- 2 -->
@@ -20,7 +20,7 @@
                         name="渠道编号"
                         placeholder="输入渠道编号"
                         clearable
-                        type="number"
+                        type="text"
                         v-model="query.wayId"
                 />
                 <!-- 2 -->
@@ -29,7 +29,7 @@
                         name="收款账号"
                         placeholder="输入收款账号"
                         clearable
-                        type="number"
+                        type="text"
                         v-model="query.sellerNo"
                 />
                 <!-- 3 -->
@@ -91,7 +91,7 @@
                           value="420000"
                           :columns-num="2"
                           @confirm="confirmArea"
-                          @cancel="showArea = false"
+                          @cancel="onCancelArea"
                     />
                 </van-popup>
 
@@ -274,7 +274,7 @@
                 keyboardSellerNo: false,
                 keyboardPhoneNumber: false,
                 query:{
-                    outOrderNo: '',
+                    tradeNo: '',
                     wayId: '',
                     sellerNo: '',
                     phoneNumber:'',
@@ -297,7 +297,7 @@
             },
             cancelPopup() {
                 this.show = false;
-                this.query.outOrderNo = '';
+                this.query.tradeNo = '';
                 this.query.wayId = '';
                 this.query.sellerNo = '';
                 this.query.phoneNumber = '';
@@ -337,8 +337,8 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                if (this.query.outOrderNo){
-                    params.outOrderNo = this.query.outOrderNo;
+                if (this.query.tradeNo){
+                    params.tradeNo = this.query.tradeNo;
                 }
                 if (this.query.wayId){
                     params.wayId = this.query.wayId;
@@ -347,7 +347,7 @@
                     params.sellerNo = this.query.sellerNo;
                 }
                 if (this.query.phoneNumber){
-                    params.phoneNumber = this.query.phoneNumber;
+                    params.customerPhone = this.query.phoneNumber;
                 }
 
                 if(this.area != '') {
@@ -411,6 +411,10 @@
                     this.query.storeCityCode = arr[1].code;
                 }
                 this.showArea = false;
+            },
+            onCancelArea() {
+                this.showArea = false;
+                this.area = '';
             },
             changeState(index,i){
                 //把index值赋给active，点击改变样式

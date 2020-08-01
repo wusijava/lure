@@ -122,20 +122,20 @@
                         maxlength="11"
                         clearable
                         :clickable="false"
-                        placeholder="请输入商户登陆手机号"
+                        placeholder="请输入商户登录手机号"
                         input-align="right"
                         label-width="110"
-                        label="商户登陆账号"
+                        label="商户登录账号"
                 >
                 </van-field>
                 <van-field
                         v-model="form.password"
                         clearable
                         :clickable="false"
-                        placeholder="请输入登陆密码"
+                        placeholder="请输入登录密码"
                         input-align="right"
                         label-width="110"
-                        label="商户登陆密码"
+                        label="商户登录密码"
                 >
                 </van-field>
             </van-cell-group>

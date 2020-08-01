@@ -4,7 +4,7 @@
             <h1>收款失败</h1>
         </div>
         <div class="content">
-            <img :src="img">
+            <img src="@/assets/img/ico_lost@2x.png">
             <p>{{desc}}</p>
         </div>
     </div>
@@ -15,7 +15,6 @@
         name: "authFail",
         data() {
             return {
-                img:require('@/assets/img/ico_lost@2x.png'),
                 desc:null,
             }
         },

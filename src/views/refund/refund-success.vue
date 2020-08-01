@@ -2,7 +2,7 @@
     <div class="box">
         <main class="main">
             <div style="text-align: center; margin-top: 50px">
-                <img :src="img" style="width:70px"/>
+                <img src="@/assets/img/icon_complete@2x.png" style="width:70px"/>
                 <p class="success">{{text}}</p>
             </div>
         </main>
@@ -16,7 +16,6 @@
         name: "refundSuccess",
         data() {
             return {
-                img:require('@/assets/img/icon_complete@2x.png'),
                 type: this.$route.query.type,
                 text: '退款成功'
             }

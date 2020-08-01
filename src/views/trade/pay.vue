@@ -56,28 +56,30 @@
             this.getPayDetail();
         },
         methods: {
-            // async queryStatus(){
-            //     let params = {};
-            //     const result = await tradeStateQuery(params);
-            //     if(result.code=="20000"){
-            //         const state = result.data.orderStatus;
-            //         if(state=="PAY_SUCCESS"){
-            //             clearInterval(this.queryInterval);
-            //             this.queryInterval = null;
-            //             location.href = '/h5/auth/success'
-            //         }else if(state=="PAY_CLOSED"){
-            //             clearInterval(this.queryInterval);
-            //             this.queryInterval = null;
-            //             this.$dialog.confirm({
-            //                 message: '交易超时,是否重新创建?'
-            //             }).then(() => {
-            //                 this.reload();
-            //             }).catch(() => {
-            //                 this.$router.push({path:'/auth/fail',query:{desc:'交易超时,订单关闭'}})
-            //             });
-            //         }
-            //     }
-            // },
+            async queryStatus(){
+                let params = {};
+                params.tradeNo = this.$route.query.tradeNo
+                const result = await tradeStateQuery(params);
+                console.log(result)
+                if(result.data.code=="20000"){
+                    const state = result.data.data.orderStatus;
+                    if(state=="PAY_SUCCESS"){
+                        clearInterval(this.queryInterval);
+                        this.queryInterval = null;
+                        location.href = 'h5/trade/success'
+                    }else if(state=="PAY_CLOSED"){
+                        clearInterval(this.queryInterval);
+                        this.queryInterval = null;
+                        this.$dialog.confirm({
+                            message: '交易超时,是否重新创建?'
+                        }).then(() => {
+                            this.reload();
+                        }).catch(() => {
+                            this.$router.push({path:'/trade/fail',query:{desc:'交易超时,订单关闭'}})
+                        });
+                    }
+                }
+            },
             getPayDetail: async function() {
                 let params = {}
                 params.tradeNo = this.$route.query.tradeNo
@@ -85,7 +87,7 @@
                 if(result.data.code == '20000') {
                     this.detail = result.data.data
                     this.url = this.detail.url;
-                    // this.queryInterval = setInterval(this.queryStatus,5000);
+                    this.queryInterval = setInterval(this.queryStatus,5000);
                 }else {
                     this.$toast({
                         message: result.data.msg,
