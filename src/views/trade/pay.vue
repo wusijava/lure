@@ -66,7 +66,7 @@
                     if(state=="PAY_SUCCESS"){
                         clearInterval(this.queryInterval);
                         this.queryInterval = null;
-                        location.href = 'h5/trade/success'
+                        this.$router.push({name:'authSuccess',query:{tradeNo:this.$route.query.tradeNo}})
                     }else if(state=="PAY_CLOSED"){
                         clearInterval(this.queryInterval);
                         this.queryInterval = null;
