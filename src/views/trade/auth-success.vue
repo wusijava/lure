@@ -7,14 +7,17 @@
                 <p class="money"><span style="font-size: 20px">￥</span>{{totalMoney}}</p>
             </div>
             <div class="info">
-                <div class="left">
-                    <p>商品</p>
-                    <p>订单编号</p>
-                </div>
-                <div class="right">
-                    <p>{{title}}</p>
-                    <p>{{tradeNo}}</p>
-                </div>
+                <van-row type="flex" justify="space-between">
+                    <van-col span="6"><p>商品</p></van-col>
+                    <van-col span="18" class="right">
+                        <p>{{title}}</p></van-col>
+                </van-row>
+                <van-row type="flex" justify="space-between">
+                    <van-col span="6"><p>订单编号</p></van-col>
+                    <van-col span="18" class="right">
+                        <p>{{tradeNo}}</p>
+                    </van-col>
+                </van-row>
             </div>
         </div>
     </div>
@@ -57,32 +60,17 @@
         margin-top: 10px;
     }
     .info{
-        display: flex;
-        padding: 0 16px;
-        margin-bottom: 40px;
-        margin-top: -20px;
-    }
-    .info .left{
-        flex: 1;
-        text-align: left;
-    }
-    .info .left p{
-        font-family: PingFang-SC-Regular;
-        font-size: 13px;
-        line-height: 30px;
-        color: #666666;
-        margin-bottom: -5px;
+        padding: 0 10px 10px 10px;
     }
     .info .right{
-        flex: 1;
         text-align: right;
     }
-    .info .right p{
-        font-family: PingFang-SC-Regular;
-        font-size: 13px;
-        line-height: 30px;
-        color: #081828;
-        margin-bottom: -5px;
+    .info  p{
+        font-size: 14px;
+        line-height: 18px;
+        word-wrap : break-word;
+        margin-top: 3px;
+        margin-bottom: 3px;
     }
 
 </style>

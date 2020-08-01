@@ -159,5 +159,13 @@ export default new Router({
                 title: '退款成功'
             }
         },
+        {
+            path:'/refund/error',
+            name:'error',
+            component:() => import('./views/refund/error.vue'),
+            meta: {
+                title: '冻结失败'
+            }
+        },
     ]
 })

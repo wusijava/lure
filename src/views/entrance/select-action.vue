@@ -57,10 +57,20 @@
 </script>
 
 <style scoped>
-    .box {
+    .box{
         width: 100%;
     }
+    .box::before {
+        content: " ";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #ffffff;
+    }
     .content {
+        position: relative;
         text-align: center;
         margin: 25px 10px;
     }

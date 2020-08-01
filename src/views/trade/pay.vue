@@ -65,7 +65,6 @@
                     if(state=="PAY_SUCCESS"){
                         clearInterval(this.queryInterval);
                         this.queryInterval = null;
-                        this.$router.push({name:'authSuccess',query:{tradeNo:this.$route.query.tradeNo}})
                         this.$router.push({
                             path:'/trade/success',
                             query:{

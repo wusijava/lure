@@ -96,6 +96,15 @@
     .box{
         width: 100%;
     }
+    .box::before {
+        content: " ";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #ffffff;
+    }
     .content{
         text-align: center;
         margin: 100px 40px;
@@ -103,8 +112,7 @@
     .content h3{
         text-align: center;
         font-size: 21px;
-        margin-top: 0;
-        margin-bottom: 5px;
+        position: relative;
     }
     .login{
         margin-top: 80px;
@@ -112,7 +120,7 @@
     .eyes-closed{
         position: absolute;
         top: 266px;
-        right: 36px;
+        right: 54px;
     }
     .eyes-closed img{
         height: 6px;
@@ -120,7 +128,7 @@
     .eyes-open{
         position: absolute;
         top: 266px;
-        right: 36px;
+        right: 54px;
     }
     .eyes-open img{
         height: 12px;

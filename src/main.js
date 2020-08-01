@@ -23,7 +23,8 @@ const whiteList = [
     '/trade/payment-agreement',
     '/trade/fail',
     '/trade/success',
-    '/refund/success'
+    '/refund/success',
+    '/refund/error'
 ]
 
 router.beforeEach((to, from, next) => {
