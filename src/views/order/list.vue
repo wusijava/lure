@@ -12,7 +12,7 @@
                         placeholder="输入订单号"
                         clearable
                         type="text"
-                        v-model="query.tradeNo"
+                        v-model="query.outTradeNo"
                 />
                 <!-- 1 -->
                 <!-- 2 -->
@@ -161,7 +161,7 @@
                         </p>
                     </van-col>
                     <van-col span="4"><p style="letter-spacing: -1px">{{item.timeStr}}</p></van-col>
-                    <van-col span="15"><p style="text-align: right">订单编号：{{item.tradeNo}}</p></van-col>
+                    <van-col span="15"><p style="text-align: right">订单编号：{{item.outTradeNo}}</p></van-col>
                 </van-row>
                 <van-row style="padding: 5px 0;">
                     <van-col span="12"><h4>结算金额</h4></van-col>
@@ -274,7 +274,7 @@
                 keyboardSellerNo: false,
                 keyboardPhoneNumber: false,
                 query:{
-                    tradeNo: '',
+                    outTradeNo: '',
                     wayId: '',
                     sellerNo: '',
                     phoneNumber:'',
