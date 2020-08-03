@@ -40,14 +40,6 @@ export default new Router({
             }
         },
         {
-            path: '/loginSearch',
-            name: 'loginSearch',
-            component: () => import('./views/login.vue'),
-            meta: {
-                title: '订单查询'
-            }
-        },
-        {
             path: '/entrance/select-action',
             name: 'selectAction',
             component: () => import('./views/entrance/select-action.vue'),

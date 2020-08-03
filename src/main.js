@@ -24,8 +24,7 @@ const whiteList = [
     '/trade/fail',
     '/trade/success',
     '/refund/success',
-    '/auth/error',
-    '/loginSearch'
+    '/auth/error'
 ]
 
 router.beforeEach((to, from, next) => {
