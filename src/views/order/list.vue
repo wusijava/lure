@@ -297,7 +297,7 @@
             },
             cancelPopup() {
                 this.show = false;
-                this.query.tradeNo = '';
+                this.query.outTradeNo = '';
                 this.query.wayId = '';
                 this.query.sellerNo = '';
                 this.query.phoneNumber = '';
