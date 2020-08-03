@@ -107,6 +107,16 @@
         },
         mounted() {
             this.getStore();
+            if(ap) {
+                ap.setOptionButton({
+                    items: [{
+                        title: '切换账号'
+                    }],
+                    onClick: (data)=>{
+                        window.location.href="/h5/logout?type=1"
+                    }
+                });
+            }
         },
         methods: {
             getStore: async function() {

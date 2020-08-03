@@ -54,6 +54,16 @@
         },
         mounted() {
             this.getPayDetail();
+            if(ap) {
+                ap.setOptionButton({
+                    items: [{
+                        title: '切换账号'
+                    }],
+                    onClick: ()=>{
+                        window.location.href="/h5/logout?type=1"
+                    }
+                });
+            }
         },
         methods: {
             async queryStatus(){

@@ -28,7 +28,15 @@ export default new Router({
             name: 'login',
             component: () => import('./views/login.vue'),
             meta: {
-                title: '办单登录'
+                title: '登录'
+            }
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            component: () => import('./views/logout.vue'),
+            meta: {
+                title: '切换账号'
             }
         },
         {

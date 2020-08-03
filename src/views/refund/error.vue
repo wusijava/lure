@@ -24,29 +24,14 @@
     }
 </script>
 
-<style scoped lang="stylus">
+<style scoped>
     .box{
         padding: 15px;
-    }
-    .main{
-        text-align: center;
-        margin-bottom: 40px;
-    }
-    .main img{
-        width: 60px;
-    }
-    .main h1 {
-        font-family: PingFang-SC-Regular;
-        font-size: 1em;
-        text-align: center;
-        line-height: 10px;
-        color: #666666;
-        padding: 5px 0;
     }
     .content{
         text-align: center;
         width: 100%;
-        margin-top 70px;
+        margin-top: 70px;
     }
     .content img{
         width: 70px;
@@ -66,6 +51,6 @@
         font-family: PingFang-SC-Regular;
         font-size: 14px;
         line-height: 24px;
-        padding 0 30px;
+        padding: 0 30px;
     }
 </style>

@@ -57,12 +57,21 @@
             }
         },
         mounted() {
+            if(ap) {
+                //隐藏右上角按钮
+                ap.hideOptionButton();
+
+                if(this.$route.query.type == 1) {
+                    ap.setNavigationBar('办单登录');
+                }else if(this.$route.query.type == 2) {
+                    ap.setNavigationBar('订单查询');
+                }
+            }
             let token = localStorage.getItem('login_token');
             if(token){
                 if(this.$route.query.type == 1) {
                     this.$router.push({name:'tradeIndex'})
-                }
-                if(this.$route.query.type == 2) {
+                }else if(this.$route.query.type == 2) {
                     this.$router.push({name:'orderList'})
                 }else{
                     this.$router.push({name:'selectAction'})
@@ -131,7 +140,7 @@
     .eyes-closed{
         position: absolute;
         top: 266px;
-        right: 54px;
+        right: 76px;
     }
     .eyes-closed img{
         height: 6px;
@@ -139,7 +148,7 @@
     .eyes-open{
         position: absolute;
         top: 266px;
-        right: 54px;
+        right: 76px;
     }
     .eyes-open img{
         height: 12px;

@@ -144,6 +144,16 @@
         },
         mounted() {
             this.detail = JSON.parse(localStorage.getItem('info'))
+            if(ap) {
+                ap.setOptionButton({
+                    items: [{
+                        title: '切换账号'
+                    }],
+                    onClick: (data)=>{
+                        window.location.href="/h5/logout?type=1"
+                    }
+                });
+            }
         },
         methods: {
             showCashier() {
