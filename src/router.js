@@ -160,7 +160,7 @@ export default new Router({
             }
         },
         {
-            path:'/refund/error',
+            path:'/auth/error',
             name:'error',
             component:() => import('./views/refund/error.vue'),
             meta: {

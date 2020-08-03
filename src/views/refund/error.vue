@@ -1,11 +1,9 @@
 <template>
     <div class="box">
-        <div class="main">
-            <h1>冻结失败</h1>
-        </div>
         <div class="content">
-            <img src="@/assets/img/ico_lost@2x.png">
-            <p>{{desc}}</p>
+            <img src="@/assets/img/icon_fail.png">
+            <h4>冻结失败</h4>
+            <p>当前支付宝已经存在冻结订单，请更换支付宝账号进行支付。</p>
         </div>
     </div>
 </template>
@@ -16,14 +14,13 @@
         name: "error",
         data() {
             return {
-                desc:null,
+                desc: "",
             }
         },
         mounted() {
             this.desc = this.$route.query.desc;
         },
-        methods:{
-        }
+        methods: {}
     }
 </script>
 
@@ -31,7 +28,44 @@
     .box{
         padding: 15px;
     }
-    .main {
-        overflow: scroll
+    .main{
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .main img{
+        width: 60px;
+    }
+    .main h1 {
+        font-family: PingFang-SC-Regular;
+        font-size: 1em;
+        text-align: center;
+        line-height: 10px;
+        color: #666666;
+        padding: 5px 0;
+    }
+    .content{
+        text-align: center;
+        width: 100%;
+        margin-top 70px;
+    }
+    .content img{
+        width: 70px;
+        height: 70px;
+        margin: 0 auto;
+    }
+    .content span{
+        font-family: PingFang-SC-Regular;
+        font-size: 15px;
+        color: #081828;
+        line-height: 24px;
+    }
+    .content h4{
+        font-size: 18px;
+    }
+    .content p{
+        font-family: PingFang-SC-Regular;
+        font-size: 14px;
+        line-height: 24px;
+        padding 0 30px;
     }
 </style>

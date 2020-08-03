@@ -24,7 +24,7 @@ const whiteList = [
     '/trade/fail',
     '/trade/success',
     '/refund/success',
-    '/refund/error'
+    '/auth/error'
 ]
 
 router.beforeEach((to, from, next) => {
@@ -33,7 +33,8 @@ router.beforeEach((to, from, next) => {
     }
     const token = localStorage.getItem("login_token");
     if (to.path === '/login' && token) {
-        router.push({name:'selectAction'})
+        // router.push({name:'selectAction'})
+        next();
     }
     if (whiteList.indexOf(to.path) !== -1) {
         next();
