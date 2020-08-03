@@ -29,7 +29,7 @@ const myAxios = {
                 return ret
             }]
         });
-        if(!result || result.data.code === 40015){
+        if(!result || result.data.code === "40015"){
             localStorage.removeItem('login_token');
         }
         return result;
