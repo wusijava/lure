@@ -9,10 +9,10 @@
                 <!-- 1 -->
                 <van-field
                         name="订单号"
-                        placeholder="输入订单号"
+                        placeholder="输入外部订单号"
                         clearable
                         type="text"
-                        v-model="query.tradeNo"
+                        v-model="query.outTradeNo"
                 />
                 <!-- 1 -->
                 <!-- 2 -->
@@ -274,7 +274,7 @@
                 keyboardSellerNo: false,
                 keyboardPhoneNumber: false,
                 query:{
-                    tradeNo: '',
+                    outTradeNo: '',
                     wayId: '',
                     sellerNo: '',
                     phoneNumber:'',
@@ -337,8 +337,8 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                if (this.query.tradeNo){
-                    params.tradeNo = this.query.tradeNo;
+                if (this.query.outTradeNo){
+                    params.outTradeNo = this.query.outTradeNo;
                 }
                 if (this.query.wayId){
                     params.wayId = this.query.wayId;
@@ -428,7 +428,7 @@
             },
             toDetails: async function(info) {
                 let params = {}
-                params.tradeNo = info.tradeNo
+                params.outTradeNo = info.outTradeNo
                 const result = await orderDetail(params)
                 if(result.data.code == '20000') {
                     this.showDetails = true;
