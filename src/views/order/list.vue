@@ -428,7 +428,8 @@
             },
             toDetails: async function(info) {
                 let params = {}
-                params.outTradeNo = info.outTradeNo
+                params.tradeNo = info.tradeNo
+                console.log(params)
                 const result = await orderDetail(params)
                 if(result.data.code == '20000') {
                     this.showDetails = true;
