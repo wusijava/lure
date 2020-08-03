@@ -160,17 +160,6 @@
                     that.showHeight = window.fullHeight;
                 })()
             };
-
-            if(ap) {
-                ap.setOptionButton({
-                    items: [{
-                        title: '切换账号'
-                    }],
-                    onClick: ()=>{
-                        window.location.href="/h5/logout?type=1"
-                    }
-                });
-            }
         },
         watch: {
             showHeight (val) {
