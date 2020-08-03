@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // const baseURL = 'http://127.0.0.1:8088'
-const baseURL = 'http://172.16.4.114:8088/h5/v1/api/'
+const baseURL = 'http://192.168.1.33:8087/api/h5/v1/'
 // const baseURL = 'http://172.16.4.187:8087'
 
 function setHeaders() {
@@ -30,7 +30,7 @@ const myAxios = {
                 return ret
             }]
         });
-        if(!result || result.data.code === 40015){
+        if(!result || result.data.code === "40015"){
             localStorage.removeItem('login_token');
         }
         return result;
