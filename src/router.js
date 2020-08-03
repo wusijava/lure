@@ -28,15 +28,15 @@ export default new Router({
             name: 'login',
             component: () => import('./views/login.vue'),
             meta: {
-                title: '办单登录'
+                title: '登录'
             }
         },
         {
-            path: '/loginSearch',
-            name: 'loginSearch',
-            component: () => import('./views/login.vue'),
+            path: '/logout',
+            name: 'logout',
+            component: () => import('./views/logout.vue'),
             meta: {
-                title: '订单查询'
+                title: '切换账号'
             }
         },
         {

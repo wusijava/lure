@@ -24,8 +24,7 @@ const whiteList = [
     '/trade/fail',
     '/trade/success',
     '/refund/success',
-    '/auth/error',
-    '/loginSearch'
+    '/auth/error'
 ]
 
 router.beforeEach((to, from, next) => {
@@ -34,7 +33,6 @@ router.beforeEach((to, from, next) => {
     }
     const token = localStorage.getItem("login_token");
     if (to.path === '/login' && token) {
-        // router.push({name:'selectAction'})
         next();
     }
     if (whiteList.indexOf(to.path) !== -1) {
@@ -45,6 +43,11 @@ router.beforeEach((to, from, next) => {
         } else {
             router.push({name:'selectAction'})
         }
+    }
+})
+router.afterEach((to,from)=>{
+    if(ap) {
+        ap.setNavigationBar(to.meta.title);
     }
 })
 

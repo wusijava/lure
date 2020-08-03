@@ -37,7 +37,14 @@
         },
         //页面加载就开始查询按钮数据
         mounted() {
+            if(ap) {
+                // ap.setOptionButton({
+                //     reset:true
+                // });
 
+                //隐藏右上角按钮
+                ap.hideOptionButton();
+            }
         },
         methods:{
             toSign(){
@@ -50,7 +57,7 @@
                 this.$router.push({name:'refundQuery'});
             },
             toSearch(info) {
-                this.$router.push({name:'loginSearch', query:{type: info}});
+                this.$router.push({name:'login', query:{type: info}});
             }
         }
     }

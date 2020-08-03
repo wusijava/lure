@@ -290,6 +290,23 @@
         },
         mounted() {
             this.getList(this.currentPage - 1, 10);
+            if(ap) {
+                ap.setOptionButton({
+                    items: [{
+                        title: '切换账号'
+                    }],
+                    onClick: (data)=>{
+                        ap.confirm({
+                            title: '温馨提示',
+                            content: '是否确认切换账号？',
+                            confirmButtonText: '确认',
+                            cancelButtonText: '取消'
+                        }, function(){
+                            window.location.href="/h5/logout?type=2"
+                        });
+                    }
+                });
+            }
         },
         methods: {
             showPopup() {
