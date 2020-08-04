@@ -7,13 +7,13 @@
                     title-class="title"
             />
             <van-field
-                    v-model="detail.settleAmt"
+                    v-model="detail.payAmt"
                     clearable
                     :clickable="false"
-                    :placeholder="detail.settleAmt"
+                    :placeholder="detail.payAmt"
                     input-align="right"
                     label-width="110"
-                    label="套餐金额"
+                    label="冻结金额"
                     readonly
             >
             </van-field>
@@ -26,17 +26,6 @@
                     input-align="right"
                     label-width="110"
                     label="套餐期数"
-                    readonly
-            >
-            </van-field>
-            <van-field
-                    v-model="detail.payAmt"
-                    clearable
-                    :clickable="false"
-                    :placeholder="detail.payAmt"
-                    input-align="right"
-                    label-width="110"
-                    label="冻结金额"
                     readonly
             >
             </van-field>
