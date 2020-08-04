@@ -118,8 +118,10 @@
                             content: '是否确认切换账号？',
                             confirmButtonText: '确认',
                             cancelButtonText: '取消'
-                        }, function(){
-                            window.location.href="/h5/logout?type=1"
+                        }, function(result){
+                            if(result.confirm === true) {
+                                window.location.href = "/h5/logout?type=1"
+                            }
                         });
                     }
                 });
