@@ -9,7 +9,7 @@
         </div>
         <div class="content">
             <img :src="one">
-            <span>请妥善保存您的管理后台账号和密码，勿轻易泄露给他人，可登录管理后台查看审核结果。网址：<a>http://47.114.76.55/admin</a></span>
+            <span>请妥善保存您的管理后台账号和密码，勿轻易泄露给他人，可登录管理后台查看审核结果。网址：<a>http://zcpay.zanclick.cn/</a></span>
             <br>
             <span>
             <br/>账号：{{merchantNo}}
