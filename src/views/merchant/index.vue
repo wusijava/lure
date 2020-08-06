@@ -3,7 +3,7 @@
         <div class="box2">
             <van-cell-group>
                 <van-field
-                        v-model="form.wayId"
+                        v-model.trim="form.wayId"
                         placeholder="请输入网点渠道编码"
                         clearable
                         :clickable="false"
@@ -13,7 +13,7 @@
                 >
                 </van-field>
                 <van-field
-                        v-model="form.storeSubjectCertNo"
+                        v-model.trim="form.storeSubjectCertNo"
                         clearable
                         :clickable="false"
                         placeholder="请输入营业执照编号"
@@ -24,7 +24,7 @@
                 </van-field>
 
                 <van-field
-                        v-model="form.storeSubjectName"
+                        v-model.trim="form.storeSubjectName"
                         clearable
                         :clickable="false"
                         placeholder="请输入营业执照名称"
@@ -67,7 +67,7 @@
                 </van-popup>
 
                 <van-field
-                        v-model="form.address"
+                        v-model.trim="form.address"
                         clearable
                         :clickable="false"
                         placeholder="请输入详细地址"
@@ -78,7 +78,7 @@
                 </van-field>
 
                 <van-field
-                        v-model="form.storeLegalPerson"
+                        v-model.trim="form.storeLegalPerson"
                         clearable
                         :clickable="false"
                         placeholder="请输入经营者/法人"
@@ -89,7 +89,7 @@
                 </van-field>
 
                 <van-field
-                        v-model="form.contactName"
+                        v-model.trim="form.contactName"
                         clearable
                         :clickable="false"
                         label="联系人"
@@ -100,7 +100,7 @@
                 </van-field>
 
                 <van-field
-                        v-model="form.contactPhone"
+                        v-model.trim="form.contactPhone"
                         type="tel"
                         maxlength="11"
                         clearable
@@ -117,7 +117,7 @@
         <div class="box2">
             <van-cell-group>
                 <van-field
-                        v-model="form.userName"
+                        v-model.trim="form.userName"
                         type="tel"
                         maxlength="11"
                         clearable
@@ -129,7 +129,7 @@
                 >
                 </van-field>
                 <van-field
-                        v-model="form.password"
+                        v-model.trim="form.password"
                         clearable
                         :clickable="false"
                         placeholder="请输入登录密码"
@@ -174,7 +174,7 @@
                 </van-popup>
 
                 <van-field
-                        v-model="form.aliPayNo"
+                        v-model.trim="form.aliPayNo"
                         clearable
                         :clickable="false"
                         placeholder="请输入支付宝账号"

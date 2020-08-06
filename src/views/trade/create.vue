@@ -30,7 +30,7 @@
             >
             </van-field>
             <van-field
-                    v-model="customerName"
+                    v-model.trim="customerName"
                     clearable
                     :clickable="false"
                     placeholder="请输入客户姓名"
@@ -40,7 +40,7 @@
             >
             </van-field>
             <van-field
-                    v-model="customerPhone"
+                    v-model.trim="customerPhone"
                     clearable
                     :clickable="false"
                     type="tel"
@@ -52,7 +52,7 @@
             >
             </van-field>
             <van-field
-                    v-model="customerCertNo"
+                    v-model.trim="customerCertNo"
                     clearable
                     :clickable="false"
                     maxlength="18"

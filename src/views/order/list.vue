@@ -12,7 +12,7 @@
                         placeholder="输入订单号"
                         clearable
                         type="text"
-                        v-model="query.outTradeNo"
+                        v-model.trim="query.outTradeNo"
                 />
                 <!-- 1 -->
                 <!-- 2 -->
@@ -21,7 +21,7 @@
                         placeholder="输入渠道编号"
                         clearable
                         type="text"
-                        v-model="query.wayId"
+                        v-model.trim="query.wayId"
                 />
                 <!-- 2 -->
                 <!-- 3 -->
@@ -30,7 +30,7 @@
                         placeholder="输入收款账号"
                         clearable
                         type="text"
-                        v-model="query.sellerNo"
+                        v-model.trim="query.sellerNo"
                 />
                 <!-- 3 -->
                 <!-- 4 -->
@@ -39,7 +39,7 @@
                         placeholder="输入办理手机号"
                         clearable
                         type="tel"
-                        v-model="query.phoneNumber"
+                        v-model.trim="query.phoneNumber"
                 />
                 <!-- 4 -->
                 <!-- 选择开始时间弹窗 -->

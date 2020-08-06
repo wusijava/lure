@@ -2,13 +2,13 @@
     <div class="box">
         <van-form style="margin-top: 10px" @submit="toSearch">
             <van-field
-                    v-model="form.outTradeNo"
+                    v-model.trim="form.outTradeNo"
                     clearable
                     type="text"
                     placeholder="请输入湖北移动订单编号"
             />
             <van-field
-                    v-model="form.wayId"
+                    v-model.trim="form.wayId"
                     clearable
                     type="text"
                     placeholder="请输入门店渠道编号"

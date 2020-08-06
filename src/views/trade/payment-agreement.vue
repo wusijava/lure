@@ -104,7 +104,7 @@
             </van-popup>
 
             <div class="footer">
-                <button type="button" class="gray" id="btn" @click="createPay" disabled="true">
+                <button type="button" class="gray" id="btn" @click="createPay" :disabled="disabled">
                     我已认真阅读并同意以上条款内容{{content}}
                 </button>
             </div>
