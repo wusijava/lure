@@ -120,6 +120,12 @@
             async reload(){
                 window.location.reload()
             }
+        },
+        deactivated() {
+            clearInterval(this.queryInterval)
+        },
+        destroyed() {
+            clearInterval(this.queryInterval)
         }
     }
 </script>
