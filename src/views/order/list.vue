@@ -8,39 +8,13 @@
             <van-form class="filter" @submit="toSearch(0)">
                 <!-- 1 -->
                 <van-field
-                        name="订单号"
-                        placeholder="输入订单号"
+                        name="费用名称"
+                        placeholder="输入消费项目"
                         clearable
                         type="text"
-                        v-model.trim="query.outTradeNo"
+                        v-model.trim="query.item"
                 />
-                <!-- 1 -->
-                <!-- 2 -->
-                <van-field
-                        name="渠道编号"
-                        placeholder="输入渠道编号"
-                        clearable
-                        type="text"
-                        v-model.trim="query.wayId"
-                />
-                <!-- 2 -->
-                <!-- 3 -->
-                <van-field
-                        name="收款账号"
-                        placeholder="输入收款账号"
-                        clearable
-                        type="text"
-                        v-model.trim="query.sellerNo"
-                />
-                <!-- 3 -->
-                <!-- 4 -->
-                <van-field
-                        name="手机号"
-                        placeholder="输入办理手机号"
-                        clearable
-                        type="tel"
-                        v-model.trim="query.phoneNumber"
-                />
+
                 <!-- 4 -->
                 <!-- 选择开始时间弹窗 -->
                 <van-field
@@ -77,7 +51,7 @@
                         readonly
                         clickable
                         :value="area"
-                        placeholder="请选择地区"
+                        placeholder="请选择消费者"
                         @click="showArea = true"
                 >
                 </van-field>
@@ -89,23 +63,13 @@
                 >
                     <van-area :area-list="areaList"
                           value="420000"
-                          :columns-num="2"
+                          :columns-num="1"
                           @confirm="confirmArea"
                           @cancel="onCancelArea"
                     />
                 </van-popup>
 
-                <div class="radio">
-                    <p>请选择交易状态</p>
-                    <div class="radio-check" v-for="(item,index) in stateList" :key="item.state"
-                         :class="activeState==index ? 'activeClass' : '' ">
-                        <input type="radio" name="num"
-                               :value="item.stateStr"
-                               @click="changeState(index,item.state)"
-                        >
-                        <label>{{item.stateStr}}</label>
-                    </div>
-                </div>
+
 
 <!--                <div class="radio">-->
 <!--                    <p>请选择业务类型</p>-->
@@ -138,11 +102,10 @@
 
         <!-- 详情弹窗 -->
         <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
-            <h4>订单详情</h4>
+            <h4>消费截图</h4>
             <div class="detail-main">
                 <van-row type="flex" justify="space-between" v-for="item in detailList" style="margin-bottom: 10px;">
-                    <van-col span="6">{{item.key}}</van-col>
-                    <van-col span="18" class="right">{{item.value}}</van-col>
+                    <img :src=item.url style="width: 100%;height:100%" v-if="item.url!=null&&item.url!=''" >
                 </van-row>
             </div>
         </van-popup>
@@ -160,22 +123,23 @@
                             {{item.stateStr}}
                         </p>
                     </van-col>
-                    <van-col span="4"><p style="letter-spacing: -1px">{{item.timeStr}}</p></van-col>
-                    <van-col span="15"><p style="text-align: right">订单编号：{{item.outTradeNo}}</p></van-col>
+                    <!--<van-col span="12"><p style="text-align: left">{{item.date}}</p></van-col>-->
+                    <van-col span="20"><p style="text-align: right"><h5>消费时间:{{item.date}}     消费项目：{{item.item}}</h5></p></van-col>
                 </van-row>
                 <van-row style="padding: 5px 0;">
-                    <van-col span="12"><h4>结算金额</h4></van-col>
-                    <van-col span="12"><h4 style="text-align: right">{{item.settleAmount}}</h4></van-col>
+                    <van-col span="12"><h4>消费金额</h4></van-col>
+                    <van-col span="12"><h4 style="text-align: right">{{item.price}}</h4></van-col>
                 </van-row>
                 <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;">办理手机：{{item.mobile}}</p></van-col>
+                    <van-col span="12"><p style="margin-top: 5px;">消费者：{{item.consumer}}</p></van-col>
                     <van-col span="12" style="text-align: right">
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
-                            详情
+                            消费截图
                         </van-button>
                     </van-col>
                 </van-row>
             </div>
+            <van-button class="button" @click="back" type="info" size="large" :loading="loading">回菜单</van-button>
         </div>
         <div class="footer">
             <van-pagination v-model="currentPage" :page-count="pageTotal" mode="simple" @change="changePage"/>
@@ -343,7 +307,7 @@
             onCancelDate() {
                 this.date = ''
                 this.showStartDate = false;
-                this.showEndDate = false;
+                //this.showEndDate = false;
             },
             toSearch(isSearch) {
                 this.show = false;
@@ -356,26 +320,16 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                if (this.query.outTradeNo){
-                    params.outTradeNo = this.query.outTradeNo;
+                if (this.query.item){
+                    params.item = this.query.item;
                 }
-                if (this.query.wayId){
-                    params.wayId = this.query.wayId;
-                }
-                if (this.query.sellerNo){
-                    params.sellerNo = this.query.sellerNo;
-                }
-                if (this.query.phoneNumber){
-                    params.customerPhone = this.query.phoneNumber;
-                }
+
 
                 if(this.area != '') {
                     if(this.query.storeCityCode == '420001') {
-                        params.provinceCode = this.query.storeProvinceCode
-                        params.cityCode = ''
+                        params.consumer = this.query.storeProvinceCode
                     }else {
-                        params.provinceCode = this.query.storeProvinceCode
-                        params.cityCode = this.query.storeCityCode
+                        params.consumer = this.query.storeProvinceCode
                     }
                 }
 
@@ -383,12 +337,7 @@
                     params.startTime = this.beginDate;
                     params.endTime = this.overDate;
                 }
-                if (this.activeState){
-                    params.state = this.state;
-                }
-                if (this.activeType){
-                    params.bizType = this.type;
-                }
+
                 this.$toast.loading({
                     duration: 0, // 持续展示 toast
                     forbidClick: true,
@@ -447,17 +396,20 @@
             },
             toDetails: async function(info) {
                 let params = {}
-                params.tradeNo = info.tradeNo
+                params.id = info.id
                 const result = await orderDetail(params)
                 if(result.data.code == '20000') {
                     this.showDetails = true;
-                    this.detailList = result.data.data.keyValues
+                    this.detailList = result.data
                 }else {
                     this.$toast({
                         message: result.data.msg,
                         icon: 'warning-o'
                     });
                 }
+            },
+            back(){
+                this.$router.push({name:'selectAction'});
             }
         }
     }

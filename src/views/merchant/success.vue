@@ -16,7 +16,7 @@
             <br/>密码：{{merchantPwd}}
             </span>
             <br/>
-            <img :src="two"><span>请在审核通过后使用收款支付宝账号在支付宝APP内搜索“点赞收银台”生活号，点击菜单“商户-开通自动收款”，完成签约。</span>
+            <img :src="two"><span>请在审核通过后使用收款支付宝账号在支付宝APP内搜索“小柠檬”生活号，点击菜单“商户-开通自动收款”，完成签约。</span>
         </div>
         <!--<div class="code">-->
             <!--<div class="code-licence">-->

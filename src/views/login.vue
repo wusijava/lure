@@ -1,12 +1,12 @@
 <template>
     <div class="box">
         <div class="content">
-            <h3>湖北移动直连办单平台</h3>
+            <h3>小柠檬快乐之家</h3>
             <van-form @submit="toLogin" class="login">
                 <van-field
                         v-model="username"
                         name="账号"
-                        placeholder="请输入门店账号"
+                        placeholder="请输入账号"
                         clearable
                 />
                 <div v-if="ifDisplay">
@@ -14,7 +14,7 @@
                             v-model="password"
                             type="text"
                             name="密码"
-                            placeholder="请输入登录密码"
+                            placeholder="请输入密码"
                             clearable
                     />
                     <span class="eyes-open" @click="ifDisplay = !ifDisplay">
@@ -26,7 +26,7 @@
                             v-model="password"
                             type="password"
                             name="密码"
-                            placeholder="请输入登录密码"
+                            placeholder="请输入密码"
                             clearable
                     />
                     <span class="eyes-closed" @click="ifDisplay = !ifDisplay">

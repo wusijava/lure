@@ -1,10 +1,10 @@
 <template>
     <div class="box">
 
-        <p style="text-align: center;font-size: 18px;padding-top: 15px">湖北直连信用购机服务合作协议</p>
+        <p style="text-align: center;font-size: 18px;padding-top: 15px"湖北直连信用购机服务合作协议</p>
 
         <span style="font-weight: bold">甲方</span>：{{this.$route.query.storeSubjectName}}<br>
-        <span style="font-weight: bold">乙方</span>：湖北点赞科技有限公司
+        <span style="font-weight: bold">乙方</span>：小柠檬
 
         <div class="service-content">
             <p style="font-weight: lighter;margin-top: 15px">为进一步加强合作关系，甲乙双方根据《中华人民共和国民法总则》、《中华人民共和国合同法》等有关法律、

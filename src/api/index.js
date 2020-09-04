@@ -9,7 +9,7 @@ const method = {
         store: 'api/merchantStore/getStoreInfo',
         mealList: 'api/meal/getMealList',
         cashierList: 'api/merchantStore/getCashierList',
-        createOrder:'api/trade/createOrder',
+        createOrder:'/saveSpend',
         payDetail:'api/trade/getPayDetail',
         create:'createAuthPrePay',
         queryContract:'orderDetail',
@@ -23,8 +23,8 @@ const method = {
         queryTradeState: 'refund/queryTradeState'
     },
     order:{
-        list: 'api/trade/list',
-        detail: 'api/trade/detail'
+        list: 'spendList',
+        detail: 'spendDetail'
     },
     upload:{
         getUploadToken:'/upload/getToken'

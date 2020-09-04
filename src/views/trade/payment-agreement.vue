@@ -6,7 +6,7 @@
             </div>
             <div class="agree-content" style="margin-top: 30px">
                 <p style="text-indent: 0">甲方：<span class="line" style="width: 150px;">{{contractDetail.userName}}</span></p>
-                <p style="text-indent: 0">乙方：湖北点赞科技有限公司</p>
+                <p style="text-indent: 0">乙方：小柠檬</p>
                 <p>甲方是具有完全民事行为能力的自然人，因具有购买商品或服务的需求，同意办理分期业务，本协议在甲方通过湖北移动XXX（以下简称“XXX”）扫码支付确认开始生效，甲方知晓有关责任或权利限制条款，经甲方本人充分审阅，已经完全知悉并充分理解条款的内容及相应法律后果，并无疑问、分歧或异议。</p>
                 <p>甲方在湖北移动指定渠道门店办理分期业务，与乙方就办理和分期业务签订本协议。</p>
                 <h2>一、业务内容</h2>

@@ -44,7 +44,7 @@ export default new Router({
             name: 'selectAction',
             component: () => import('./views/entrance/select-action.vue'),
             meta: {
-                title: '湖北移动直连'
+                title: '小柠檬之家'
             }
         },
         {
@@ -84,7 +84,7 @@ export default new Router({
             name: 'create',
             component: () => import('./views/trade/create.vue'),
             meta: {
-                title: '订单确认'
+                title: '新增消费'
             }
         },
         {
@@ -132,7 +132,7 @@ export default new Router({
             name: 'orderList',
             component: () => import('./views/order/list.vue'),
             meta: {
-                title: '订单列表'
+                title: '消费列表'
             }
         },
         {
