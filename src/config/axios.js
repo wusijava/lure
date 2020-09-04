@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // const baseURL = 'http://172.16.4.114:8088/h5/v1/'
-const baseURL = 'http://47.114.76.55/api/h5/v1/'
+const baseURL = 'http://49.233.192.222'
 
 function setHeaders() {
     const header = {}

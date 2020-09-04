@@ -16,7 +16,7 @@ const compress = new CompressionWebpackPlugin(
     }
 );
 module.exports = {
-    publicPath:'/h5',
+    publicPath:'/',
     productionSourceMap: process.env.NODE_ENV === 'production' ? false : true,
     devServer: {
         port: 8082,
