@@ -13,6 +13,18 @@
             >
             </van-field>
             <van-field
+                    v-model.trim="remark"
+                    clearable
+                    :clickable="false"
+                    type="tel"
+                    maxlength="11"
+                    placeholder="请填写备注"
+                    input-align="right"
+                    label-width="110"
+                    label="备注"
+            >
+            </van-field>
+            <van-field
                     v-model.trim="price"
                     clearable
                     :clickable="false"
@@ -72,6 +84,7 @@
                         @cancel="showPicker = false"
                         @confirm="onConfirm"
                 />
+
             </van-popup>
         </van-cell-group>
 
@@ -142,6 +155,7 @@
                 showStartDate: false,
                 showForm: true,
                 detail: {},
+                remark: '',
                 item: '',
                 price: '',
                 consumer: '',
@@ -333,11 +347,11 @@
                     }
                     params.url = this.signImg
                 }
+                params.remark=this.remark
                 params.date=this.beginDate
                 params.item = this.item
                 params.price = this.price
                 params.consumer = this.consumer
-                console.log(params)
                 const result = await createOrder(params)
                 if(result.data.code == '20000') {
                     this.$router.push({name:'orderList'});
