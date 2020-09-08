@@ -15,6 +15,7 @@ const method = {
         queryContract:'orderDetail',
         queryState:'api/trade/queryTradeState',
         saveContract:'contract/signatureUpload',
+        createSell: "order/save"
     },
     refund:{
         queryRefund: 'refund/getOrderResult',
@@ -24,7 +25,10 @@ const method = {
     },
     order:{
         list: 'spendList',
-        detail: 'spendDetail'
+        detail: 'spendDetail',
+        taoList: 'logList',
+        taoDetail: 'logDetail'
+
     },
     upload:{
         getUploadToken:'/upload/getToken'

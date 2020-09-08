@@ -134,6 +134,24 @@ export default new Router({
             meta: {
                 title: '消费列表'
             }
+        }
+        ,
+        {
+            path: '/order/taoList',
+            name: 'tao-list',
+            component: () => import('./views/order/taoList.vue'),
+            meta: {
+                title: '销售列表'
+            }
+        }
+        ,
+        {
+            path: '/trade/taobao',
+            name: 'taoBao',
+            component: () => import('./views/trade/taobao.vue'),
+            meta: {
+                title: '销售记录'
+            }
         },
         {
             path:'/trade/fail',

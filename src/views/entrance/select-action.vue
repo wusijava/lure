@@ -2,20 +2,20 @@
     <div class="box">
         <div class="content">
             <div style="margin-bottom: 25px">
-                <!--<div class="module" style="margin-right: 25px" @click="toBusiness(1)">
+                <div class="module" style="margin-right: 25px" @click="toBusiness(1)">
                     <img src="../../../src/assets/img/icon_order@2x.png"/>
-                    <p>办单</p>
-                </div>-->
+                    <p>新增销售</p>
+                </div>
                 <div class="module" @click="toSign">
                     <img src="../../../src/assets/img/icon_sign@2x.png"/>
                     <p>新增消费</p>
                 </div>
             </div>
             <div>
-                <!--<div class="module" style="margin-right: 25px" @click="toRefund">
+                <div class="module" style="margin-right: 25px" @click="toRefund">
                     <img src="../../../src/assets/img/icon_refund@2x.png"/>
-                    <p>退款</p>
-                </div>-->
+                    <p>销售记录</p>
+                </div>
                 <div class="module" @click="toSearch(2)">
                     <img src="../../../src/assets/img/icon_inquire@2x.png"/>
                     <p>消费记录</p>
@@ -51,7 +51,7 @@
                 this.$router.push({name:'create'});
             },
             toBusiness(info){
-                this.$router.push({name:'login', query:{type: info}});
+                this.$router.push({name:'taoBao'});
             },
             toRefund() {
                 this.$router.push({name:'refundQuery'});

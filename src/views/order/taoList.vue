@@ -8,11 +8,11 @@
             <van-form class="filter" @submit="toSearch(0)">
                 <!-- 1 -->
                 <van-field
-                        name="费用名称"
-                        placeholder="输入消费项目"
+                        name="顾客姓名"
+                        placeholder="输入顾客姓名"
                         clearable
                         type="text"
-                        v-model.trim="query.item"
+                        v-model.trim="query.buyerName"
                 />
 
                 <!-- 4 -->
@@ -47,7 +47,7 @@
                     />
                 </van-popup>
                 <!-- 选择地区弹窗 -->
-                <van-field
+             <!--   <van-field
                         readonly
                         clickable
                         :value="area"
@@ -67,7 +67,7 @@
                           @confirm="confirmArea"
                           @cancel="onCancelArea"
                     />
-                </van-popup>
+                </van-popup>-->
 
 
 
@@ -102,7 +102,7 @@
 
         <!-- 详情弹窗 -->
         <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
-            <h4>消费截图</h4>
+            <h4>订单截图</h4>
             <div class="detail-main">
                 <van-row type="flex" justify="space-between" v-for="item in detailList" style="margin-bottom: 10px;">
                     <img :src=item.url style="width: 100%;height:100%" v-if="item.url!=null&&item.url!=''" >
@@ -111,7 +111,7 @@
         </van-popup>
 
         <div class="content">
-            <van-empty image="search" description="暂无消费记录" v-show="showEmpty"/>
+            <van-empty image="search" description="暂无销售记录" v-show="showEmpty"/>
             <div class="list" v-for="item in list" :key="item.id">
                 <van-row style="border-bottom: 1px solid #E6EBF2; padding-bottom: 5px">
                     <van-col span="5">
@@ -124,17 +124,17 @@
                         </p>
                     </van-col>
                     <!--<van-col span="12"><p style="text-align: left">{{item.date}}</p></van-col>-->
-                    <van-col span="20"><p style="text-align: right"><h5>消费时间:{{item.date}}     消费项目：{{item.item}}</h5></p></van-col>
+                    <van-col span="20"><p style="text-align: right"><h5>订单时间:{{item.orderDate}}     订单项目：{{item.product}}</h5></p></van-col>
                 </van-row>
                 <van-row style="padding: 5px 0;">
-                    <van-col span="12"><h4>消费金额</h4></van-col>
-                    <van-col span="12"><h4 style="text-align: right">{{item.price}}</h4></van-col>
+                    <van-col span="12"><h4>利润</h4></van-col>
+                    <van-col span="12"><h4 style="text-align: right">{{item.profit}}</h4></van-col>
                 </van-row>
                 <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;">消费者：{{item.consumer}}  备注：{{item.remark}}</p></van-col>
+                    <van-col span="12"><p style="margin-top: 5px;">姓名：{{item.buyerName}}    销售金额：{{item.sellMoney}}</p></van-col>
                     <van-col span="12" style="text-align: right">
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
-                            消费截图
+                            订单截图
                         </van-button>
                     </van-col>
                 </van-row>
@@ -150,9 +150,9 @@
 <script>
     import moment from 'moment';
     import areaJson from '@/util/area'
-    import {orderList,orderDetail} from "../../api/order";
+    import {taoList,taoDetail} from "../../api/order";
     export default {
-        name: 'order-list',
+        name: 'tao-list',
         data() {
             return {
                 list: [],
@@ -280,13 +280,11 @@
             },
             cancelPopup() {
                 this.show = false;
-                this.query.outTradeNo = '';
-                this.query.wayId = '';
-                this.query.sellerNo = '';
-                this.query.phoneNumber = '';
+                this.query.buyerName = '';
+                this.query.wayIr = '';
                 this.area = '';
                 this.areaCode = ''
-                this.date = '';
+                this.orderDate = '';
                 this.activeState = 0;
                 this.activeType = 0;
             },
@@ -320,18 +318,12 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                if (this.query.item){
-                    params.item = this.query.item;
+                if (this.query.buyerName){
+                    params.buyerName = this.query.buyerName;
                 }
 
 
-                if(this.area != '') {
-                    if(this.query.storeCityCode == '420001') {
-                        params.consumer = this.query.storeProvinceCode
-                    }else {
-                        params.consumer = this.query.storeProvinceCode
-                    }
-                }
+
 
                 if (this.date != '') {
                     params.startTime = this.beginDate;
@@ -343,13 +335,14 @@
                     forbidClick: true,
                     message: '请稍后...',
                 });
-                const result = await orderList(params);
+                const result = await taoList(params);
                 this.$toast.clear();
                 if (result.data.code == '20000') {
                     if(result.data.data.content.length > 0) {
                         this.showEmpty = false;
                         this.list = result.data.data.content;
                         this.pageTotal = result.data.data.totalPages;
+                        this.query.buyerName=''
                     }else {
                         this.showEmpty = true;
                         this.list = [];
@@ -397,7 +390,7 @@
             toDetails: async function(info) {
                 let params = {}
                 params.id = info.id
-                const result = await orderDetail(params)
+                const result = await taoDetail(params)
                 if(result.data.code == '20000') {
                     this.showDetails = true;
                     this.detailList = result.data

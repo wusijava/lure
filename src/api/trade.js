@@ -81,4 +81,8 @@ export async function queryOrder(params){
     const result = await axios.post(api.trade.queryOrder,params);
     return result;
 }
+export async function createSell(params){
+    const result = await axios.post(api.trade.createSell,params);
+    return result;
+}
 

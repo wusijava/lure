@@ -3,13 +3,13 @@
         <van-cell-group>
             </van-field>
             <van-field
-                    v-model.trim="item"
+                    v-model.trim="product"
                     clearable
                     :clickable="false"
-                    placeholder="请填写消费明细"
+                    placeholder="请填写销售项目"
                     input-align="right"
                     label-width="110"
-                    label="消费明细"
+                    label="销售项目"
             >
             </van-field>
             <van-field
@@ -24,15 +24,49 @@
             >
             </van-field>
             <van-field
-                    v-model.trim="price"
+                    v-model.trim="buyerName"
+                    clearable
+                    :clickable="false"
+                    placeholder="顾客姓名"
+                    input-align="right"
+                    label-width="110"
+                    label="顾客姓名"
+            >
+            </van-field>
+            <van-field
+                    v-model.trim="sellMoney"
                     clearable
                     :clickable="false"
                     type="tel"
                     maxlength="11"
-                    placeholder="请填写支出金额"
+                    placeholder="请填写销售金额"
                     input-align="right"
                     label-width="110"
-                    label="支出金额"
+                    label="销售金额"
+            >
+            </van-field>
+            <van-field
+                    v-model.trim="buyMoney"
+                    clearable
+                    :clickable="false"
+                    type="tel"
+                    maxlength="11"
+                    placeholder="请填写购买金额"
+                    input-align="right"
+                    label-width="110"
+                    label="购买金额"
+            >
+            </van-field>
+            <van-field
+                    v-model.trim="refund"
+                    clearable
+                    :clickable="false"
+                    type="tel"
+                    maxlength="11"
+                    placeholder="请填写退款或运费"
+                    input-align="right"
+                    label-width="110"
+                    label="退款或运费"
             >
             </van-field>
             <van-field
@@ -55,8 +89,8 @@
             </van-popup>
 
             <van-cell
-                    v-if="cashier == '选择消费者'"
-                    title="选择消费者"
+                    v-if="cashier == '选择销售渠道'"
+                    title="选择销售渠道"
                     is-link
                     :value="cashier"
                     @click="showCashier">
@@ -90,7 +124,7 @@
         <van-cell-group style="margin-top: 10px" v-if="openImgState == true">
             <van-row type="flex" justify="space-between">
                 <van-col span="10" class="upload-left">
-                    <p class="upload-title">用户图片上传</p>
+                    <p class="upload-title">销售截图上传</p>
                     <van-uploader v-if="signImg != ''"
                                   :before-read="beforeUploadImg"
                                   :after-read="uploadImg"
@@ -123,7 +157,7 @@
         </van-cell-group>
 
         <div class="box2" style="margin: 15px">
-            <van-button class="button" @click="submit" type="info" size="large" :loading="loading">确定新增消费</van-button>
+            <van-button class="button" @click="submit" type="info" size="large" :loading="loading">确定新增销售</van-button>
         </div>
     </div>
 
@@ -141,11 +175,11 @@
     import Vue from "vue";
     import {ImagePreview} from "vant";
     Vue.use(ImagePreview);
-    import {createOrder} from '../../api/trade'
+    import {createSell} from '../../api/trade'
     import {getUploadToken} from "../../api/upload";
 
     export default {
-        name: "create",
+        name: "taoBao",
         data() {
             return {
                 minDate: new Date(),
@@ -155,23 +189,26 @@
                 showForm: true,
                 detail: {},
                 remark: '',
-                item: '',
-                price: '',
-                consumer: '',
-                customerName: '',
-                customerPhone: '',
+                orderDate: '',
+                myOrderNo: '',
+                buyMoney: '',
+                sellMoney: '',
+                product: '',
+                myOrderNo: '',
+                buyerName: '',
                 customerCertNo: '',
                 showPicker: false,
-                cashier: '选择消费者',
+                cashier: '选择销售渠道',
                 cashierCode: '',
                 url: '',
-                cashierList:  [{id: 1, name: "吴思"}, {id: 2, name: "张明霞"}, {id: 3, name: "吴艺橙"}, {id: 4, name: "小力"}, {id: 5, name: "家庭"}, {id: 6, name: "其他"}],
+                cashierList:  [{id: 1, name: "淘宝"}, {id: 2, name: "微信"}, {id: 3, name: "其他"}],
                 tradeNo: '',
                 newDate: (new Date()).valueOf(),
                 openImgState: true,
                 signImg: [],
                 date: '',
                 beginDate: '',
+                refund: ''
             }
         },
         mounted() {
@@ -191,7 +228,7 @@
                 this.showStartDate = false;
                 this.beginDate = moment(startDate).format('YYYY-MM-DD');
                 console.log(this.beginDate )
-                this.date = this.beginDate
+                this.orderDate = this.beginDate
                 //this.onEndDate();
             }
         ,
@@ -309,28 +346,35 @@
             },
             onConfirm(value) {
                 this.cashier = value.name;
-                this.consumer = value.name;
+                this.myOrderNo = value.name;
                 this.showPicker = false;
             },
             async submit() {
                 let params = {};
-                if(this.item == '' || this.item == null) {
+                if(this.product == '' || this.product == null) {
                     this.$toast({
-                        message: '消费项目不能为空',
+                        message: '销售项目不能为空',
                         icon: 'warning-o'
                     });
                     return;
                 }
-                if(this.price == '' || this.price == null) {
+                if(this.sellMoney == '' || this.sellMoney == null) {
                     this.$toast({
                         message: '消费价格不能为空',
                         icon: 'warning-o'
                     });
                     return;
                 }
-                if(this.consumer == '' || this.consumer == null) {
+                if(this.buyerName == '' || this.buyerName == null) {
                     this.$toast({
-                        message: '消费者不能为空',
+                        message: '顾客姓名不能为空',
+                        icon: 'warning-o'
+                    });
+                    return;
+                }
+                if(this.buyMoney == '' || this.buyMoney == null) {
+                    this.$toast({
+                        message: '购买价格不能为空',
                         icon: 'warning-o'
                     });
                     return;
@@ -346,14 +390,17 @@
                     }
                     params.url = this.signImg
                 }
-                params.remark=this.remark
-                params.date=this.beginDate
-                params.item = this.item
-                params.price = this.price
-                params.consumer = this.consumer
-                const result = await createOrder(params)
+                params.product=this.product
+                params.refund=this.refund
+                params.buyMoney = this.buyMoney
+                params.buyerName = this.buyerName
+                params.orderDate = this.orderDate
+                params.remark = this.remark
+                params.sellMoney = this.sellMoney
+                params.myOrderNo=this.myOrderNo
+                const result = await createSell(params)
                 if(result.data.code == '20000') {
-                    this.$router.push({name:'orderList'});
+                    this.$router.push({name:'tao-list'});
                 }else{
                     this.$toast({
                         message: result.data.msg,
