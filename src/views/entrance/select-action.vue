@@ -13,11 +13,11 @@
             </div>
             <div>
                 <div class="module" style="margin-right: 25px" @click="toRefund">
-                    <img src="../../../src/assets/img/icon_refund@2x.png"/>
+                    <img src="../../../src/assets/img/icon_receive@2x.png"/>
                     <p>销售记录</p>
                 </div>
                 <div class="module" @click="spend">
-                    <img src="../../../src/assets/img/icon_inquire@2x.png"/>
+                    <img src="../../../src/assets/img/icon_pay@2x.png"/>
                     <p>消费记录</p>
                 </div>
             </div>
