@@ -14,6 +14,10 @@ export async function taoDetail(params){
     const result = await axios.post(api.order.taoDetail,params);
     return result;
 }
+export async function orderList(params){
+    const result = await axios.post(api.order.orderList,params);
+    return result;
+}
 
 
 

@@ -16,7 +16,7 @@
                     <img src="../../../src/assets/img/icon_refund@2x.png"/>
                     <p>销售记录</p>
                 </div>
-                <div class="module" @click="toSearch(2)">
+                <div class="module" @click="spend">
                     <img src="../../../src/assets/img/icon_inquire@2x.png"/>
                     <p>消费记录</p>
                 </div>
@@ -54,10 +54,13 @@
                 this.$router.push({name:'taoBao'});
             },
             toRefund() {
-                this.$router.push({name:'refundQuery'});
+                this.$router.push({name:'tao-list'});
             },
             toSearch(info) {
                 this.$router.push({name:'login', query:{type: info}});
+            },
+            spend(){
+                this.$router.push({name:'orderList'});
             }
         }
     }

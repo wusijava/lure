@@ -24,7 +24,7 @@ const method = {
         queryTradeState: 'refund/queryTradeState'
     },
     order:{
-        list: 'spendList',
+        orderList: 'spendList',
         detail: 'spendDetail',
         taoList: 'logList',
         taoDetail: 'logDetail'
