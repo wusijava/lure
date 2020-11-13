@@ -73,7 +73,7 @@
                     readonly
                     clickable
                     name="datetimePicker"
-                    :value="date"
+                    :value="orderDate"
                     placeholder="请选择时间"
                     @click="showStartDate = true"
             />

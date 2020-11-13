@@ -43,7 +43,7 @@
                     placeholder="请选择时间"
                     @click="showStartDate = true"
             />
-            <van-popup v-model="showStartDate" position="bottom">
+           <!-- <van-popup v-model="showStartDate" position="bottom">
                 <van-datetime-picker
                         title="选择时间"
                         type="date"
@@ -52,7 +52,7 @@
                         @confirm="onConfirmDate"
                         @cancel="onCancelDate"
                 />
-            </van-popup>
+            </van-popup>-->
 
             <van-cell
                     v-if="cashier == '选择消费者'"
@@ -90,7 +90,7 @@
         <van-cell-group style="margin-top: 10px" v-if="openImgState == true">
             <van-row type="flex" justify="space-between">
                 <van-col span="10" class="upload-left">
-                    <p class="upload-title">用户图片上传</p>
+                    <p class="upload-title">消费截图上传</p>
                     <van-uploader v-if="signImg != ''"
                                   :before-read="beforeUploadImg"
                                   :after-read="uploadImg"
@@ -177,6 +177,7 @@
         mounted() {
             this.detail = JSON.parse(localStorage.getItem('info'))
             //this.getOpenImgState()
+            this.date=moment(new Date()).format('YYYY-MM-DD');
         },
         methods: {
             //校验文件大小是否超出限制
