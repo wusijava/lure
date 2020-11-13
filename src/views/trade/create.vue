@@ -42,6 +42,7 @@
                     :value="date"
                     placeholder="请选择时间"
                     @click="showStartDate = true"
+                    label="消费时间"
             />
            <!-- <van-popup v-model="showStartDate" position="bottom">
                 <van-datetime-picker
@@ -348,7 +349,7 @@
                     params.url = this.signImg
                 }
                 params.remark=this.remark
-                params.date=this.beginDate
+                params.date=this.date
                 params.item = this.item
                 params.price = this.price
                 params.consumer = this.consumer
