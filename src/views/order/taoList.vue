@@ -152,7 +152,7 @@
     import areaJson from '@/util/area'
     import {taoList,taoDetail} from "../../api/order";
     export default {
-        name: 'tao-list',
+        name: 'taoList',
         data() {
             return {
                 list: [],

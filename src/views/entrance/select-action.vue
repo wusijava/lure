@@ -54,7 +54,7 @@
                 this.$router.push({name:'taoBao'});
             },
             toRefund() {
-                this.$router.push({name:'tao-list'});
+                this.$router.push({name:'taoList'});
             },
             toSearch(info) {
                 this.$router.push({name:'login', query:{type: info}});

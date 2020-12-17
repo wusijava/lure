@@ -13,6 +13,10 @@ Vue.use(vueEsign)
 
 const whiteList = [
     '/login',
+    '/order/list',
+    '/trade/create',
+    '/trade/taobao',
+    '/order/taoList',
     '/entrance/select-action',
     '/merchant',
     '/merchant/service-agreement',

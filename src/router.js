@@ -138,7 +138,7 @@ export default new Router({
         ,
         {
             path: '/order/taoList',
-            name: 'tao-list',
+            name: 'taoList',
             component: () => import('./views/order/taoList.vue'),
             meta: {
                 title: '销售列表'
