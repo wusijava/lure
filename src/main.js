@@ -15,20 +15,10 @@ const whiteList = [
     '/login',
     '/order/list',
     '/trade/create',
-    '/trade/taobao',
+    '/trade/taoBao',
     '/order/taoList',
     '/entrance/select-action',
-    '/merchant',
-    '/merchant/service-agreement',
-    '/merchant/success',
-    '/refund',
-    '/refund/refund-query',
-    '/refund/refund-confirm',
-    '/trade/payment-agreement',
-    '/trade/fail',
-    '/trade/success',
-    '/refund/success',
-    '/auth/error'
+    '/order/order-list'
 ]
 
 router.beforeEach((to, from, next) => {
@@ -45,7 +35,7 @@ router.beforeEach((to, from, next) => {
         if (token) {
             next()
         } else {
-            router.push({name:'selectAction'})
+            router.push({name:'login'})
         }
     }
 })

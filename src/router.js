@@ -47,92 +47,13 @@ export default new Router({
                 title: '小柠檬之家'
             }
         },
-        {
-            path: '/merchant',
-            name: 'merchantIndex',
-            component: () => import('./views/merchant/index.vue'),
-            meta: {
-                title: '商户签约'
-            }
-        },
-        {
-            path: '/merchant/service-agreement',
-            name: 'serviceAgreement',
-            component: () => import('./views/merchant/service-agreement.vue'),
-            meta: {
-                title: '服务协议'
-            }
-        },
-        {
-            path: '/merchant/success',
-            name: 'merchantSuccess',
-            component: () => import('./views/merchant/success.vue'),
-            meta: {
-                title: '注册成功'
-            }
-        },
-        {
-            path: '/trade',
-            name: 'tradeIndex',
-            component: () => import('./views/trade/index.vue'),
-            meta: {
-                title: '业务办理'
-            }
-        },
+
         {
             path: '/trade/create',
             name: 'create',
             component: () => import('./views/trade/create.vue'),
             meta: {
                 title: '新增消费'
-            }
-        },
-        {
-            path: '/trade/pay',
-            name: 'pay',
-            component: () => import('./views/trade/pay.vue'),
-            meta: {
-                title: '订单支付'
-            }
-        },
-        {
-            path: '/trade/payment-agreement',
-            name: 'paymentAgreement',
-            component: () => import('./views/trade/payment-agreement.vue'),
-            meta: {
-                title: '支付协议'
-            }
-        },
-        {
-            path: '/refund/refund-query',
-            name: 'refundQuery',
-            component: () => import('./views/refund/refund-query.vue'),
-            meta: {
-                title: '退款查询'
-            }
-        },
-        {
-            path: '/refund/refund-confirm',
-            name: 'refundConfirm',
-            component: () => import('./views/refund/refund-confirm.vue'),
-            meta: {
-                title: '退款查询'
-            }
-        },
-        {
-            path: '/refund',
-            name: 'refund',
-            component: () => import('./views/refund/refund.vue'),
-            meta: {
-                title: '订单退款'
-            }
-        },
-        {
-            path: '/order/list',
-            name: 'orderList',
-            component: () => import('./views/order/list.vue'),
-            meta: {
-                title: '消费列表'
             }
         }
         ,
@@ -154,36 +75,12 @@ export default new Router({
             }
         },
         {
-            path:'/trade/fail',
-            name:'authFail',
-            component:() => import('./views/trade/auth-fail.vue'),
+            path: '/order/list',
+            name: 'orderList',
+            component: () => import('./views/order/list.vue'),
             meta: {
-                title: '收款失败'
+                title: '消费列表'
             }
-        },
-        {
-            path:'/trade/success',
-            name:'authSuccess',
-            component:() => import('./views/trade/auth-success.vue'),
-            meta: {
-                title: '授权成功'
-            }
-        },
-        {
-            path:'/refund/success',
-            name:'refundSuccess',
-            component:() => import('./views/refund/refund-success.vue'),
-            meta: {
-                title: '退款成功'
-            }
-        },
-        {
-            path:'/auth/error',
-            name:'error',
-            component:() => import('./views/refund/error.vue'),
-            meta: {
-                title: '冻结失败'
-            }
-        },
+        }
     ]
 })

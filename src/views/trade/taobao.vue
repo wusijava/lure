@@ -400,7 +400,7 @@
                 params.myOrderNo=this.myOrderNo
                 const result = await createSell(params)
                 if(result.data.code == '20000') {
-                    this.$router.push({name:'tao-list'});
+                    this.$router.push({name:'taoList'});
                 }else{
                     this.$toast({
                         message: result.data.msg,

@@ -21,6 +21,16 @@
                     <p>消费记录</p>
                 </div>
             </div>
+           <!-- <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="toSearch">
+                    <img src="../../../src/assets/img/icon_order@2x.png"/>
+                    <p>用户登录</p>
+                </div>
+                <div class="module" @click="toSign">
+                    <img src="../../../src/assets/img/icon_sign@2x.png"/>
+                    <p>新增消费</p>
+                </div>
+            </div>-->
         </div>
     </div>
 </template>
@@ -56,8 +66,9 @@
             toRefund() {
                 this.$router.push({name:'taoList'});
             },
-            toSearch(info) {
-                this.$router.push({name:'login', query:{type: info}});
+            toSearch() {
+                console.log(1145)
+                this.$router.push({name:'login'});
             },
             spend(){
                 this.$router.push({name:'orderList'});
