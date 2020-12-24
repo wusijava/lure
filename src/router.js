@@ -90,5 +90,22 @@ export default new Router({
                 title: '商品状态'
             }
         }
+        ,
+        {
+            path: '/homework/addHomework',
+            name: 'addHomework',
+            component: () => import('./views/homework/add.vue'),
+            meta: {
+                title: '添加作业'
+            }
+        },
+        {
+            path: '/homework/homeworkList',
+            name: 'homeworkList',
+            component: () => import('./views/homework/homework-list.vue'),
+            meta: {
+                title: '添加作业'
+            }
+        }
     ]
 })

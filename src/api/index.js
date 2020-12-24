@@ -34,5 +34,9 @@ const method = {
     upload:{
         getUploadToken:'/upload/getToken'
     },
+    homework:{
+        addHomework:'/api/addHomework',
+        homeworkList:'/api/homeworkList'
+    }
 }
 export default method;

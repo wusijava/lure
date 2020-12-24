@@ -31,6 +31,16 @@
                     <p>商品状态</p>
                 </div>
             </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="homework">
+                    <img src="../../../src/assets/img/book.png"/>
+                    <p>添加作业</p>
+                </div>
+                <div class="module" @click="homeworkList">
+                    <img src="../../../src/assets/img/dog.png"/>
+                    <p>作业记录</p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -75,6 +85,12 @@
             },
             proState(){
                 this.$router.push({name:'productState'});
+            },
+            homework(){
+                this.$router.push({name:'addHomework'});
+            },
+            homeworkList(){
+                this.$router.push({name:'homeworkList'});
             }
         }
     }
