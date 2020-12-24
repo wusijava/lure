@@ -69,13 +69,13 @@
             }
             let token = localStorage.getItem('login_token');
             if(token){
-                if(this.$route.query.type == 1) {
-                    this.$router.push({name:'tradeIndex'})
-                }else if(this.$route.query.type == 2) {
-                    this.$router.push({name:'orderList'})
-                }else{
-                    this.$router.push({name:'selectAction'})
-                }
+                // if(this.$route.query.type == 1) {
+                //     this.$router.push({name:'tradeIndex'})
+                // }else if(this.$route.query.type == 2) {
+                //     this.$router.push({name:'orderList'})
+                // }else{
+                //     this.$router.push({name:'selectAction'})
+                // }
             }
         },
         methods: {
@@ -93,12 +93,7 @@
                         if(json.data.code === '20000') {
                             localStorage.setItem('login_token', json.headers.authorization);
                             localStorage.setItem('username', json.data.data.username);
-                            if(this.$route.query.type == 1) {
-                                this.$router.push({name:'tradeIndex'})
-                            }
-                            if(this.$route.query.type == 2) {
-                                this.$router.push({name:'orderList'})
-                            }
+                            this.$router.push({name:'orderList'})
                         }else {
                             this.infoShow = true
                             this.$dialog.alert({

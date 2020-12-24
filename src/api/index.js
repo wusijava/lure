@@ -27,7 +27,8 @@ const method = {
         orderList: 'spendList',
         detail: 'spendDetail',
         taoList: 'logList',
-        taoDetail: 'logDetail'
+        taoDetail: 'logDetail',
+        showProductState: '/product/showProductState'
 
     },
     upload:{

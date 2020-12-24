@@ -81,6 +81,14 @@ export default new Router({
             meta: {
                 title: '消费列表'
             }
+        },
+        {
+            path: '/product/productState',
+            name: 'productState',
+            component: () => import('./views/product/product-state.vue'),
+            meta: {
+                title: '商品状态'
+            }
         }
     ]
 })

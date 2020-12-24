@@ -21,16 +21,16 @@
                     <p>消费记录</p>
                 </div>
             </div>
-           <!-- <div style="margin-top: 25px">
+            <div style="margin-top: 25px">
                 <div class="module" style="margin-right: 25px" @click="toSearch">
                     <img src="../../../src/assets/img/icon_order@2x.png"/>
                     <p>用户登录</p>
                 </div>
-                <div class="module" @click="toSign">
+                <div class="module" @click="proState">
                     <img src="../../../src/assets/img/icon_sign@2x.png"/>
-                    <p>新增消费</p>
+                    <p>商品状态</p>
                 </div>
-            </div>-->
+            </div>
         </div>
     </div>
 </template>
@@ -67,11 +67,14 @@
                 this.$router.push({name:'taoList'});
             },
             toSearch() {
-                console.log(1145)
+                console.log("login")
                 this.$router.push({name:'login'});
             },
             spend(){
                 this.$router.push({name:'orderList'});
+            },
+            proState(){
+                this.$router.push({name:'productState'});
             }
         }
     }

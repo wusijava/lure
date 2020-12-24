@@ -18,6 +18,10 @@ export async function orderList(params){
     const result = await axios.post(api.order.orderList,params);
     return result;
 }
+export async function showProductState(params){
+    const result = await axios.post(api.order.showProductState,params);
+    return result;
+}
 
 
 
