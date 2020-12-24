@@ -254,7 +254,7 @@
         },
         mounted() {
             this.getList(this.currentPage - 1, 10);
-            if(ap) {
+       /*     if(ap) {
                 ap.setOptionButton({
                     items: [{
                         title: '切换账号'
@@ -272,7 +272,7 @@
                         });
                     }
                 });
-            }
+            }*/
         },
         methods: {
             showPopup() {

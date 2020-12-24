@@ -6,9 +6,9 @@
     export default {
         name: "logout",
         mounted() {
-            if(ap){
+            /*if(ap){
                 ap.showLoading();
-            }
+            }*/
             let query = this.$route.query;
             localStorage.clear();
             setTimeout(()=>{

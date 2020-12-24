@@ -13,12 +13,8 @@ Vue.use(vueEsign)
 
 const whiteList = [
     '/login',
-    '/order/list',
-    '/trade/create',
-    '/trade/taoBao',
-    '/order/taoList',
     '/entrance/select-action',
-    '/order/order-list'
+
 ]
 
 router.beforeEach((to, from, next) => {
@@ -40,9 +36,9 @@ router.beforeEach((to, from, next) => {
     }
 })
 router.afterEach((to,from)=>{
-    if(ap) {
+    /*if(ap) {
         ap.setNavigationBar(to.meta.title);
-    }
+    }*/
 })
 
 new Vue({
