@@ -3,31 +3,31 @@
         <div class="content">
             <div style="margin-bottom: 25px">
                 <div class="module" style="margin-right: 25px" @click="toBusiness(1)">
-                    <img src="../../../src/assets/img/icon_order@2x.png"/>
+                    <img src="../../../src/assets/img/gu.png"/>
                     <p>新增销售</p>
                 </div>
                 <div class="module" @click="toSign">
-                    <img src="../../../src/assets/img/icon_sign@2x.png"/>
+                    <img src="../../../src/assets/img/jita.png"/>
                     <p>新增消费</p>
                 </div>
             </div>
             <div>
                 <div class="module" style="margin-right: 25px" @click="toRefund">
-                    <img src="../../../src/assets/img/icon_receive@2x.png"/>
+                    <img src="../../../src/assets/img/jiat2.png"/>
                     <p>销售记录</p>
                 </div>
                 <div class="module" @click="spend">
-                    <img src="../../../src/assets/img/icon_pay@2x.png"/>
+                    <img src="../../../src/assets/img/mai.png"/>
                     <p>消费记录</p>
                 </div>
             </div>
             <div style="margin-top: 25px">
                 <div class="module" style="margin-right: 25px" @click="toSearch">
-                    <img src="../../../src/assets/img/icon_order@2x.png"/>
+                    <img src="../../../src/assets/img/bf2.png"/>
                     <p>用户登录</p>
                 </div>
                 <div class="module" @click="proState">
-                    <img src="../../../src/assets/img/icon_sign@2x.png"/>
+                    <img src="../../../src/assets/img/gu2.png"/>
                     <p>商品状态</p>
                 </div>
             </div>
