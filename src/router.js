@@ -104,7 +104,7 @@ export default new Router({
             name: 'homeworkList',
             component: () => import('./views/homework/homework-list.vue'),
             meta: {
-                title: '添加作业'
+                title: '添加记录'
             }
         }
     ]

@@ -353,7 +353,7 @@
                 params.content=this.content
                 const result = await addHomework(params)
                 if(result.data.code == '20000') {
-                    this.$router.push({name:'addHomework'});
+                    this.$router.push({name:'homeworkList'});
                 }else{
                     this.$toast({
                         message: result.data.msg,
