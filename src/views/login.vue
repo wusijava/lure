@@ -1,5 +1,9 @@
 <template>
     <div class="box">
+        <van-notice-bar
+                left-icon="volume-o"
+                text="使用过程中,遇到任何问题,请联系开发人员:吴思,联系电话:18602702325"
+        />
         <div class="content">
             <h3>小柠檬快乐之家</h3>
             <van-form @submit="toLogin" class="login">
@@ -69,7 +73,7 @@
             }*/
             let token = localStorage.getItem('login_token');
             if(token){
-                this.$router.push({name:'taoList'})
+                this.$router.push({name:'selectAction'})
 
             }
         },
@@ -88,7 +92,7 @@
                         if(json.data.code === '20000') {
                             localStorage.setItem('login_token', json.headers.authorization);
                             localStorage.setItem('username', json.data.data.username);
-                            this.$router.push({name:'orderList'})
+                            this.$router.push({name:'selectAction'})
                         }else {
                             this.infoShow = true
                             this.$dialog.alert({

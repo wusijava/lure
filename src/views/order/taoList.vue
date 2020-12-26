@@ -1,5 +1,9 @@
 <template>
     <div class="box">
+        <van-notice-bar
+                left-icon="volume-o"
+                text="使用过程中,遇到任何问题,请联系开发人员:吴思,联系电话:18602702325"
+        />
         <div class="header">
             <van-button icon="filter-o" type="info" block size="small" @click="showPopup" class="filter-head">筛选</van-button>
         </div>

@@ -1,5 +1,9 @@
 <template>
     <div class="box" v-if="showForm===true">
+        <van-notice-bar
+                left-icon="volume-o"
+                text="使用过程中,遇到任何问题,请联系开发人员:吴思,联系电话:18602702325"
+        />
         <van-cell-group>
 
 
@@ -182,7 +186,7 @@
                 cashier: '选择学科',
                 cashierCode: '',
                 url: '',
-                cashierList:  [{id: 1, name: "语文"}, {id: 2, name: "数学"}, {id: 3, name: "英语"}, {id: 4, name: "其他"}],
+                cashierList:  [{id: 1, name: "语文"}, {id: 2, name: "数学"}, {id: 3, name: "英语"}, {id: 4, name: "舞蹈"}, {id: 5, name: "其他"}],
                 tradeNo: '',
                 newDate: (new Date()).valueOf(),
                 openImgState: true,

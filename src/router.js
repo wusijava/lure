@@ -106,6 +106,14 @@ export default new Router({
             meta: {
                 title: '添加记录'
             }
+        },
+        {
+            path: '/product/monitor',
+            name: 'monitor',
+            component: () => import('./views/product/monitor.vue'),
+            meta: {
+                title: '监控记录'
+            }
         }
     ]
 })

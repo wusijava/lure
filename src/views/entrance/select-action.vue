@@ -1,5 +1,9 @@
 <template>
     <div class="box">
+        <van-notice-bar
+                left-icon="volume-o"
+                text="使用过程中,遇到任何问题,请联系开发人员:吴思,联系电话:18602702325"
+        />
         <div class="content">
             <div style="margin-bottom: 25px">
                 <div class="module" style="margin-right: 25px" @click="toBusiness(1)">
@@ -35,6 +39,16 @@
                 <div class="module" style="margin-right: 25px" @click="homework">
                     <img src="../../../src/assets/img/book.png"/>
                     <p>添加作业</p>
+                </div>
+                <div class="module" @click="homeworkList">
+                    <img src="../../../src/assets/img/dog.png"/>
+                    <p>作业记录</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="monitor">
+                    <img src="../../../src/assets/img/jk.png"/>
+                    <p>监控记录</p>
                 </div>
                 <div class="module" @click="homeworkList">
                     <img src="../../../src/assets/img/dog.png"/>
@@ -91,6 +105,9 @@
             },
             homeworkList(){
                 this.$router.push({name:'homeworkList'});
+            },
+            monitor(){
+                this.$router.push({name:'monitor'});
             }
         }
     }

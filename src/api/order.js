@@ -22,6 +22,11 @@ export async function showProductState(params){
     const result = await axios.post(api.order.showProductState,params);
     return result;
 }
-
-
-
+export async function monitorRecord(params){
+    const result = await axios.post(api.order.monitorRecord,params);
+    return result;
+}
+export async function changeState(params){
+    const result = await axios.post(api.order.changeState,params);
+    return result;
+}

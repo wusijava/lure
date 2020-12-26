@@ -1,5 +1,9 @@
 <template>
     <div class="box" v-if="showForm===true">
+        <van-notice-bar
+                left-icon="volume-o"
+                text="使用过程中,遇到任何问题,请联系开发人员:吴思,联系电话:18602702325"
+        />
         <van-cell-group>
             </van-field>
             <van-field
