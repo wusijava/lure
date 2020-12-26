@@ -49,7 +49,7 @@
 
 <script>
     import {login} from '../api/user'
-
+    import { Dialog } from 'vant';
     export default {
         name: 'login',
         data() {
@@ -61,18 +61,14 @@
             }
         },
         mounted() {
-          /*  if(ap) {
-                //隐藏右上角按钮
-                ap.hideOptionButton();
 
-                if(this.$route.query.type == 1) {
-                    ap.setNavigationBar('办单登录');
-                }else if(this.$route.query.type == 2) {
-                    ap.setNavigationBar('订单查询');
-                }
-            }*/
             let token = localStorage.getItem('login_token');
             if(token){
+                Dialog.alert({
+                    message: '已是登录状态',
+                    theme: 'round-button',
+                }).then(() => {
+                });
                 this.$router.push({name:'selectAction'})
 
             }
@@ -92,6 +88,7 @@
                         if(json.data.code === '20000') {
                             localStorage.setItem('login_token', json.headers.authorization);
                             localStorage.setItem('username', json.data.data.username);
+                            localStorage.setItem("num",1);
                             this.$router.push({name:'selectAction'})
                         }else {
                             this.infoShow = true
