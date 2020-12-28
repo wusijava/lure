@@ -75,18 +75,6 @@
 
 
 
-<!--                <div class="radio">-->
-<!--                    <p>请选择业务类型</p>-->
-<!--                    <div class="radio-check" v-for="(item,index) in bizTypeList" :key="item.type"-->
-<!--                         :class="activeType==index ? 'activeClass' : '' ">-->
-<!--                        <input type="radio" name="num"-->
-<!--                               :value="item.bizType"-->
-<!--                               @click="changeType(index,item.type)"-->
-<!--                        >-->
-<!--                        <label>{{item.bizType}}</label>-->
-<!--                    </div>-->
-<!--                </div>-->
-
                 <div class="search">
                     <van-row>
                         <van-col span="10">
@@ -117,17 +105,8 @@
         <div class="content">
             <van-empty image="search" description="暂无消费记录" v-show="showEmpty"/>
             <div class="list" v-for="item in list" :key="item.id">
+            <van-swipe-cell :before-close="beforeClose">
                 <van-row style="border-bottom: 1px solid #E6EBF2; padding-bottom: 5px">
-                    <van-col span="5">
-                        <p :class="{
-                            'color-1':item.state===0,
-                            'color-2':item.state===1,
-                            'color-3':item.state===2,
-                            'color-4':item.state===3}">
-                            {{item.stateStr}}
-                        </p>
-                    </van-col>
-                    <!--<van-col span="12"><p style="text-align: left">{{item.date}}</p></van-col>-->
                     <van-col span="20"><p style="text-align: right"><h5>消费时间:{{item.date}}     消费项目：{{item.item}}</h5></p></van-col>
                 </van-row>
                 <van-row style="padding: 5px 0;">
@@ -142,6 +121,10 @@
                         </van-button>
                     </van-col>
                 </van-row>
+                <template #right>
+                    <van-button square type="danger" text="删除" style="margin-top: 45px;margin-left: 10px" @click="cl(item.id)"/>
+                </template>
+            </van-swipe-cell>
             </div>
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
         </div>
@@ -154,7 +137,14 @@
 <script>
     import moment from 'moment';
     import areaJson from '@/util/area'
-    import {orderList,orderDetail} from "../../api/order";
+    import Vue from 'vue';
+    import { Dialog } from 'vant';
+    import { SwipeCell } from 'vant';
+    Vue.use(SwipeCell);
+    import { Notify } from 'vant';
+    import { PullRefresh } from 'vant';
+    Vue.use(PullRefresh);
+    import {orderList,orderDetail,deleteRow} from "../../api/order";
     export default {
         name: 'order-list',
         data() {
@@ -177,55 +167,6 @@
                 areaList: areaJson,
                 area: '',
                 areaCode: '',
-                stateList:[
-                    {
-                        id: 1,
-                        state: '',
-                        stateStr: '全部'
-                    },
-                    {
-                        id: 2,
-                        state: 0,
-                        stateStr: '待支付'
-                    },
-                    {
-                        id: 3,
-                        state: 1,
-                        stateStr: '交易完成'
-                    },
-                    {
-                        id: 4,
-                        state: 2,
-                        stateStr: '交易退款'
-                    },
-                    {
-                        id: 5,
-                        state: 3,
-                        stateStr: '退款中'
-                    },
-                    {
-                        id: 6,
-                        state: -1,
-                        stateStr: '交易关闭'
-                    }
-                ],
-                bizTypeList: [
-                    {
-                        id: 1,
-                        type: 0,
-                        bizType: '全部'
-                    },
-                    {
-                        id: 2,
-                        type: 1,
-                        bizType: '和分期'
-                    },
-                    {
-                        id: 3,
-                        type: 2,
-                        bizType: '物联网卡'
-                    }
-                ],
                 activeState: 0,
                 state: 0,
                 activeType: 0,
@@ -253,34 +194,20 @@
                     storeCounty: '',//区
                     storeCountyCode: '',
                 },
-                showEmpty: false
+                showEmpty: false,
+                rowId: '',
+                isLoading :false
             }
         },
         mounted() {
             this.getList(this.currentPage - 1, 10);
-         /*   if(ap) {
-                ap.setOptionButton({
-                    items: [{
-                        title: '切换账号'
-                    }],
-                    onClick: (data)=>{
-                        ap.confirm({
-                            title: '温馨提示',
-                            content: '是否确认切换账号？',
-                            confirmButtonText: '确认',
-                            cancelButtonText: '取消'
-                        }, function(result){
-                            if(result.confirm === true) {
-                                window.location.href = "/h5/logout?type=2"
-                            }
-                        });
-                    }
-                });
-            }*/
         },
         methods: {
             showPopup() {
                 this.show = true;
+            },
+            cl(id){
+                this.rowId=id
             },
             cancelPopup() {
                 this.show = false;
@@ -414,7 +341,35 @@
             },
             back(){
                 this.$router.push({name:'selectAction'});
-            }
+            },
+            beforeClose({ position, instance }) {
+                switch (position) {
+                    case 'right':
+                        Dialog.confirm({
+                            message: '确定删除吗？',
+                        }).then(() => {
+                            instance.close();
+                            let query = {}
+                            query.id = this.rowId
+                            deleteRow(query)
+                            Notify({
+                                message: '删除成功了,伙计!',
+                                color: '#ad0000',
+                                background: '#ffe1e1',
+                                duration: 2000,
+                            });
+                            this.getList(this.currentPage - 1, 10);
+                        });
+                        break;
+                }
+            },
+            onRefresh() {
+                console.log(666)
+                setTimeout(() => {
+                    Toast('刷新成功');
+                    this.isLoading = false;
+                }, 1000);
+            },
         }
     }
 </script>

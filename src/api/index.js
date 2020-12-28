@@ -30,7 +30,8 @@ const method = {
         taoDetail: 'logDetail',
         showProductState: '/product/showProductState',
         monitorRecord: '/product/monitorRecord',
-        changeState: '/product/changeState'
+        changeState: '/product/changeState',
+        deleteRow: '/spendDel'
 
     },
     upload:{

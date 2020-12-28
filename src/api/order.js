@@ -30,3 +30,7 @@ export async function changeState(params){
     const result = await axios.post(api.order.changeState,params);
     return result;
 }
+export async function deleteRow(params){
+    const result = await axios.post(api.order.deleteRow,params);
+    return result;
+}
