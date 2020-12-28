@@ -49,12 +49,23 @@
             <div style="margin-top: 25px">
 
                 <div class="module" style="margin-right: 25px" @click="toSearch">
-                    <img src="../../../src/assets/img/bf2.png"/>
+                    <img src="../../../src/assets/img/Guitar.png"/>
                     <p>用户登录</p>
                 </div>
                 <div class="module" @click="logout">
                     <img src="../../../src/assets/img/ex.png"/>
                     <p>退出系统</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+
+                <div class="module" style="margin-right: 25px" @click="register">
+                    <img src="../../../src/assets/img/dy.png"/>
+                    <p>用户注册</p>
+                </div>
+                <div class="module" @click="register">
+                    <img src="../../../src/assets/img/qd.png"/>
+                    <p>敬请期待</p>
                 </div>
             </div>
         </div>
@@ -67,11 +78,10 @@
         />
         <!--<van-cell is-link @click="showPopup">展示弹出层</van-cell>-->
         <van-popup v-model="show">
-            <div>评分:
-                <van-rate v-model="value" v-show="showRate" @click.native="rateChange":size="25"
-                          color="#ffd21e"
-                          void-icon="star"
-                          void-color="#eee"/>
+            <div>请对开发人员颜值评分:</div>
+            <div >
+                <van-rate v-model="value" v-show="showRate" @click.native="rateChange"
+                          icon="like" void-icon="like-o" size="40px"/>
             </div>
 
 
@@ -99,7 +109,7 @@
         name: "selectAction",
         data(){
             return{
-                value: 3,
+                value: 0,
                 showRate: true,
                 appId: '',
                 indexData:[],
@@ -194,7 +204,7 @@
                                 toast.message = `正在启动手机爆炸程序!`;
                             }
                             if(second==1){
-                                toast.message = `再给你一次机会!!`;
+                                toast.message = `有缘再见!`;
                             }
 
                         } else {
@@ -205,8 +215,17 @@
                         }
                     }, 1000);
                 }else {
+                    localStorage.setItem("num",this.num+1);
                     this.show =false
                 }
+            },
+            register(){
+                Dialog.alert({
+                    //title: '标题',
+                    message: '不要点了 还没时间做!',
+                    theme: 'round-button',
+                }).then(() => {
+                });
             }
         }
     }
