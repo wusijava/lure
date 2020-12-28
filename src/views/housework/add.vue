@@ -115,8 +115,9 @@
                     this.date=''
                     this.user=''
                 } else {
-                    this.$dialog.alert({
+                    Notify({
                         message: data.msg,
+                        duration: 5000,
                     });
                 }
 
@@ -138,7 +139,6 @@
                 this.userShow=false
             },
             userOpen(){
-                console.log("fdfdf")
                 this.userShow=true
             }
         }
