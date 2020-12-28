@@ -115,5 +115,30 @@ export default new Router({
                 title: '监控记录'
             }
         }
+        ,
+        {
+            path: '/housework/add',
+            name: 'houseworkAdd',
+            component: () => import('./views/housework/add.vue'),
+            meta: {
+                title: '家务安排'
+            }
+        },
+        {
+            path: '/housework/myTask',
+            name: 'myTask',
+            component: () => import('./views/housework/my.vue'),
+            meta: {
+                title: '我的任务'
+            }
+        },
+        {
+            path: '/housework/toTask',
+            name: 'toTask',
+            component: () => import('./views/housework/to.vue'),
+            meta: {
+                title: '我的安排'
+            }
+        }
     ]
 })

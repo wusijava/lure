@@ -1,3 +1,5 @@
+import {addHouseWork} from "./homework";
+
 const method = {
     user:{
         login: '/login',
@@ -31,7 +33,10 @@ const method = {
         showProductState: '/product/showProductState',
         monitorRecord: '/product/monitorRecord',
         changeState: '/product/changeState',
-        deleteRow: '/spendDel'
+        deleteRow: '/spendDel',
+        myTask : '/api/myTask',
+        receiveWork: '/api/receiveWork'
+
 
     },
     upload:{
@@ -39,7 +44,8 @@ const method = {
     },
     homework:{
         addHomework:'/api/addHomework',
-        homeworkList:'/api/homeworkList'
+        homeworkList:'/api/homeworkList',
+        addHouseWork:'/api/addHouseWork'
     }
 }
 export default method;

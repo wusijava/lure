@@ -63,9 +63,20 @@
                     <img src="../../../src/assets/img/dy.png"/>
                     <p>用户注册</p>
                 </div>
-                <div class="module" @click="register">
+                <div class="module" @click="housework">
                     <img src="../../../src/assets/img/qd.png"/>
-                    <p>敬请期待</p>
+                    <p>家务安排</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+
+                <div class="module" style="margin-right: 25px" @click="myTask">
+                    <img src="../../../src/assets/img/dog2.png"/>
+                    <p>我的任务</p>
+                </div>
+                <div class="module" @click="toTask">
+                    <img src="../../../src/assets/img/mt.png"/>
+                    <p>我指派的</p>
                 </div>
             </div>
         </div>
@@ -226,6 +237,15 @@
                     theme: 'round-button',
                 }).then(() => {
                 });
+            },
+            housework(){
+                this.$router.push({name:'houseworkAdd'});
+            },
+            myTask(){
+                this.$router.push({name:'myTask'});
+            },
+            toTask(){
+                this.$router.push({name:'toTask'});
             }
         }
     }

@@ -5,34 +5,26 @@
                 text="使用过程中,遇到任何问题,请联系开发人员:吴思,联系电话:18602702325"
         />
 
-        <!-- 详情弹窗 -->
-        <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
-            <h4>作业截图</h4>
-            <div class="detail-main">
-                    <img :src=this.url style="width: 100%;height:100%" v-if="this.url!=null&&this.url!=''" >
-            </div>
-        </van-popup>
+
+        <van-dropdown-menu @change.native="changeValue">
+            <van-dropdown-item v-model="value1" :options="option1" @click.native="changeValue"/>
+        </van-dropdown-menu>
 
         <div class="content">
-            <van-empty image="search" description="暂无记录" v-show="showEmpty"/>
-            <div class="list" v-for="item in list" :key="item.id">
-                <van-row style="border-bottom: 1px solid #E6EBF2; padding-bottom: 5px">
-                    <!--<van-col span="12"><p style="text-align: left">{{item.date}}</p></van-col>-->
-                    <van-col span="20"><p style="text-align: right"><h5>作业时间:{{item.createTime}}     学科：{{item.subject}}</h5></p></van-col>
-                </van-row>
-                <van-row style="padding: 5px 0;">
-                    <van-col span="12"><h4>辅导人</h4></van-col>
-                    <van-col span="12"><h4 style="text-align: right">{{item.name}}</h4></van-col>
-                </van-row>
-                <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;">内容：{{item.content}}</p></van-col>
-                    <van-col span="12" style="text-align: right">
-                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
-                            作业截图
-                        </van-button>
-                    </van-col>
-                </van-row>
-            </div>
+            <div class="list" v-for="item in list" :key="item.id" >
+                <van-cell-group :title="item.createTime">
+                    <van-cell title="家务内容" :value="item.content" />
+                    <van-cell title="要求完成时间" :value="item.requiredFinishTime" />
+                    <van-cell title="接受状态" :value="item.receiveStateDesc" />
+                    <van-cell title="目前状态" :value="item.stateDesc" />
+                    <div style="text-align: center">
+                        <van-button type="info" v-if="item.receiveState==0" size="small"  @click="doJob(item.id,1,1)" >接受</van-button>
+                        <van-button type="danger" v-if="item.receiveState==0" size="small"  @click="doJob(item.id,-1,1)" style="margin-left: 20px">拒绝</van-button>
+                        <van-button type="info" v-if="item.receiveState==1&&item.state==0" size="small"  @click="doJob(item.id,1,2)" >任务已完成</van-button>
+                    </div>
+                </van-cell-group>
+                </div>
+
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
         </div>
         <div class="footer">
@@ -42,69 +34,55 @@
 </template>
 
 <script>
-    import moment from 'moment';
-    import areaJson from '@/util/area'
-    import {homeworkList} from "../../api/homework";
+    import {myTask,receiveWork} from "../../api/order";
+    import Vue from 'vue';
+    import { Toast } from 'vant';
+    import { DropdownMenu, DropdownItem } from 'vant';
+
+    Vue.use(DropdownMenu);
+    Vue.use(DropdownItem);
+    Vue.use(Toast);
     export default {
-        name: 'homeworkList',
+        name: 'myTask',
         data() {
             return {
                 list: [],
-                fontColor:{
-                    color: '#666'
-                },
                 currentPage: 0,
                 pageTotal: 0,
-                show: false,
-                showStartDate: false,
-                showEndDate: false,
-                beginDate: '',
-                overDate: '',
-                date: '',
-                minDate: new Date(2020, 0, 1),
-                maxDate: new Date(2025, 10, 1),
-                showArea: false,
-                areaList: areaJson,
-                area: '',
-                areaCode: '',
-                activeState: 0,
-                state: 0,
-                activeType: 0,
-                type: 0,
-                detailList: [],
-                details: {
-                    authNo: '',
-                    title: '',
-                    storeName: ''
-                },
-                showDetails: false,
-                keyboardOutOrderNo: false,
-                keyboardWayId: false,
-                keyboardSellerNo: false,
-                keyboardPhoneNumber: false,
-                showEmpty: false,
-                url: ''
+                value1: '',
+                option1: [
+                    { text: '全部', value: '' },
+                    { text: '未处理', value: '0' },
+                    { text: '已处理', value: 1 },
+                ],
+
+
+
+
+
             }
         },
         mounted() {
             this.getList(this.currentPage - 1, 10);
         },
         methods: {
+
+            toSearch(isSearch) {
+                if (isSearch == 0) {
+                    this.currentPage = 0;
+                }
+                this.getList(this.currentPage, 10)
+            },
             getList: async function(cp,c) {
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                if (this.date != '') {
-                    params.startTime = this.beginDate;
-                    params.endTime = this.overDate;
+                params.type=1
+                if(this.value1){
+                    params.state=this.value1
                 }
 
-                this.$toast.loading({
-                    duration: 0, // 持续展示 toast
-                    forbidClick: true,
-                    message: '请稍后...',
-                });
-                const result = await homeworkList(params);
+                const result = await myTask(params);
                 this.$toast.clear();
                 if (result.data.code == '20000') {
                     if(result.data.data.content.length > 0) {
@@ -127,12 +105,47 @@
             changePage: function (cp) {
                 this.getList((cp-1), 10)
             },
-            toDetails: async function(info) {
-                this.showDetails = true;
-             this.url=info.url
-            },
             back(){
                 this.$router.push({name:'selectAction'});
+            },
+            doJob: async function(id,state,stateType){
+                let params = {};
+                params.id=id
+                params.state=state
+                params.stateType=stateType
+                const result = await receiveWork(params);
+                if (result.data.code == '20000') {
+                    const toast = Toast.loading({
+                        duration: 0, // 持续展示 toast
+                        forbidClick: true,
+                        message: '正在处理,剩余3 秒',
+                    });
+
+                    let second = 3;
+                    const timer = setInterval(() => {
+                        second--;
+                        if (second) {
+                            toast.message = `正在处理,剩余 ${second} 秒`;
+                        } else {
+                            clearInterval(timer);
+                            // 手动清除 Toast
+                            Toast.clear();
+                        }
+                    }, 1000);
+                    let getist = 3;
+                    const time = setInterval(() => {
+                        getist--;
+                        if (getist) {
+                        } else {
+                            clearInterval(time);
+                            this.getList(this.currentPage - 1, 10);
+                        }
+                    }, 1000);
+                }
+            },
+            changeValue:async function(){
+                this.getList(this.currentPage - 1, 10);
+                console.log(this.value1)
             }
         }
     }

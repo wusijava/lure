@@ -106,7 +106,7 @@
                     :value="cashier"
                     input-align="right"
                     label-width="110"
-                    label="选择消费者"
+                    label="选择销售渠道"
             />
 
             <van-popup

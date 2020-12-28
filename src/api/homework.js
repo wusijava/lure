@@ -10,3 +10,8 @@ export async function homeworkList(params){
     const result = await axios.post(api.homework.homeworkList,params);
     return result;
 }
+
+export async function addHouseWork(params){
+    const result = await axios.post(api.homework.addHouseWork,params);
+    return result;
+}

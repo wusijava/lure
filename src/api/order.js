@@ -34,3 +34,11 @@ export async function deleteRow(params){
     const result = await axios.post(api.order.deleteRow,params);
     return result;
 }
+export async function myTask(params){
+    const result = await axios.post(api.order.myTask,params);
+    return result;
+}
+export async function receiveWork(params){
+    const result = await axios.post(api.order.receiveWork,params);
+    return result;
+}
