@@ -6,6 +6,8 @@
         />
 
         <div class="content">
+            <h4>当前登录账号:{{this.user}}           城市:{{this.city}}</h4>
+            <h4>经度:{{this.lng}}纬度:{{this.lat}}</h4>
             <div style="margin-bottom: 25px">
                 <div class="module" style="margin-right: 25px" @click="toBusiness(1)">
                     <img src="../../../src/assets/img/gu.png"/>
@@ -79,6 +81,17 @@
                     <p>我指派的</p>
                 </div>
             </div>
+            <div style="margin-top: 25px">
+
+                <div class="module" style="margin-right: 25px" @click="myAdd">
+                    <img src="../../../src/assets/img/ditu.png"/>
+                    <p>我的位置</p>
+                </div>
+                <div class="module" @click="goHome">
+                    <img src="../../../src/assets/img/pc.png"/>
+                    <p>回家之路</p>
+                </div>
+            </div>
         </div>
         <van-cell title="显示分享面板" @click="showShare = true" />
         <van-share-sheet
@@ -112,6 +125,8 @@
     import { Rate } from 'vant';
     import { ActionSheet } from 'vant';
     import { Popup } from 'vant';
+    import {location} from "../../assets/js/location";
+
     Vue.use(Popup);
     Vue.use(ActionSheet);
     Vue.use(Rate);
@@ -126,6 +141,7 @@
                 indexData:[],
                 row:null,
                 showShare: false,
+                user: '',
                 options: [
                     { name: '微信', icon: 'wechat' },
                     { name: '微博', icon: 'weibo' },
@@ -134,11 +150,23 @@
                     { name: '二维码', icon: 'qrcode' },
                 ],
                 show: false,
-                num :localStorage.getItem("num")
+                num :localStorage.getItem("num"),
+                city: '',
+                lat: '',
+                lng: '',
+                jwd: ''
             }
         },
         //页面加载就开始查询按钮数据
         mounted() {
+            this.getLocation();
+
+            if(localStorage.getItem("username")=="admin"){
+                this.user="吴思"
+            }
+            if(localStorage.getItem("username")=="zmx"){
+                this.user="张明霞"
+            }
             if(this.num==1){
                 Dialog.alert({
                     //title: '标题',
@@ -148,6 +176,8 @@
                     this.show =true
                 });
             }
+
+
 
         },
         methods:{
@@ -246,7 +276,32 @@
             },
             toTask(){
                 this.$router.push({name:'toTask'});
+            },
+            myAdd(){
+                window.location.href="https://m.amap.com/navi/?dest="+this.jwd+"&destName=%E6%88%91%E7%9A%84%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=9138ad0023cb8e79ca816509aac42747"
+            }, getLocation() {
+                let _that = this;
+                let geolocation = location.initMap("map-container"); //定位
+                AMap.event.addListener(geolocation, "complete", result => {
+                    _that.lat = result.position.lat;
+                    _that.lng = result.position.lng;
+                    this.lat=result.position.lat;
+                    this.lng = result.position.lng;
+                    this.jwd=result.position.lng+","+ result.position.lat;
+                    console.log(this.jwd)
+                    _that.province = result.addressComponent.province;
+                    _that.city = result.addressComponent.city;
+                    _that.district = result.addressComponent.district;
+                   this.city=result.addressComponent.city;
+                });
+            },
+            goHome(){
+                window.location.href="https://m.amap.com/navi/?start="+this.jwd+"&dest=114.148418,30.485467&destName=回家路线&key=9138ad0023cb8e79ca816509aac42747"
+            },
+            distanceCat(){
+
             }
+
         }
     }
 </script>

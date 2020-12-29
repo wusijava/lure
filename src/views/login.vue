@@ -57,7 +57,8 @@
                 username: '',
                 password: '',
                 ifDisplay: false,
-                infoShow: false
+                infoShow: false,
+                nickname: ''
             }
         },
         mounted() {
