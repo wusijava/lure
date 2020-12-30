@@ -1,11 +1,28 @@
 <template>
+
     <div class="box">
         <van-notice-bar
                 left-icon="volume-o"
                 text="使用过程中,遇到任何问题,请联系开发人员:吴思,联系电话:18602702325"
         />
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+           <!-- <p>刷新次数: {{ count }}</p>-->
 
         <div class="content">
+            <van-count-down :time="time">
+                <template #default="timeData">
+                    <span class="colon">距离过年:</span>
+                    <span class="block">{{ timeData.days }}</span>
+                    <span class="colon">:天</span>
+                    <span class="block">{{ timeData.hours }}</span>
+                    <span class="colon">:小时</span>
+                    <span class="block">{{ timeData.minutes }}</span>
+                    <span class="colon">:分</span>
+                    <span class="block">{{ timeData.seconds }}</span>
+                    <span class="colon">秒</span>
+                </template>
+            </van-count-down>
+
             <h4>当前登录账号:{{this.user}}           城市:{{this.city}}</h4>
             <h4>经度:{{this.lng}}纬度:{{this.lat}}</h4>
             <div style="margin-bottom: 25px">
@@ -98,6 +115,7 @@
                 </div>
             </div>
         </div>
+        </van-pull-refresh>
         <van-cell title="显示分享面板" @click="showShare = true" />
         <van-share-sheet
                 v-model="showShare"
@@ -131,6 +149,10 @@
     import { ActionSheet } from 'vant';
     import { Popup } from 'vant';
     import { Icon  } from 'vant';
+    import { CountDown } from 'vant';
+    import { PullRefresh } from 'vant';
+    Vue.use(PullRefresh);
+    Vue.use(CountDown);
     import {location} from "../../assets/js/location";
     import {sendMsg} from '../../api/homework';
     import {myTask,taoList,orderList} from "../../api/order";
@@ -143,6 +165,9 @@
         name: "selectAction",
         data(){
             return{
+                isLoading: false,
+                count: 0,
+                time: 1612972800000-(new Date()).getTime(),
                 value: 0,
                 showRate: true,
                 appId: '',
@@ -474,6 +499,15 @@
                     });
                 }
             },
+            onRefresh() {
+                setTimeout(() => {
+                    Toast('刷新成功');
+                    this.isLoading = false;
+                }, 1000);
+                this.getSpendNum()
+                this.getLocation()
+            }
+
         }
     }
 </script>
@@ -513,5 +547,16 @@
      .content {
          padding: 16px 16px 160px;
      }
-
+    .colon {
+        display: inline-block;
+        margin: 0 4px;
+        color: #ee0a24;
+    }
+    .block {
+        display: inline-block;
+        width: 22px;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        background-color: #ee0a24;}
 </style>
