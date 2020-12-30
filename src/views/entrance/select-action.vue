@@ -20,11 +20,13 @@
             </div>
             <div>
                 <div class="module" style="margin-right: 25px" @click="toRefund">
-                    <img src="../../../src/assets/img/jita2.png"/>
+                    <!--<img src="../../../src/assets/img/jita2.png"/>-->
+                    <van-icon name="../lq.png" size="33" :badge="this.orderNum"/>
                     <p>销售记录</p>
                 </div>
                 <div class="module" @click="spend">
-                    <img src="../../../src/assets/img/mai.png"/>
+                    <!--<img src="../../../src/assets/img/mai.png"/>-->
+                    <van-icon name="../fj.png" size="33" :badge="this.spendNum"/>
                     <p>消费记录</p>
                 </div>
             </div>
@@ -44,7 +46,7 @@
                     <p>添加作业</p>
                 </div>
                 <div class="module" @click="homeworkList">
-                    <img src="../../../src/assets/img/dog.png"/>
+                    <img src="sxj.png"/>
                     <p>作业记录</p>
                 </div>
             </div>
@@ -73,11 +75,14 @@
             <div style="margin-top: 25px">
 
                 <div class="module" style="margin-right: 25px" @click="myTask">
-                    <img src="../../../src/assets/img/dog2.png"/>
+                    <van-icon name="../bf.png" size="33" :badge="this.pageTotal"/>
+                   <!-- <img src="../../../src/assets/img/dog2.png"/>-->
                     <p>我的任务</p>
                 </div>
+
                 <div class="module" @click="toTask">
-                    <img src="../../../src/assets/img/mt.png"/>
+                    <van-icon name="../xj.png" size="33" :badge="this.pageTotalTo"/>
+                    <!--<img src="../../../src/assets/img/mt.png"/>-->
                     <p>我指派的</p>
                 </div>
             </div>
@@ -125,12 +130,15 @@
     import { Rate } from 'vant';
     import { ActionSheet } from 'vant';
     import { Popup } from 'vant';
+    import { Icon  } from 'vant';
     import {location} from "../../assets/js/location";
-    import {sendMsg} from '../../api/homework'
+    import {sendMsg} from '../../api/homework';
+    import {myTask,taoList,orderList} from "../../api/order";
     Vue.use(Popup);
     Vue.use(ActionSheet);
     Vue.use(Rate);
     Vue.use(ShareSheet);
+    Vue.use(Icon );
     export default {
         name: "selectAction",
         data(){
@@ -156,12 +164,20 @@
                 lng: '',
                 jwd: '',
                 myDis: 0,
-                timer: null
+                timer: null,
+                pageTotal: '',
+                pageTotalTo: '',
+                orderNum: '',
+                spendNum: ''
             }
         },
         //页面加载就开始查询按钮数据
         mounted() {
-            setInterval(this.getLocation(),5000)
+            this.getList();
+            this.getTo();
+            this.getOrderList();
+            this.getSpendNum();
+            setInterval(this.getLocation(),5000);
 
 
             if(localStorage.getItem("username")=="admin"){
@@ -360,19 +376,19 @@
                 })
                 // 步行导航
                 AMap.plugin(['AMap.Walking'], () => {
-                    console.log(this.jwd)
+                    //console.log(this.jwd)
                     // 根据起终点坐标规划步行路线
                     new AMap.Walking({}).search(
                         [this.lng,this.lat],
                         [114.26263,30.614824],//公司门口经纬度
                         async function(status, result) {
-                            console.log(result.routes[0].distance)
-                            if(parseInt(result.routes[0].distance)>150&&parseInt(result.routes[0].distance)<2200){
-                                Dialog.alert({
+                            //console.log(result.routes[0].distance)
+                            if(parseInt(result.routes[0].distance)>150&&parseInt(result.routes[0].distance)<500){
+                              /*  Dialog.alert({
                                     message: '离开公司打卡提醒',
                                     theme: 'round-button',
                                 }).then(() => {
-                                });//离开公司100米触发
+                                });//离开公司100米触发*/
                                 let params = {};
                                 params.user = "吴思";
                                 const result =await  sendMsg(params);
@@ -382,8 +398,82 @@
                         }
                     )
                 })
-            }
+            },
+            getList: async function(cp,c) {
+                let params = {};
+                params.type=1
+                if(this.value1){
+                    params.state=this.value1
+                }
 
+                const result = await myTask(params);
+                this.$toast.clear();
+                if (result.data.code == '20000') {
+
+                    if(result.data.data.content.length > 0) {
+                        this.pageTotal = result.data.data.totalElements;
+                    }else {
+                        this.list = [];
+                    }
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
+            },
+            getTo: async function() {
+                let params = {};
+                params.type=2
+                const result = await myTask(params);
+                this.$toast.clear();
+                if (result.data.code == '20000') {
+                    if(result.data.data.content.length > 0) {
+                        //console.log(result)
+                        this.pageTotalTo = result.data.data.totalElements;
+                    }else {
+                        this.list = [];
+                    }
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
+            },
+            getOrderList: async function() {
+                let params = {};
+                const result = await taoList(params);
+                this.$toast.clear();
+                if (result.data.code == '20000') {
+                    if(result.data.data.content.length > 0) {
+                        this.orderNum = result.data.data.totalElements;
+                    }else {
+                        this.list = [];
+                    }
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
+            },
+            getSpendNum: async function(cp,c) {
+                let params = {};
+                const result = await orderList(params);
+                if (result.data.code == '20000') {
+                    if(result.data.data.content.length > 0) {
+                        this.spendNum = result.data.data.totalElements;
+                    }else {
+                        this.list = [];
+                    }
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
+            },
         }
     }
 </script>
