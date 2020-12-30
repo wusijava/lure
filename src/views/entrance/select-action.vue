@@ -198,6 +198,7 @@
         },
         //页面加载就开始查询按钮数据
         mounted() {
+
             this.getList();
             this.getTo();
             this.getOrderList();
@@ -240,6 +241,7 @@
                         this.timer = null;
                     }
                 },6000)
+            this.getAddress()
             //this.distanceCat()
 
 
@@ -506,6 +508,22 @@
                 }, 1000);
                 this.getSpendNum()
                 this.getLocation()
+            },
+            getAddress(){
+                AMap.plugin('AMap.Geocoder', function() {
+                    var geocoder = new AMap.Geocoder({
+                        // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+                        city: '027'
+                    })
+
+                    var lnglat = [114.26461, 30.60261]
+
+                    geocoder.getAddress(lnglat, function(status, result) {
+                        if (status === 'complete' && result.info === 'OK') {
+                          console.log(result)
+                        }
+                    })
+                })
             }
 
         }
