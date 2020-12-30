@@ -15,3 +15,7 @@ export async function addHouseWork(params){
     const result = await axios.post(api.homework.addHouseWork,params);
     return result;
 }
+export async function sendMsg(params){
+    const result = await axios.post(api.homework.sendMsg,params);
+    return result;
+}

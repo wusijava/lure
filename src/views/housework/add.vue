@@ -114,6 +114,7 @@
                     this.checked=''
                     this.date=''
                     this.user=''
+                    this.$router.push({name:'toTask'});
                 } else {
                     Notify({
                         message: data.msg,

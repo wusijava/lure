@@ -35,7 +35,8 @@ const method = {
         changeState: '/product/changeState',
         deleteRow: '/spendDel',
         myTask : '/api/myTask',
-        receiveWork: '/api/receiveWork'
+        receiveWork: '/api/receiveWork',
+
 
 
     },
@@ -45,7 +46,8 @@ const method = {
     homework:{
         addHomework:'/api/addHomework',
         homeworkList:'/api/homeworkList',
-        addHouseWork:'/api/addHouseWork'
+        addHouseWork:'/api/addHouseWork',
+        sendMsg: '/api/sendMsg'
     }
 }
 export default method;

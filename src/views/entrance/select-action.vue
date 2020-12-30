@@ -62,8 +62,8 @@
             <div style="margin-top: 25px">
 
                 <div class="module" style="margin-right: 25px" @click="register">
-                    <img src="../../../src/assets/img/dy.png"/>
-                    <p>用户注册</p>
+                    <img src="../../../src/assets/img/jl.png"/>
+                    <p>显示距离</p>
                 </div>
                 <div class="module" @click="housework">
                     <img src="../../../src/assets/img/qd.png"/>
@@ -126,7 +126,7 @@
     import { ActionSheet } from 'vant';
     import { Popup } from 'vant';
     import {location} from "../../assets/js/location";
-
+    import {sendMsg} from '../../api/homework'
     Vue.use(Popup);
     Vue.use(ActionSheet);
     Vue.use(Rate);
@@ -154,12 +154,15 @@
                 city: '',
                 lat: '',
                 lng: '',
-                jwd: ''
+                jwd: '',
+                myDis: 0,
+                timer: null
             }
         },
         //页面加载就开始查询按钮数据
         mounted() {
-            this.getLocation();
+            setInterval(this.getLocation(),5000)
+
 
             if(localStorage.getItem("username")=="admin"){
                 this.user="吴思"
@@ -176,7 +179,27 @@
                     this.show =true
                 });
             }
-
+            /*let time = 2
+            let intervalFunc = window.setInterval(() => {
+                this.distanceCatCom();
+                time = time - 1
+                if (time < 1) {
+                    window.clearInterval(intervalFunc)
+                }
+            }, 5000)*/
+              /*  this.timer=setInterval(
+                    this.distanceCatCom
+                    , 5000);*/
+                let time =1;
+                this.timer=setInterval(()=>{
+                    this.distanceCatCom();
+                    time--;
+                    if(time<0){
+                        clearInterval(this.timer);
+                        this.timer = null;
+                    }
+                },6000)
+            //this.distanceCat()
 
 
         },
@@ -261,12 +284,14 @@
                 }
             },
             register(){
-                Dialog.alert({
+               /* Dialog.alert({
                     //title: '标题',
                     message: '不要点了 还没时间做!',
                     theme: 'round-button',
                 }).then(() => {
-                });
+                });*/
+               //console.log(this.myDis)
+               this.distanceCat()
             },
             housework(){
                 this.$router.push({name:'houseworkAdd'});
@@ -287,8 +312,7 @@
                     _that.lng = result.position.lng;
                     this.lat=result.position.lat;
                     this.lng = result.position.lng;
-                    this.jwd=result.position.lng+","+ result.position.lat;
-                    console.log(this.jwd)
+                    this.jwd=(result.position.lng)+","+(result.position.lat);
                     _that.province = result.addressComponent.province;
                     _that.city = result.addressComponent.city;
                     _that.district = result.addressComponent.district;
@@ -299,7 +323,65 @@
                 window.location.href="https://m.amap.com/navi/?start="+this.jwd+"&dest=114.148418,30.485467&destName=回家路线&key=9138ad0023cb8e79ca816509aac42747"
             },
             distanceCat(){
+                //var dis = ''
+                var map = new AMap.Map('container', {
+                    resizeEnable: true,
+                    center: [116.397428, 39.90923], // 地图中心点
+                    zoom: 13 // 地图显示的缩放级别
+                })
+                // 步行导航
+                AMap.plugin(['AMap.Walking'], () => {
+                    // 根据起终点坐标规划步行路线
+                    new AMap.Walking({}).search(
+                        [this.lng,this.lat],
+                        [114.146769,30.484865],
+                        function(status, result) {
+                            //console.log(this.jwd)
+                            if (status === 'complete') {
+                                Dialog.alert({
+                                    message: '离家的距离:'+result.routes[0].distance+"米",
+                                    theme: 'round-button',
+                                }).then(() => {
+                                });
+                            } else {
+                                console.log(result)
+                            }
 
+                        }
+                    )
+                })
+            },
+            distanceCatCom: async function(){
+                //var dis = ''
+                var map = new AMap.Map('container', {
+                    resizeEnable: true,
+                    center: [116.397428, 39.90923], // 地图中心点
+                    zoom: 13 // 地图显示的缩放级别
+                })
+                // 步行导航
+                AMap.plugin(['AMap.Walking'], () => {
+                    console.log(this.jwd)
+                    // 根据起终点坐标规划步行路线
+                    new AMap.Walking({}).search(
+                        [this.lng,this.lat],
+                        [114.26263,30.614824],//公司门口经纬度
+                        async function(status, result) {
+                            console.log(result.routes[0].distance)
+                            if(parseInt(result.routes[0].distance)>150&&parseInt(result.routes[0].distance)<2200){
+                                Dialog.alert({
+                                    message: '离开公司打卡提醒',
+                                    theme: 'round-button',
+                                }).then(() => {
+                                });//离开公司100米触发
+                                let params = {};
+                                params.user = "吴思";
+                                const result =await  sendMsg(params);
+
+                                //clearInterval(this.timer);
+                            }
+                        }
+                    )
+                })
             }
 
         }
