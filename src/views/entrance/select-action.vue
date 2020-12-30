@@ -23,7 +23,7 @@
                 </template>
             </van-count-down>
 
-            <h4>当前登录账号:{{this.user}}           城市:{{this.city}}</h4>
+            <h4>当前登录账号:{{this.user}}           区域:{{this.city}}</h4>
             <h4>经度:{{this.lng}}纬度:{{this.lat}}</h4>
             <div style="margin-bottom: 25px">
                 <div class="module" style="margin-right: 25px" @click="toBusiness(1)">
@@ -359,7 +359,7 @@
                     _that.province = result.addressComponent.province;
                     _that.city = result.addressComponent.city;
                     _that.district = result.addressComponent.district;
-                   this.city=result.addressComponent.city;
+                   this.city=result.addressComponent.district;
                 });
             },
             goHome(){
