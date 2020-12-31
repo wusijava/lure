@@ -22,7 +22,7 @@
                     <div style="text-align: center">
                         <van-button type="info" v-if="item.receiveState==0" size="small"  @click="doJob(item.id,1,1)" >接受</van-button>
                         <van-button type="danger" v-if="item.receiveState==0" size="small"  @click="doJob(item.id,-1,1)" style="margin-left: 20px">拒绝</van-button>
-                        <van-button type="info" v-if="item.receiveState==1&&item.state==0" size="small"  @click="doJob(item.id,1,2)" >任务已完成</van-button>
+                        <van-button type="warning" v-if="item.receiveState==1&&item.state==0" size="small"  @click="doJob(item.id,1,2)" style="margin-bottom: 10px" >任务已完成</van-button>
                     </div>
                 </van-cell-group>
                 </div>

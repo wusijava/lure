@@ -14,7 +14,7 @@
                 </van-row>
             </div>
         </van-popup>
-
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <div class="content">
             <van-empty image="search" description="暂无消费记录" v-show="showEmpty"/>
             <div class="list" v-for="item in list" :key="item.id">
@@ -27,7 +27,7 @@
                     <van-col span="12"><h4 style="text-align: right;color:red">{{item.timeStr}}</h4></van-col>
                 </van-row>
                 <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;">备注:每天仅能触发一条,可左滑删除</p></van-col>
+                    <van-col span="12"><p style="margin-top: 5px;">备注:每天仅能触发一条,左滑删除</p></van-col>
                     <van-col span="12" style="text-align: right">
                     </van-col>
                 </van-row>
@@ -38,6 +38,7 @@
             </div>
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
         </div>
+        </van-pull-refresh>
         <div class="footer">
             <van-pagination v-model="currentPage" :page-count="pageTotal" mode="simple" @change="changePage"/>
         </div>
@@ -54,11 +55,13 @@
     import { Notify } from 'vant';
     import { PullRefresh } from 'vant';
     Vue.use(PullRefresh);
+    import { Toast } from 'vant';
     import {remind,orderDetail,deleteRec} from "../../api/order";
     export default {
         name: 'remind',
         data() {
             return {
+                isLoading: false,
                 list: [],
                 fontColor:{
                     color: '#666'
@@ -113,6 +116,13 @@
             this.getList(this.currentPage - 1, 10);
         },
         methods: {
+            onRefresh() {
+                setTimeout(() => {
+                    Toast('刷新成功');
+                    this.isLoading = false;
+                }, 1000);
+                this.getList(this.currentPage - 1, 10);
+            },
             showPopup() {
                 this.show = true;
             },
@@ -255,13 +265,6 @@
                         });
                         break;
                 }
-            },
-            onRefresh() {
-                console.log(666)
-                setTimeout(() => {
-                    Toast('刷新成功');
-                    this.isLoading = false;
-                }, 1000);
             },
         }
     }

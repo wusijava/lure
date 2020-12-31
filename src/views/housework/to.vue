@@ -14,6 +14,7 @@
             <div class="list" v-for="item in list" :key="item.id" >
                 <van-cell-group :title="item.createTime">
                     <van-cell title="家务内容" :value="item.content" />
+                    <van-cell title="备注" :value="item.remark" />
                     <van-cell title="要求完成时间" :value="item.requiredFinishTime" />
                     <van-cell title="实际完成时间" :value="item.realityFinishTime" />
                     <van-cell title="接受状态" :value="item.receiveStateDesc" />
