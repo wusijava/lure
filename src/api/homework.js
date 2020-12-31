@@ -19,3 +19,7 @@ export async function sendMsg(params){
     const result = await axios.post(api.homework.sendMsg,params);
     return result;
 }
+export async function saveAdd(params){
+    const result = await axios.post(api.homework.saveAdd,params);
+    return result;
+}

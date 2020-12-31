@@ -139,6 +139,23 @@ export default new Router({
             meta: {
                 title: '我的安排'
             }
+        },
+        {
+            path: '/homework/myAddress',
+            name: 'myAddress',
+            component: () => import('./views/homework/myAddress.vue'),
+            meta: {
+                title: '我的足迹'
+            }
+        }
+        ,
+        {
+            path: '/homework/remind',
+            name: 'remind',
+            component: () => import('./views/homework/remind.vue'),
+            meta: {
+                title: '提醒记录'
+            }
         }
     ]
 })

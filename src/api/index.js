@@ -36,6 +36,9 @@ const method = {
         deleteRow: '/spendDel',
         myTask : '/api/myTask',
         receiveWork: '/api/receiveWork',
+        address: '/api/address',
+        remind: '/api/remind',
+        deleteRec: '/api/deleteRec'
 
 
 
@@ -47,7 +50,8 @@ const method = {
         addHomework:'/api/addHomework',
         homeworkList:'/api/homeworkList',
         addHouseWork:'/api/addHouseWork',
-        sendMsg: '/api/sendMsg'
+        sendMsg: '/api/sendMsg',
+        saveAdd :'/api/saveAdd'
     }
 }
 export default method;

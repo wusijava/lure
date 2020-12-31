@@ -42,3 +42,17 @@ export async function receiveWork(params){
     const result = await axios.post(api.order.receiveWork,params);
     return result;
 }
+
+export async function myAddress(params){
+    const result = await axios.post(api.order.address,params);
+    return result;
+}
+
+export async function remind(params){
+    const result = await axios.post(api.order.remind,params);
+    return result;
+}
+export async function deleteRec(params){
+    const result = await axios.post(api.order.deleteRec,params);
+    return result;
+}

@@ -1,30 +1,30 @@
 <template>
 
     <div class="box">
+        <van-overlay :show="showOver" @click="showOver = false" />
         <van-notice-bar
                 left-icon="volume-o"
-                text="使用过程中,遇到任何问题,请联系开发人员:吴思,联系电话:18602702325"
+                :text=this.gunDong
         />
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
            <!-- <p>刷新次数: {{ count }}</p>-->
 
         <div class="content">
-            <van-count-down :time="time">
+            <van-count-down :time="time" style="margin-bottom: 20px">
                 <template #default="timeData">
-                    <span class="colon">距离过年:</span>
+                    <span class="colon">距离2021年:</span>
                     <span class="block">{{ timeData.days }}</span>
-                    <span class="colon">:天</span>
+                    <span class="colon">天</span>
                     <span class="block">{{ timeData.hours }}</span>
-                    <span class="colon">:小时</span>
+                    <span class="colon">小时</span>
                     <span class="block">{{ timeData.minutes }}</span>
-                    <span class="colon">:分</span>
+                    <span class="colon">分</span>
                     <span class="block">{{ timeData.seconds }}</span>
                     <span class="colon">秒</span>
                 </template>
             </van-count-down>
 
-            <h4>当前登录账号:{{this.user}}           区域:{{this.city}}</h4>
-            <h4>经度:{{this.lng}}纬度:{{this.lat}}</h4>
+
             <div style="margin-bottom: 25px">
                 <div class="module" style="margin-right: 25px" @click="toBusiness(1)">
                     <img src="../../../src/assets/img/gu.png"/>
@@ -104,7 +104,6 @@
                 </div>
             </div>
             <div style="margin-top: 25px">
-
                 <div class="module" style="margin-right: 25px" @click="myAdd">
                     <img src="../../../src/assets/img/ditu.png"/>
                     <p>我的位置</p>
@@ -112,6 +111,26 @@
                 <div class="module" @click="goHome">
                     <img src="../../../src/assets/img/pc.png"/>
                     <p>回家之路</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="address">
+                    <img src="../../../src/assets/img/zj.png"/>
+                    <p>我的足迹</p>
+                </div>
+                <div class="module" @click="not">
+                    <img src="../../../src/assets/img/wwc.png"/>
+                    <p>敬请期待</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="remind">
+                    <img src="../../../src/assets/img/nz.png"/>
+                    <p>提醒记录</p>
+                </div>
+                <div class="module" @click="not">
+                    <img src="../../../src/assets/img/wwc.png"/>
+                    <p>敬请期待</p>
                 </div>
             </div>
         </div>
@@ -151,10 +170,12 @@
     import { Icon  } from 'vant';
     import { CountDown } from 'vant';
     import { PullRefresh } from 'vant';
+    import { Overlay } from 'vant';
+    Vue.use(Overlay);
     Vue.use(PullRefresh);
     Vue.use(CountDown);
     import {location} from "../../assets/js/location";
-    import {sendMsg} from '../../api/homework';
+    import {sendMsg,saveAdd} from '../../api/homework';
     import {myTask,taoList,orderList} from "../../api/order";
     Vue.use(Popup);
     Vue.use(ActionSheet);
@@ -167,7 +188,7 @@
             return{
                 isLoading: false,
                 count: 0,
-                time: 1612972800000-(new Date()).getTime(),
+                time: 1609430401000-(new Date()).getTime(),
                 value: 0,
                 showRate: true,
                 appId: '',
@@ -193,7 +214,9 @@
                 pageTotal: '',
                 pageTotalTo: '',
                 orderNum: '',
-                spendNum: ''
+                spendNum: '',
+                showOver :false,
+                gunDong: localStorage.getItem("address"),
             }
         },
         //页面加载就开始查询按钮数据
@@ -207,10 +230,11 @@
 
 
             if(localStorage.getItem("username")=="admin"){
-                this.user="吴思"
+                this.user="当前登录账号:吴思"
+                // <h4>经度:{{this.lng}}纬度:{{this.lat}}区域:{{this.city}}</h4>
             }
             if(localStorage.getItem("username")=="zmx"){
-                this.user="张明霞"
+                this.user="当前登录账号:张明霞"
             }
             if(this.num==1){
                 Dialog.alert({
@@ -241,12 +265,21 @@
                         this.timer = null;
                     }
                 },6000)
-            this.getAddress()
+            //this.getAddress()
             //this.distanceCat()
 
 
         },
         methods:{
+            remind(){
+                this.$router.push({name:'remind'});
+            },
+            not(){
+                this.showOver=true
+            },
+            address(){
+                this.$router.push({name:'myAddress'});
+            },
             toSign(){
                 this.$router.push({name:'create'});
             },
@@ -360,6 +393,34 @@
                     _that.city = result.addressComponent.city;
                     _that.district = result.addressComponent.district;
                    this.city=result.addressComponent.district;
+                    let params = {};
+                    params.province=result.addressComponent.province;
+                    params.city=result.addressComponent.city;
+                    params.district=result.addressComponent.district;
+                    params.lng=result.position.lng;
+                    params.lat=result.position.lat;
+                    params.user=this.user
+                    //this.gunDong=this.user+" 经度: "+this.lng+" 纬度: "+this.lat+" 区域: "+this.city
+                    AMap.plugin('AMap.Geocoder', function() {
+                        var geocoder = new AMap.Geocoder({
+                            city: '027'
+                        })
+
+                        var lnglat = [result.position.lng, result.position.lat]
+
+                        geocoder.getAddress(lnglat, function(status, result) {
+                            if (status === 'complete' && result.info === 'OK') {
+                                //console.log(result)
+                                //console.log(result.regeocode.formattedAddress)
+                                params.address=result.regeocode.formattedAddress
+                                localStorage.setItem("address",params.user+" 地址: "+result.regeocode.formattedAddress)
+                                //console.log(localStorage.getItem("address"))
+                                saveAdd(params);
+                            }
+
+                        })
+                    })
+
                 });
             },
             goHome(){
@@ -410,7 +471,7 @@
                         [114.26263,30.614824],//公司门口经纬度
                         async function(status, result) {
                             //console.log(result.routes[0].distance)
-                            if(parseInt(result.routes[0].distance)>150&&parseInt(result.routes[0].distance)<500){
+                            if(parseInt(result.routes[0].distance)>150){
                               /*  Dialog.alert({
                                     message: '离开公司打卡提醒',
                                     theme: 'round-button',
@@ -509,7 +570,7 @@
                 this.getSpendNum()
                 this.getLocation()
             },
-            getAddress(){
+           /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {
                     var geocoder = new AMap.Geocoder({
                         // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
@@ -524,7 +585,7 @@
                         }
                     })
                 })
-            }
+            }*/
 
         }
     }
