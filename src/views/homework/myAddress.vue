@@ -15,6 +15,7 @@
                     <van-cell title="经纬度" :value="item.jwd" />
                     <van-cell title="详细地址" :value="item.address" />
                 </van-cell-group>
+                <van-button type="info" @click="showMapAdd(item.jwd)" style="margin-left: 130px">地图显示</van-button>
                 </div>
 
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
@@ -95,6 +96,9 @@
             },
             changeValue:async function(){
                 this.getList(this.currentPage - 1, 10);
+            },
+            showMapAdd(jwd){
+                window.location.href="https://m.amap.com/navi/?dest="+jwd+"&destName=%E6%88%91%E7%9A%84%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=9138ad0023cb8e79ca816509aac42747"
             }
         }
     }

@@ -12,7 +12,20 @@
         <div class="content">
             <van-count-down :time="time" style="margin-bottom: 20px">
                 <template #default="timeData">
-                    <span class="colon">距离2021年:</span>
+                    <span class="colon">距离2021年元旦:</span>
+                    <span class="block">{{ timeData.days }}</span>
+                    <span class="colon">天</span>
+                    <span class="block">{{ timeData.hours }}</span>
+                    <span class="colon">小时</span>
+                    <span class="block">{{ timeData.minutes }}</span>
+                    <span class="colon">分</span>
+                    <span class="block">{{ timeData.seconds }}</span>
+                    <span class="colon">秒</span>
+                </template>
+            </van-count-down>
+            <van-count-down :time="chuXi" style="margin-bottom: 20px">
+                <template #default="timeData">
+                    <span class="colon">距离2021年除夕:</span>
                     <span class="block">{{ timeData.days }}</span>
                     <span class="colon">天</span>
                     <span class="block">{{ timeData.hours }}</span>
@@ -188,6 +201,7 @@
             return{
                 isLoading: false,
                 count: 0,
+                chuXi: 1612972801000-(new Date()).getTime(),
                 time: 1609430401000-(new Date()).getTime(),
                 value: 0,
                 showRate: true,
@@ -389,6 +403,7 @@
                     this.lat=result.position.lat;
                     this.lng = result.position.lng;
                     this.jwd=(result.position.lng)+","+(result.position.lat);
+                    console.log(this.jwd)
                     _that.province = result.addressComponent.province;
                     _that.city = result.addressComponent.city;
                     _that.district = result.addressComponent.district;
@@ -471,7 +486,7 @@
                         [114.26263,30.614824],//公司门口经纬度
                         async function(status, result) {
                             //console.log(result.routes[0].distance)
-                            if(parseInt(result.routes[0].distance)>150){
+                            if(parseInt(result.routes[0].distance)>150&&result.routes[0].distance<500){
                               /*  Dialog.alert({
                                     message: '离开公司打卡提醒',
                                     theme: 'round-button',
