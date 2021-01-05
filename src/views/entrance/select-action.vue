@@ -6,23 +6,14 @@
                 left-icon="volume-o"
                 :text=this.gunDong
         />
+        <van-notice-bar
+                left-icon="volume-o"
+                :text=this.weather
+        />
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
            <!-- <p>刷新次数: {{ count }}</p>-->
 
         <div class="content">
-            <van-count-down :time="time" style="margin-bottom: 20px">
-                <template #default="timeData">
-                    <span class="colon">距离2021年元旦:</span>
-                    <span class="block">{{ timeData.days }}</span>
-                    <span class="colon">天</span>
-                    <span class="block">{{ timeData.hours }}</span>
-                    <span class="colon">小时</span>
-                    <span class="block">{{ timeData.minutes }}</span>
-                    <span class="colon">分</span>
-                    <span class="block">{{ timeData.seconds }}</span>
-                    <span class="colon">秒</span>
-                </template>
-            </van-count-down>
             <van-count-down :time="chuXi" style="margin-bottom: 20px">
                 <template #default="timeData">
                     <span class="colon">距离2021年除夕:</span>
@@ -36,7 +27,19 @@
                     <span class="colon">秒</span>
                 </template>
             </van-count-down>
-
+            <van-count-down :time="time" style="margin-bottom: 20px">
+                <template #default="timeData">
+                    <span class="colon">距离2021年元宵:</span>
+                    <span class="block">{{ timeData.days }}</span>
+                    <span class="colon">天</span>
+                    <span class="block">{{ timeData.hours }}</span>
+                    <span class="colon">小时</span>
+                    <span class="block">{{ timeData.minutes }}</span>
+                    <span class="colon">分</span>
+                    <span class="block">{{ timeData.seconds }}</span>
+                    <span class="colon">秒</span>
+                </template>
+            </van-count-down>
 
             <div style="margin-bottom: 25px">
                 <div class="module" style="margin-right: 25px" @click="toBusiness(1)">
@@ -131,9 +134,9 @@
                     <img src="../../../src/assets/img/zj.png"/>
                     <p>我的足迹</p>
                 </div>
-                <div class="module" @click="not">
-                    <img src="../../../src/assets/img/wwc.png"/>
-                    <p>敬请期待</p>
+                <div class="module" @click="ssq">
+                    <img src="../../../src/assets/img/ssq.png"/>
+                    <p>人生巅峰</p>
                 </div>
             </div>
             <div style="margin-top: 25px">
@@ -184,6 +187,7 @@
     import { CountDown } from 'vant';
     import { PullRefresh } from 'vant';
     import { Overlay } from 'vant';
+    import axios from '../../config/axios'
     Vue.use(Overlay);
     Vue.use(PullRefresh);
     Vue.use(CountDown);
@@ -202,7 +206,7 @@
                 isLoading: false,
                 count: 0,
                 chuXi: 1612972801000-(new Date()).getTime(),
-                time: 1609430401000-(new Date()).getTime(),
+                time: 1614268801000-(new Date()).getTime(),
                 value: 0,
                 showRate: true,
                 appId: '',
@@ -231,6 +235,7 @@
                 spendNum: '',
                 showOver :false,
                 gunDong: localStorage.getItem("address"),
+                weather: ''
             }
         },
         //页面加载就开始查询按钮数据
@@ -404,6 +409,7 @@
                     this.lng = result.position.lng;
                     this.jwd=(result.position.lng)+","+(result.position.lat);
                     console.log(this.jwd)
+                    this.getWeath(this.jwd)
                     _that.province = result.addressComponent.province;
                     _that.city = result.addressComponent.city;
                     _that.district = result.addressComponent.district;
@@ -585,6 +591,16 @@
                 this.getSpendNum()
                 this.getLocation()
             },
+            getWeath:async  function(jwd){
+                let res= await  fetch('https://geoapi.qweather.com/v2/city/lookup?location='+jwd+'&key=b941bbcd687b486aa07aab8586dc115e')
+                let result = await res.json()
+                let res2= await  fetch('https://devapi.qweather.com/v7/weather/3d?location='+result.location[0].id+'&key=b941bbcd687b486aa07aab8586dc115e')
+                let result2 = await res2.json()
+                this.weather="天气情况："+result2.daily[0].fxDate+"日:"+result2.daily[0].tempMin+"度~"+result2.daily[0].tempMax+"度,"+result2.daily[0].textDay+","+result2.daily[1].fxDate+"日:"+result2.daily[1].tempMin+"度~"+result2.daily[1].tempMax+"度,"+result2.daily[1].textDay+","+result2.daily[2].fxDate+"日:"+result2.daily[2].tempMin+"度~"+result2.daily[2].tempMax+"度,"+result2.daily[2].textDay
+            },
+            ssq(){
+                this.$router.push({name:'ssq'});
+            }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {
                     var geocoder = new AMap.Geocoder({

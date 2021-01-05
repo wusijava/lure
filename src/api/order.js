@@ -56,3 +56,7 @@ export async function deleteRec(params){
     const result = await axios.post(api.order.deleteRec,params);
     return result;
 }
+export async function ssqRecord(params){
+    const result = await axios.post(api.order.ssqRecord,params);
+    return result;
+}

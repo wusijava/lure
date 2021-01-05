@@ -156,6 +156,14 @@ export default new Router({
             meta: {
                 title: '提醒记录'
             }
+        } ,
+        {
+            path: '/ssq/ssq',
+            name: 'ssq',
+            component: () => import('./views/ssq/ssq.vue'),
+            meta: {
+                title: '人生巅峰'
+            }
         }
     ]
 })
