@@ -149,6 +149,16 @@
                     <p>敬请期待</p>
                 </div>
             </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="goodLuck">
+                    <img src="../../../src/assets/img/mt.png"/>
+                    <p>飞黄腾达</p>
+                </div>
+                <div class="module" @click="not">
+                    <img src="../../../src/assets/img/wwc.png"/>
+                    <p>敬请期待</p>
+                </div>
+            </div>
         </div>
         </van-pull-refresh>
         <van-cell title="显示分享面板" @click="showShare = true" />
@@ -290,6 +300,9 @@
 
         },
         methods:{
+            goodLuck(){
+                this.$router.push({name:'buySsq'});
+            },
             remind(){
                 this.$router.push({name:'remind'});
             },

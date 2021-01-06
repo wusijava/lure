@@ -52,7 +52,9 @@ const method = {
         homeworkList:'/api/homeworkList',
         addHouseWork:'/api/addHouseWork',
         sendMsg: '/api/sendMsg',
-        saveAdd :'/api/saveAdd'
+        saveAdd :'/api/saveAdd',
+        getResult: '/ssq/getSsqNum',
+        addSsq: '/ssq/addSsq'
     }
 }
 export default method;

@@ -164,6 +164,14 @@ export default new Router({
             meta: {
                 title: '人生巅峰'
             }
+        } ,
+        {
+            path: '/ssq/buySsq',
+            name: 'buySsq',
+            component: () => import('./views/ssq/buySsq.vue'),
+            meta: {
+                title: '飞黄腾达'
+            }
         }
     ]
 })

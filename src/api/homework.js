@@ -23,3 +23,11 @@ export async function saveAdd(params){
     const result = await axios.post(api.homework.saveAdd,params);
     return result;
 }
+export async function getResult(params){
+    const result = await axios.post(api.homework.getResult,params);
+    return result;
+}
+export async function addSsq(params){
+    const result = await axios.post(api.homework.addSsq,params);
+    return result;
+}
