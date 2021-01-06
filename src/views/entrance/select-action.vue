@@ -154,9 +154,9 @@
                     <img src="../../../src/assets/img/mt.png"/>
                     <p>飞黄腾达</p>
                 </div>
-                <div class="module" @click="not">
-                    <img src="../../../src/assets/img/wwc.png"/>
-                    <p>敬请期待</p>
+                <div class="module" @click="buyLuck">
+                    <img src="../../../src/assets/img/money.png"/>
+                    <p>衣紧还乡</p>
                 </div>
             </div>
         </div>
@@ -300,6 +300,9 @@
 
         },
         methods:{
+            buyLuck(){
+                this.$router.push({name:'ssqRecord'});
+            },
             goodLuck(){
                 this.$router.push({name:'buySsq'});
             },

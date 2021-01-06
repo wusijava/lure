@@ -34,7 +34,7 @@
                     <div style="text-align: center;font-size: small;margin-left: 10px;margin-bottom: 15px">红球:{{item2.redNum}}个,蓝球:{{item2.blueNum}}个,单笔奖金:{{item2.bonus}},注数:{{item2.num}}注</div>
                     </div>
                     <div class="list2"  v-if="item.list==null">
-                        <h4 style="text-align: center">未投注</h4>
+                        <h4 style="text-align: center">未投注,与五百万擦肩而过~</h4>
                     </div>
                 </div>
 

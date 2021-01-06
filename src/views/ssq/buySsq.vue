@@ -49,7 +49,7 @@
                 name="蓝球"
                 label="蓝球"
                 placeholder="蓝球"
-                :rules="[{ required: true, message: '请填写家务内容' }]"
+                :rules="[{ required: true, message: '请填写蓝球号码' }]"
         />
             <van-stepper v-model="value" integer style="margin-top: 10px;text-align: center" />
 

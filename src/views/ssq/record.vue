@@ -2,29 +2,36 @@
     <div class="box">
         <van-notice-bar
                 left-icon="volume-o"
-                text="勤做家务,做完美好男人~欧耶~勤做家务,做完美好男人~欧耶~"
+                text="数鸭子,数几只,数鸭子,数几只,数鸭子,数几只,数鸭子,数几只"
         />
 
 
-        <van-dropdown-menu @change.native="changeValue">
+       <!-- <van-dropdown-menu @change.native="changeValue">
             <van-dropdown-item v-model="value1" :options="option1" @click.native="changeValue"/>
-        </van-dropdown-menu>
+        </van-dropdown-menu>-->
 
         <div class="content">
-            <div class="list" v-for="item in list" :key="item.id" >
-                <van-cell-group :title="item.createTime">
-                    <van-cell title="家务内容" :value="item.content" />
-                    <van-cell title="任务安排人" :value="item.userNameBy" />
-                    <van-cell title="备注" :value="item.remark" />
-                    <van-cell title="要求完成时间" :value="item.requiredFinishTime" />
-                    <van-cell title="接受状态" :value="item.receiveStateDesc" />
-                    <van-cell title="目前状态" :value="item.stateDesc" />
-                    <div style="text-align: center">
-                        <van-button type="info" v-if="item.receiveState==0" size="small"  @click="doJob(item.id,1,1)" >接受</van-button>
-                        <van-button type="danger" v-if="item.receiveState==0" size="small"  @click="doJob(item.id,-1,1)" style="margin-left: 20px">拒绝</van-button>
-                        <van-button type="warning" v-if="item.receiveState==1&&item.state==0" size="small"  @click="doJob(item.id,1,2)" style="margin-bottom: 10px" >任务已完成</van-button>
+            <div class="list" v-for="item in list" :key="item.id" style="border: #ee0a24 solid 1px">
+                <h6 style="text-align: center">期数:{{item.term}}&nbsp;购买时间:{{item.createTime}}&nbsp;{{item.week}} 注数:{{item.num}}</h6>
+                <p style="font-size: medium;margin-bottom: 5px;margin-top: 5px;text-align: center">我的号码:</p>
+                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red1}}</van-button>
+                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red2}}</van-button>
+                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red3}}</van-button>
+                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red4}}</van-button>
+                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red5}}</van-button>
+                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red6}}</van-button>
+                <van-button round type="info" style="margin-left: 15px" size="small">{{item.blue}}</van-button>
+                    <div class="list2" v-for="item2 in item.list" :key="item2.id" v-if="item.list!=null">
+                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red1}}</van-button>
+                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red2}}</van-button>
+                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red3}}</van-button>
+                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red4}}</van-button>
+                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red5}}</van-button>
+                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red6}}</van-button>
+                        <van-button round type="info" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.blue}}</van-button>
+                       <!-- <van-button round type="warning" style="margin-left: 10px;margin-bottom: 5px" size="small">{{item2.num}}注</van-button>-->
+                    <div style="text-align: center;font-size: small;margin-left: 10px;margin-bottom: 15px">红球:{{item2.redNum}}个,蓝球:{{item2.blueNum}}个,单笔奖金:{{item2.bonus}},注数:{{item2.num}}注</div>
                     </div>
-                </van-cell-group>
                 </div>
 
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
@@ -36,7 +43,7 @@
 </template>
 
 <script>
-    import {myTask,receiveWork} from "../../api/order";
+    import {ssqRecord,buyRecord} from "../../api/order";
     import Vue from 'vue';
     import { Toast } from 'vant';
     import { DropdownMenu, DropdownItem } from 'vant';
@@ -45,7 +52,7 @@
     Vue.use(DropdownItem);
     Vue.use(Toast);
     export default {
-        name: 'myTask',
+        name: 'ssqRecord',
         data() {
             return {
                 list: [],
@@ -54,8 +61,8 @@
                 value1: '',
                 option1: [
                     { text: '全部', value: '' },
-                    { text: '未处理', value: '0' },
-                    { text: '已处理', value: 1 },
+                    { text: '未中奖', value: '0' },
+                    { text: '已中奖', value: 1 },
                 ],
 
 
@@ -79,12 +86,21 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                params.type=1
+
                 if(this.value1){
-                    params.state=this.value1
+                    params.isDo=this.value1
                 }
 
-                const result = await myTask(params);
+
+
+
+
+               /* this.$toast.loading({
+                    duration: 0, // 持续展示 toast
+                    forbidClick: true,
+                    message: '请稍后...',
+                });*/
+                const result = await buyRecord(params);
                 this.$toast.clear();
                 if (result.data.code == '20000') {
                     if(result.data.data.content.length > 0) {
@@ -110,12 +126,11 @@
             back(){
                 this.$router.push({name:'selectAction'});
             },
-            doJob: async function(id,state,stateType){
+            doJob: async function(id){
                 let params = {};
                 params.id=id
-                params.state=state
-                params.stateType=stateType
-                const result = await receiveWork(params);
+                const result = await changeState(params);
+                console.log(result.data.code)
                 if (result.data.code == '20000') {
                     const toast = Toast.loading({
                         duration: 0, // 持续展示 toast

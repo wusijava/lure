@@ -172,6 +172,14 @@ export default new Router({
             meta: {
                 title: '飞黄腾达'
             }
+        },
+        {
+            path: '/ssq/ssqRecord',
+            name: 'ssqRecord',
+            component: () => import('./views/ssq/record.vue'),
+            meta: {
+                title: '衣紧还乡'
+            }
         }
     ]
 })

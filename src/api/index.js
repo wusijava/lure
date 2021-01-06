@@ -39,7 +39,8 @@ const method = {
         address: '/api/address',
         remind: '/api/remind',
         deleteRec: '/api/deleteRec',
-        ssqRecord: '/ssq/getSsqRecord'
+        ssqRecord: '/ssq/getSsqRecord',
+        buyRecord: '/ssq/buyRecord'
 
 
 
