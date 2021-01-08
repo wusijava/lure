@@ -180,6 +180,14 @@ export default new Router({
             meta: {
                 title: '衣紧还乡'
             }
+        },
+        {
+            path: '/ssq/daiMai',
+            name: 'daiMai',
+            component: () => import('./views/ssq/daimai.vue'),
+            meta: {
+                title: '发起代买'
+            }
         }
     ]
 })

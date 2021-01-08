@@ -31,3 +31,11 @@ export async function addSsq(params){
     const result = await axios.post(api.homework.addSsq,params);
     return result;
 }
+export async function faQiDaiMai(params){
+    const result = await axios.post(api.homework.faQiDaiMai,params);
+    return result;
+}
+export async function suiJi(params){
+    const result = await axios.post(api.homework.suiJi,params);
+    return result;
+}

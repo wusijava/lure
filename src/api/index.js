@@ -39,8 +39,8 @@ const method = {
         address: '/api/address',
         remind: '/api/remind',
         deleteRec: '/api/deleteRec',
-        ssqRecord: '/ssq/getSsqRecord',
-        buyRecord: '/ssq/buyRecord'
+        ssqRecord: '/api/ssq/getSsqRecord',
+        buyRecord: '/api/ssq/buyRecord'
 
 
 
@@ -54,8 +54,11 @@ const method = {
         addHouseWork:'/api/addHouseWork',
         sendMsg: '/api/sendMsg',
         saveAdd :'/api/saveAdd',
-        getResult: '/ssq/getSsqNum',
-        addSsq: '/ssq/addSsq'
+        getResult: '/api/ssq/getSsqNum',
+        addSsq: '/api/ssq/addSsq',
+        faQiDaiMai: '/api/ssq/addSsq',
+        suiJi: '/api/ssq/suiJi'
+
     }
 }
 export default method;

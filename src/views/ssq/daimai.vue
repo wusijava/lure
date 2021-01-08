@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3 style="text-align: center">本期购买期号:{{this.ssqNum}}</h3>
-        <h4 style="text-align: center;color: #ff6c6c">(期号接口自动计算,注意与实际比对)</h4>
+        <h4 style="text-align: center;color: #ff6c6c">(请在彩票截止售卖前两小时下单)</h4>
         <van-form @submit="onSubmit">
         <van-field
                 v-model="red1"
@@ -54,11 +54,27 @@
         />
             <van-stepper v-model="value" integer style="margin-top: 10px;text-align: center" />
             <h6 style="text-align: center">加减购买注数</h6>
+            <van-stepper v-model="value2" min="20" max="50" style="margin-top: 10px;text-align: center" />
+            <h6 style="text-align: center">佣金比例</h6>
+            <p @click="userOpen" style="margin-left: 15px">任务指派给:{{this.user}}</p>
+            <van-picker
+                    title="任务指派给:"
+                    show-toolbar
+                    :columns="columns"
+                    @confirm="onConfirm2"
+                    @cancel="onCancel"
+                    @change="onChange"
+                    v-model="user"
+                    v-if="userShow"
+            />
 
         <div style="margin-top: 50px">
-            <van-button round block type="danger" native-type="submit">一键暴富</van-button>
+            <van-button round block type="danger" native-type="submit">一键下单</van-button>
         </div>
         </van-form>
+        <div style="margin-top: 50px">
+            <van-button round block type="warning" @click="suiJi">随机出号</van-button>
+        </div>
         <div style="margin-top: 50px">
             <van-button round block type="info" @click="back">返回首页</van-button>
         </div>
@@ -81,13 +97,13 @@
     import { Picker } from 'vant';
     Vue.use(Picker);
     import { Notify } from 'vant';
-    import {getResult,addSsq} from '../../api/homework'
+    import {getResult,faQiDaiMai,suiJi} from '../../api/homework'
     import { ContactEdit } from 'vant';
     Vue.use(ContactEdit);
     import { Stepper } from 'vant';
     Vue.use(Stepper);
     export default {
-        name: "buySsq",
+        name: "daiMai",
         data() {
             return {
                 red1: '',
@@ -111,7 +127,9 @@
                 checked: false,
                 user: '',
                 userShow: false,
-                ssqNum: ''
+                ssqNum: '',
+                value2: '',
+                columns: ['吴思', '何浩', 'tomcat', '张皓'],
             }
         },
         mounted() {
@@ -141,7 +159,10 @@
                 params.blue=this.blue
                 params.term=this.ssqNum
                 params.num=this.value
-                let result = await addSsq(params);
+                params.buyer=this.user
+                params.rate=this.value2
+                params.type=2
+                let result = await faQiDaiMai(params);
                 let data = result.data;
                 if (data.code == "20000") {
                     Notify(result.data.data);
@@ -162,6 +183,35 @@
             back(){
                 this.$router.push({name:'selectAction'});
             },
+        onConfirm2(value, index) {
+            console.log("confirm2")
+            this.user=value
+            this.userShow=false
+            Toast(`已选择任务指派给：${value}`);
+        },
+        onChange(picker, value, index) {
+            Toast(`当前值：${value}`);
+        },
+        onCancel() {
+            Toast('取消选择');
+            this.userShow=false
+        },
+        userOpen(){
+            this.userShow=true
+        },
+            async suiJi(){
+                let result = await suiJi();
+                console.log(result)
+                if (result.data.code == "20000") {
+                    this.red1=result.data.data.red1
+                    this.red2=result.data.data.red2
+                    this.red3=result.data.data.red3
+                    this.red4=result.data.data.red4
+                    this.red5=result.data.data.red5
+                    this.red6=result.data.data.red6
+                    this.blue=result.data.data.blue
+                }
+            }
         }
     }
 </script>

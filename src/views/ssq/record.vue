@@ -11,26 +11,19 @@
         </van-dropdown-menu>-->
 
         <div class="content">
+            <h5 style="text-align: center">总投资:{{this.spend}}元,总收益:{{this.bonus}}元</h5>
             <div class="list" v-for="item in list" :key="item.id" style="border: #ee0a24 solid 1px">
-                <h6 style="text-align: center">期数:{{item.term}}&nbsp;购买时间:{{item.createTime}}&nbsp;{{item.week}} 注数:{{item.num}}</h6>
-                <p style="font-size: medium;margin-bottom: 5px;margin-top: 5px;text-align: center">我的号码:</p>
-                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red1}}</van-button>
-                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red2}}</van-button>
-                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red3}}</van-button>
-                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red4}}</van-button>
-                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red5}}</van-button>
-                <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red6}}</van-button>
-                <van-button round type="info" style="margin-left: 15px" size="small">{{item.blue}}</van-button>
-                    <div class="list2" v-for="item2 in item.list" :key="item2.id" v-if="item.list!=null">
-                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red1}}</van-button>
-                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red2}}</van-button>
-                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red3}}</van-button>
-                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red4}}</van-button>
-                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red5}}</van-button>
-                        <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red6}}</van-button>
-                        <van-button round type="info" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.blue}}</van-button>
-                       <!-- <van-button round type="warning" style="margin-left: 10px;margin-bottom: 5px" size="small">{{item2.num}}注</van-button>-->
-                    <div style="text-align: center;font-size: small;margin-left: 10px;margin-bottom: 15px">红球:{{item2.redNum}}个,蓝球:{{item2.blueNum}}个,单笔奖金:{{item2.bonus}},注数:{{item2.num}}注</div>
+                <h5 style="text-align: center">期数:{{item.term}}&nbsp;购买时间:{{item.ssqList[0].createTime}}</h5>
+                    <div class="list2" v-for="item2 in item.ssqList" :key="item2.id" v-if="item.ssqList!=null">
+                        <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.red1}}</van-button>
+                        <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.red2}}</van-button>
+                        <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.red3}}</van-button>
+                        <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.red4}}</van-button>
+                        <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.red5}}</van-button>
+                        <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.red6}}</van-button>
+                        <van-button round type="info" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.blue}}</van-button>
+                        <van-button round type="warning" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.isBonus}}</van-button>
+                        <van-button round type="warning" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.num}}注</van-button>
                     </div>
                 </div>
 
@@ -64,6 +57,8 @@
                     { text: '未中奖', value: '0' },
                     { text: '已中奖', value: 1 },
                 ],
+                spend: '',
+                bonus: ''
 
 
 
@@ -103,10 +98,12 @@
                 const result = await buyRecord(params);
                 this.$toast.clear();
                 if (result.data.code == '20000') {
-                    if(result.data.data.content.length > 0) {
+                    if(result.data.data.length > 0) {
                         this.showEmpty = false;
-                        this.list = result.data.data.content;
-                        this.pageTotal = result.data.data.totalPages;
+                        this.list = result.data.data;
+                        this.spend=result.data.data[0].spend
+                        this.bonus=result.data.data[0].bonus
+                        this.pageTotal = result.data.data[0].totalPage;
                     }else {
                         this.showEmpty = true;
                         this.list = [];

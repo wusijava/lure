@@ -159,6 +159,16 @@
                     <p>衣紧还乡</p>
                 </div>
             </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="faQiDaiMai">
+                    <img src="../../../src/assets/img/buy.png"/>
+                    <p>发起代买</p>
+                </div>
+                <div class="module" @click="myOrder">
+                    <img src="../../../src/assets/img/cai.png"/>
+                    <p>代买订单</p>
+                </div>
+            </div>
         </div>
         </van-pull-refresh>
         <van-cell title="显示分享面板" @click="showShare = true" />
@@ -616,6 +626,12 @@
             },
             ssq(){
                 this.$router.push({name:'ssq'});
+            },
+            myOrder(){
+
+            },
+            faQiDaiMai(){
+                this.$router.push({name:'daiMai'});
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

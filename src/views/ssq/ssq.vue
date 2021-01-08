@@ -13,7 +13,7 @@
         <div class="content">
             <div class="list" v-for="item in list" :key="item.id" style="border: #ee0a24 solid 1px">
                 <h6 style="text-align: center">期数:{{item.term}}&nbsp;开奖时间:{{item.createTime}}&nbsp;{{item.week}}</h6>
-                <p style="font-size: medium;margin-bottom: 5px;margin-top: 5px">开奖号码:</p>
+                <p style="font-size: medium;margin-bottom: 5px;margin-top: 5px;text-align: center">开奖号码:</p>
                 <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red1}}</van-button>
                 <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red2}}</van-button>
                 <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red3}}</van-button>
@@ -21,7 +21,7 @@
                 <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red5}}</van-button>
                 <van-button round type="danger" style="margin-left: 15px" size="small">{{item.red6}}</van-button>
                 <van-button round type="info" style="margin-left: 15px" size="small">{{item.blue}}</van-button>
-                <p style="font-size: medium;margin-bottom: 5px;margin-top: 5px">我的投注:</p>
+                <p style="font-size: medium;margin-bottom: 5px;margin-top: 5px;text-align: center">我的投注:</p>
                     <div class="list2" v-for="item2 in item.list" :key="item2.id" v-if="item.list!=null">
                         <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red1}}</van-button>
                         <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red2}}</van-button>
@@ -31,7 +31,7 @@
                         <van-button round type="danger" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.red6}}</van-button>
                         <van-button round type="info" style="margin-left: 15px;margin-bottom: 5px" size="small">{{item2.blue}}</van-button>
                        <!-- <van-button round type="warning" style="margin-left: 10px;margin-bottom: 5px" size="small">{{item2.num}}注</van-button>-->
-                    <div style="text-align: center;font-size: small;margin-left: 10px;margin-bottom: 15px">红球:{{item2.redNum}}个,蓝球:{{item2.blueNum}}个,单笔奖金:{{item2.bonus}},注数:{{item2.num}}注</div>
+                    <div style="text-align: center;font-size: small;margin-left: 10px;margin-bottom: 15px">中奖情况:红球:{{item2.redNum}}个,蓝球:{{item2.blueNum}}个,单笔奖金:{{item2.bonus}},注数:{{item2.num}}注</div>
                     </div>
                     <div class="list2"  v-if="item.list==null">
                         <h4 style="text-align: center">未投注,与五百万擦肩而过~</h4>
