@@ -188,6 +188,14 @@ export default new Router({
             meta: {
                 title: '发起代买'
             }
+        },
+        {
+            path: '/ssq/daiMaiOrder',
+            name: 'daiMaiOrder',
+            component: () => import('./views/ssq/daiMaiOrder.vue'),
+            meta: {
+                title: '代买订单'
+            }
         }
     ]
 })

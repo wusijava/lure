@@ -40,7 +40,8 @@ const method = {
         remind: '/api/remind',
         deleteRec: '/api/deleteRec',
         ssqRecord: '/api/ssq/getSsqRecord',
-        buyRecord: '/api/ssq/buyRecord'
+        buyRecord: '/api/ssq/buyRecord',
+        changeSsqState:'/api/ssq/changeSsqState'
 
 
 

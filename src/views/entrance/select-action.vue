@@ -627,8 +627,8 @@
             ssq(){
                 this.$router.push({name:'ssq'});
             },
-            myOrder(){
-
+            myOrder(){//daiMaiOrder
+                this.$router.push({name:'daiMaiOrder'});
             },
             faQiDaiMai(){
                 this.$router.push({name:'daiMai'});

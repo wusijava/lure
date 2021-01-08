@@ -64,3 +64,7 @@ export async function buyRecord(params){
     const result = await axios.post(api.order.buyRecord,params);
     return result;
 }
+export async function changeSsqState(params){
+    const result = await axios.post(api.order.changeSsqState,params);
+    return result;
+}
