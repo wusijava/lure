@@ -196,6 +196,22 @@ export default new Router({
             meta: {
                 title: '代买订单'
             }
+        },
+        {
+            path: '/changePassWord',
+            name: 'changePassWord',
+            component: () => import('./views/changePassWord.vue'),
+            meta: {
+                title: '修改密码'
+            }
+        },
+        {
+            path: '/ssq/getOnlineNum',
+            name: 'getOnlineNum',
+            component: () => import('./views/ssq/getOnlineNum.vue'),
+            meta: {
+                title: '获取号码'
+            }
         }
     ]
 })

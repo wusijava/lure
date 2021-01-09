@@ -3,6 +3,7 @@ import {addHouseWork} from "./homework";
 const method = {
     user:{
         login: '/login',
+        changePassWord:  '/api/web/user/changePassword'
     },
     merchant:{
         submit: '/merchant/merchantApply',
@@ -58,7 +59,8 @@ const method = {
         getResult: '/api/ssq/getSsqNum',
         addSsq: '/api/ssq/addSsq',
         faQiDaiMai: '/api/ssq/addSsq',
-        suiJi: '/api/ssq/suiJi'
+        suiJi: '/api/ssq/suiJi',
+        getOnlineNum: '/api/ssq/getOnlineNum'
 
     }
 }

@@ -169,6 +169,16 @@
                     <p>代买订单</p>
                 </div>
             </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="changePassWord">
+                    <img src="../../../src/assets/img/mm.png"/>
+                    <p>修改密码</p>
+                </div>
+                <div class="module" @click="getOnlineNum">
+                    <img src="../../../src/assets/img/dn.png"/>
+                    <p>获取开奖</p>
+                </div>
+            </div>
         </div>
         </van-pull-refresh>
         <van-cell title="显示分享面板" @click="showShare = true" />
@@ -255,7 +265,8 @@
                 spendNum: '',
                 showOver :false,
                 gunDong: localStorage.getItem("address"),
-                weather: ''
+                weather: '',
+                userName: localStorage.getItem("username"),
             }
         },
         //页面加载就开始查询按钮数据
@@ -267,7 +278,7 @@
             this.getSpendNum();
             setInterval(this.getLocation(),5000);
 
-
+            this.user="当前登录账号:"+localStorage.getItem("username")
             if(localStorage.getItem("username")=="admin"){
                 this.user="当前登录账号:吴思"
                 // <h4>经度:{{this.lng}}纬度:{{this.lat}}区域:{{this.city}}</h4>
@@ -275,6 +286,7 @@
             if(localStorage.getItem("username")=="zmx"){
                 this.user="当前登录账号:张明霞"
             }
+
             if(this.num==1){
                 Dialog.alert({
                     //title: '标题',
@@ -326,28 +338,66 @@
                 this.$router.push({name:'myAddress'});
             },
             toSign(){
-                this.$router.push({name:'create'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                    this.$router.push({name:'create'});
+                }
+
             },
             toBusiness(info){
-                this.$router.push({name:'taoBao'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                this.$router.push({name:'taoBao'});}
             },
             toRefund() {
-                this.$router.push({name:'taoList'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                this.$router.push({name:'taoList'})}
             },
             toSearch() {
                 this.$router.push({name:'login'});
             },
             spend(){
-                this.$router.push({name:'orderList'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                this.$router.push({name:'orderList'})};
             },
             proState(){
                 this.$router.push({name:'productState'});
             },
             homework(){
-                this.$router.push({name:'addHomework'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                this.$router.push({name:'addHomework'})};
             },
             homeworkList(){
-                this.$router.push({name:'homeworkList'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                this.$router.push({name:'homeworkList'})};
             },
             monitor(){
                 this.$router.push({name:'monitor'});
@@ -415,13 +465,31 @@
                this.distanceCat()
             },
             housework(){
-                this.$router.push({name:'houseworkAdd'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                this.$router.push({name:'houseworkAdd'})};
             },
             myTask(){
-                this.$router.push({name:'myTask'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                this.$router.push({name:'myTask'})};
             },
             toTask(){
-                this.$router.push({name:'toTask'});
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }else{
+                this.$router.push({name:'toTask'})};
             },
             myAdd(){
                 window.location.href="https://m.amap.com/navi/?dest="+this.jwd+"&destName=%E6%88%91%E7%9A%84%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=9138ad0023cb8e79ca816509aac42747"
@@ -632,6 +700,20 @@
             },
             faQiDaiMai(){
                 this.$router.push({name:'daiMai'});
+            },
+            checkUser(){
+                if(this.userName!='admin'&&this.userName!='zmx'){
+                    Dialog.alert({
+                        message: '暂无权限,敬请期待!',
+                        theme: 'round-button',
+                    })
+                }
+            },
+            changePassWord(){
+                this.$router.push({name:'changePassWord'});
+            },
+            getOnlineNum(){
+                this.$router.push({name:'getOnlineNum'});
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

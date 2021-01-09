@@ -39,3 +39,8 @@ export async function suiJi(params){
     const result = await axios.post(api.homework.suiJi,params);
     return result;
 }
+
+export async function getOnlineNum(params){
+    const result = await axios.post(api.homework.getOnlineNum,params);
+    return result;
+}
