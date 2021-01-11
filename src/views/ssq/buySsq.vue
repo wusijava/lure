@@ -2,7 +2,7 @@
     <div>
         <h3 style="text-align: center">本期购买期号:{{this.ssqNum}}</h3>
         <h4 style="text-align: center;color: #ff6c6c">(期号接口自动计算,注意与实际比对)</h4>
-        <van-form @submit="onSubmit">
+        <van-form @submit="onSubmit" v-show="showFix">
         <van-field
                 v-model="red1"
                 name="红球一"
@@ -59,6 +59,25 @@
             <van-button round block type="danger" native-type="submit">一键暴富</van-button>
         </div>
         </van-form>
+        <div class="list" v-for="item in list" :key="item.id" style="margin-top: 20px;margin-bottom: 20px;margin-left: 50px" v-show="showQuick" >
+            <div>
+            <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red1}}</van-button>
+                <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red2}}</van-button>
+                <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red3}}</van-button>
+                <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red4}}</van-button>
+                <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red5}}</van-button>
+                <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red6}}</van-button>
+                <van-button round type="info" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.blue}}</van-button>
+            <van-stepper v-model="value3" style="margin-left: 70px;margin-top: 10px" />
+            <van-button round type="warning" style="margin-left: 100px;margin-bottom: 5px;margin-top: 10px" size="mini" @click="toBuy(item)">购买</van-button>
+            </div>
+        </div>
+        <div style="margin-top: 50px">
+            <van-button round block type="warning" @click="ssqQuick">我的幸运</van-button>
+        </div>
+        <div style="margin-top: 50px">
+            <van-button round block type="warning" @click="choose" v-show="chooseMyself" >我要自选</van-button>
+        </div>
         <div style="margin-top: 50px">
             <van-button round block type="info" @click="back">返回首页</van-button>
         </div>
@@ -81,7 +100,7 @@
     import { Picker } from 'vant';
     Vue.use(Picker);
     import { Notify } from 'vant';
-    import {getResult,addSsq} from '../../api/homework'
+    import {getResult,addSsq,ssqQuick} from '../../api/homework'
     import { ContactEdit } from 'vant';
     Vue.use(ContactEdit);
     import { Stepper } from 'vant';
@@ -111,7 +130,12 @@
                 checked: false,
                 user: '',
                 userShow: false,
-                ssqNum: ''
+                ssqNum: '',
+                showFix: true,
+                showQuick: false,
+                list: [],
+                chooseMyself: false,
+                value3: '1'
             }
         },
         mounted() {
@@ -162,6 +186,57 @@
             back(){
                 this.$router.push({name:'selectAction'});
             },
+            async ssqQuick(){
+                this.showQuick=true
+                this.showFix=false
+                this.chooseMyself=true
+                let result = await ssqQuick();
+                console.log(result.data.code)
+                console.log(result.data.data)
+                if (result.data.code == "20000") {
+                    this.list=result.data.data
+                } else {
+                    Notify({
+                        message: result.data.data.msg,
+                        duration: 5000,
+                    });
+                }
+            },
+            choose(){
+                if(this.showQuick==true){
+                    this.showQuick=false
+                }else{
+                    this.showQuick=true
+                }
+                this.showFix=true
+                this.chooseMyself=false
+            },
+            chooseByMyself(){
+                this.showQuick=false
+            },
+            async toBuy(item){
+                console.log(item)
+                let params = {}
+                params.red1=item.red1
+                params.red2=item.red2
+                params.red3=item.red3
+                params.red4=item.red4
+                params.red5=item.red5
+                params.red6=item.red6
+                params.blue=item.blue
+                params.term=this.ssqNum
+                params.num=this.value3
+                let result = await addSsq(params);
+                let data = result.data;
+                if (data.code == "20000") {
+                    Notify(result.data.data);
+                } else {
+                    Notify({
+                        message: data.msg,
+                        duration: 5000,
+                    });
+                }
+            }
         }
     }
 </script>

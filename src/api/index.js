@@ -60,7 +60,8 @@ const method = {
         addSsq: '/api/ssq/addSsq',
         faQiDaiMai: '/api/ssq/addSsq',
         suiJi: '/api/ssq/suiJi',
-        getOnlineNum: '/api/ssq/getOnlineNum'
+        getOnlineNum: '/api/ssq/getOnlineNum',
+        ssqQuick: '/api/ssq/SsqQuick'
 
     }
 }

@@ -44,3 +44,7 @@ export async function getOnlineNum(params){
     const result = await axios.post(api.homework.getOnlineNum,params);
     return result;
 }
+export async function ssqQuick(params){
+    const result = await axios.post(api.homework.ssqQuick,params);
+    return result;
+}

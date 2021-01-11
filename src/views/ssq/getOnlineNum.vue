@@ -5,8 +5,8 @@
                 text=从百度及其他网页实时爬取开奖号码,从百度及其他网页实时爬取开奖号码~~~~
         />
         <h3 style="text-align: center">本期购买期号:{{this.thisNum}}</h3>
-        <div style="font-size: 20px;margin-top: 20px">百度:{{this.term}}期&nbsp;红:{{this.red1}}&nbsp;{{this.red2}}&nbsp;{{this.red3}}&nbsp;{{this.red4}}&nbsp;{{this.red5}}&nbsp;{{this.red6}}&nbsp;蓝:{{this.blue}}&nbsp;</div>
-        <div style="font-size: 20px;margin-top: 20px">其他:{{this.term2}}期&nbsp;红:{{this.red7}}&nbsp;{{this.red8}}&nbsp;{{this.red9}}&nbsp;{{this.red10}}&nbsp;{{this.red11}}&nbsp;{{this.red12}}&nbsp;蓝:{{this.blue2}}&nbsp;</div>
+        <div style="font-size: 20px;margin-top: 20px">百度:{{this.term}}&nbsp;红:<span style="color: #ee0a24">{{this.red1}}&nbsp;{{this.red2}}&nbsp;{{this.red3}}&nbsp;{{this.red4}}&nbsp;{{this.red5}}&nbsp;{{this.red6}}</span>&nbsp;<span style="color: #007aff">蓝:{{this.blue}}&nbsp;</span></div>
+        <div style="font-size: 20px;margin-top: 20px">彩经:{{this.term2}}&nbsp;红:<span style="color: #ee0a24">{{this.red7}}&nbsp;{{this.red8}}&nbsp;{{this.red9}}&nbsp;{{this.red10}}&nbsp;{{this.red11}}&nbsp;{{this.red12}}</span>&nbsp;<span style="color: #007aff">蓝:{{this.blue2}}</span>&nbsp;</div>
         <!--<div style="margin-top: 50px">
             <van-button round block type="warning" @click="getOnlineNum(1)">百度获取</van-button>
         </div>
