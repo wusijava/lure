@@ -59,7 +59,7 @@
             <van-button round block type="danger" native-type="submit">一键暴富</van-button>
         </div>
         </van-form>
-        <div class="list" v-for="item in list" :key="item.id" style="margin-top: 20px;margin-bottom: 20px;margin-left: 50px" v-show="showQuick" >
+        <div class="list" v-for="item in list" :key="item.id" style="text-align: center" v-show="showQuick" >
             <div>
             <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red1}}</van-button>
                 <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red2}}</van-button>
@@ -68,18 +68,18 @@
                 <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red5}}</van-button>
                 <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.red6}}</van-button>
                 <van-button round type="info" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item.blue}}</van-button>
-            <van-stepper v-model="value3" style="margin-left: 70px;margin-top: 10px" />
-            <van-button round type="warning" style="margin-left: 100px;margin-bottom: 5px;margin-top: 10px" size="mini" @click="toBuy(item)">购买</van-button>
+            <van-stepper v-model="value3" style="text-align: center" />
+            <van-button round type="warning" style="text-align: center;margin-bottom: 20px;margin-top: 5px" size="mini" @click="toBuy(item)">购买</van-button>
             </div>
         </div>
         <div style="margin-top: 50px">
-            <van-button round block type="warning" @click="ssqQuick">我的幸运</van-button>
+            <van-button round block type="info" @click="ssqQuick">我的幸运</van-button>
         </div>
         <div style="margin-top: 50px">
             <van-button round block type="warning" @click="choose" v-show="chooseMyself" >我要自选</van-button>
         </div>
         <div style="margin-top: 50px">
-            <van-button round block type="info" @click="back">返回首页</van-button>
+            <van-button round block type="primary" @click="back">返回首页</van-button>
         </div>
 
     </div>
