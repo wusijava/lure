@@ -68,3 +68,20 @@ export async function changeSsqState(params){
     const result = await axios.post(api.order.changeSsqState,params);
     return result;
 }
+export async function history(params){
+    const result = await axios.post(api.order.history,params);
+    return result;
+}
+
+export async function gaiLv(params){
+    const result = await axios.post(api.order.gaiLv,params);
+    return result;
+}
+export async function blueThree(params){
+    const result = await axios.post(api.order.blueThree,params);
+    return result;
+}
+export async function mathLog(params){
+    const result = await axios.post(api.order.mathLog,params);
+    return result;
+}

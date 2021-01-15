@@ -156,7 +156,7 @@
                 </div>
                 <div class="module" @click="buyLuck">
                     <img src="../../../src/assets/img/money.png"/>
-                    <p>衣紧还乡</p>
+                    <p>衣锦还乡</p>
                 </div>
             </div>
             <div style="margin-top: 25px">
@@ -177,6 +177,36 @@
                 <div class="module" @click="getOnlineNum">
                     <img src="../../../src/assets/img/dn.png"/>
                     <p>获取开奖</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="history">
+                    <img src="../../../src/assets/img/dog2.png"/>
+                    <p>历史开奖</p>
+                </div>
+                <div class="module" @click="gaiLv">
+                    <img src="../../../src/assets/img/ly.png"/>
+                    <p>概率统计</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="blue">
+                    <img src="../../../src/assets/img/lq.png"/>
+                    <p>蓝球之谜</p>
+                </div>
+                <div class="module" @click="not">
+                    <img src="../../../src/assets/img/zc.png"/>
+                    <p>用户注册</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="jjcc">
+                    <img src="../../../src/assets/img/jjcc.png"/>
+                    <p>加减乘除</p>
+                </div>
+                <div class="module" @click="homeworkOnline">
+                    <img src="../../../src/assets/img/jpq.png"/>
+                    <p>线上作业</p>
                 </div>
             </div>
         </div>
@@ -714,6 +744,21 @@
             },
             getOnlineNum(){
                 this.$router.push({name:'getOnlineNum'});
+            },
+            history(){
+                this.$router.push({name:'history'});
+            },
+            gaiLv(){
+                this.$router.push({name:'gaiLv'});
+            },
+            blue(){
+                this.$router.push({name:'blue'});
+            },
+            jjcc(){
+                this.$router.push({name:'jjcc'});
+            },
+            homeworkOnline(){
+                this.$router.push({name:'mathLog'});
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

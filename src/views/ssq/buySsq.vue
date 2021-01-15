@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <h3 style="text-align: center">本期购买期号:{{this.ssqNum}}</h3>
-        <h4 style="text-align: center;color: #ff6c6c">(期号接口自动计算,注意与实际比对)</h4>
+    <div style="margin-top: 50px">
+        <h4 style="text-align: center;" >本期购买期号:{{this.ssqNum}}</h4>
+        <h6 style="text-align: center;color: #ff6c6c">(期号接口自动计算,注意与实际比对)</h6>
         <van-form @submit="onSubmit" v-show="showFix">
         <van-field
                 v-model="red1"
@@ -55,7 +55,7 @@
             <van-stepper v-model="value" integer style="margin-top: 10px;text-align: center" />
             <h6 style="text-align: center">加减购买注数</h6>
 
-        <div style="margin-top: 50px">
+        <div style="margin-top: 20px">
             <van-button round block type="danger" native-type="submit">一键暴富</van-button>
         </div>
         </van-form>
@@ -72,13 +72,16 @@
             <van-button round type="warning" style="text-align: center;margin-bottom: 20px;margin-top: 5px" size="mini" @click="toBuy(item)">购买</van-button>
             </div>
         </div>
-        <div style="margin-top: 50px">
+        <div style="margin-top: 20px">
             <van-button round block type="info" @click="ssqQuick">我的幸运</van-button>
         </div>
-        <div style="margin-top: 50px">
+        <div style="margin-top: 20px">
             <van-button round block type="warning" @click="choose" v-show="chooseMyself" >我要自选</van-button>
         </div>
-        <div style="margin-top: 50px">
+        <div style="margin-top: 20px">
+            <van-button round block type="warning" @click="getHistory"  >历史查询</van-button>
+        </div>
+        <div style="margin-top: 20px">
             <van-button round block type="primary" @click="back">返回首页</van-button>
         </div>
 
@@ -100,7 +103,7 @@
     import { Picker } from 'vant';
     Vue.use(Picker);
     import { Notify } from 'vant';
-    import {getResult,addSsq,ssqQuick} from '../../api/homework'
+    import {getResult,addSsq,ssqQuick,getHistory} from '../../api/homework'
     import { ContactEdit } from 'vant';
     Vue.use(ContactEdit);
     import { Stepper } from 'vant';
@@ -230,6 +233,30 @@
                 let data = result.data;
                 if (data.code == "20000") {
                     Notify(result.data.data);
+                } else {
+                    Notify({
+                        message: data.msg,
+                        duration: 5000,
+                    });
+                }
+            },
+            async getHistory(){
+                let params = {}
+                params.red1=this.red1
+                params.red2=this.red2
+                params.red3=this.red3
+                params.red4=this.red4
+                params.red5=this.red5
+                params.red6=this.red6
+                params.blue=this.blue
+                let result = await getHistory(params);
+                let data = result.data;
+                if (data.code == "20000") {
+                    Notify({
+                        message:  result.data.data,
+                            duration: 3000
+                    }
+                       );
                 } else {
                     Notify({
                         message: data.msg,

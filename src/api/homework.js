@@ -48,3 +48,15 @@ export async function ssqQuick(params){
     const result = await axios.post(api.homework.ssqQuick,params);
     return result;
 }
+export async function getHistory(params){
+    const result = await axios.post(api.homework.getHistory,params);
+    return result;
+}
+export async function getTi(params){
+    const result = await axios.post(api.homework.getTi,params);
+    return result;
+}
+export async function checkTi(params){
+    const result = await axios.post(api.homework.checkTi,params);
+    return result;
+}

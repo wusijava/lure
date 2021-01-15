@@ -42,7 +42,11 @@ const method = {
         deleteRec: '/api/deleteRec',
         ssqRecord: '/api/ssq/getSsqRecord',
         buyRecord: '/api/ssq/buyRecord',
-        changeSsqState:'/api/ssq/changeSsqState'
+        changeSsqState:'/api/ssq/changeSsqState',
+        history: '/api/ssq/history',
+        gaiLv: '/api/ssq/getHistoryTimes',
+        blueThree: '/api/ssq/blueThree',
+        mathLog: '/api/math/homeworkLog'
 
 
 
@@ -61,7 +65,10 @@ const method = {
         faQiDaiMai: '/api/ssq/addSsq',
         suiJi: '/api/ssq/suiJi',
         getOnlineNum: '/api/ssq/getOnlineNum',
-        ssqQuick: '/api/ssq/SsqQuick'
+        ssqQuick: '/api/ssq/SsqQuick',
+        getHistory: '/api/ssq/getHistory',
+        getTi: '/api/math/getTi',
+        checkTi: '/api/math/checkTi'
 
     }
 }

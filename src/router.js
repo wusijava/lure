@@ -212,6 +212,45 @@ export default new Router({
             meta: {
                 title: '获取号码'
             }
+        },
+        {
+            path: '/ssq/history',
+            name: 'history',
+            component: () => import('./views/ssq/history.vue'),
+            meta: {
+                title: '历史开奖'
+            }
+        },
+        {
+            path: '/ssq/gaiLv',
+            name: 'gaiLv',
+            component: () => import('./views/ssq/gaiLv.vue'),
+            meta: {
+                title: '概率统计'
+            }
+        },
+        {
+            path: '/ssq/blue',
+            name: 'blue',
+            component: () => import('./views/ssq/blue.vue'),
+            meta: {
+                title: '蓝球之谜'
+            }
+        },
+        {    path: '/homework/jjcc',
+            name: 'jjcc',
+            component: () => import('./views/homework/jjcc.vue'),
+            meta: {
+                title: '加减乘除'
+            }
+        },
+        {    path: '/homework/mathLog',
+            name: 'mathLog',
+            component: () => import('./views/homework/mathLog.vue'),
+            meta: {
+                title: '线上记录'
+            }
         }
+
     ]
 })
