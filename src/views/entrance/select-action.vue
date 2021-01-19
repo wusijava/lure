@@ -194,9 +194,9 @@
                     <img src="../../../src/assets/img/lq.png"/>
                     <p>蓝球之谜</p>
                 </div>
-                <div class="module" @click="not">
-                    <img src="../../../src/assets/img/zc.png"/>
-                    <p>用户注册</p>
+                <div class="module" @click="dingDing">
+                    <img src="../../../src/assets/img/gb.png"/>
+                    <p>钉钉群发</p>
                 </div>
             </div>
             <div style="margin-top: 25px">
@@ -759,6 +759,9 @@
             },
             homeworkOnline(){
                 this.$router.push({name:'mathLog'});
+            },
+            dingDing(){
+                this.$router.push({name:'dingDing'});
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

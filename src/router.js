@@ -250,6 +250,13 @@ export default new Router({
             meta: {
                 title: '线上记录'
             }
+        },
+        {    path: '/homework/dingDing',
+            name: 'dingDing',
+            component: () => import('./views/homework/dingDing.vue'),
+            meta: {
+                title: '线上记录'
+            }
         }
 
     ]

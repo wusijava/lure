@@ -68,7 +68,8 @@ const method = {
         ssqQuick: '/api/ssq/SsqQuick',
         getHistory: '/api/ssq/getHistory',
         getTi: '/api/math/getTi',
-        checkTi: '/api/math/checkTi'
+        checkTi: '/api/math/checkTi',
+        dingDing: '/sendDingDingMessage'
 
     }
 }

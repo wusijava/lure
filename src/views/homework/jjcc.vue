@@ -8,7 +8,7 @@
         </div>
         <H3 style="text-align: center">当前做的是{{this.size}}以内混合运算</H3>
         <div style="margin-top: 50px">
-            <h4 style="text-align: center;color: #ee0a24">100以内三个数加减混合运算</h4>
+            <!--<h4 style="text-align: center;color: #ee0a24">100以内三个数加减混合运算</h4>-->
             <div style="text-align: center;margin-top: 50px" v-if="this.numOne">
                 <span style="font-size: 35px;text-align: center;">{{this.numOne}}{{this.symbolOne}}{{this.numTwo}}{{this.symbolTwo}}{{this.numThree}}
                 =
@@ -17,7 +17,7 @@
                 <input type="number" v-model="phone" placeholder="" class="input" style="margin-left: 120px;font-size: 40px;width: 180px;margin-top: 20px" >
             </div>
             <van-button round block type="warning" @click="checkTi" style="margin-top: 100px">确认提交</van-button>
-            <van-button round block type="primary" @click="next" style="margin-top: 80px">换下一题</van-button>
+            <!--<van-button round block type="primary" @click="next" style="margin-top: 80px">换下一题</van-button>-->
         </div>
         <div style="margin-top: 20px">
             <van-button round block type="info" @click="back">返回首页</van-button>
@@ -95,11 +95,17 @@
                 params.symbolTwo=this.symbolTwo
                 params.numThree=this.numThree
                 params.result=this.phone
+
                 let result = await checkTi(params);
+                //console.log(result.data)
                 if (result.data.code == "20000") {
+                    if(result.data.data=='答对了,小柠檬真棒~'){
+                        this.phone=''
+                        this.getResult()
+                    }
                     Notify({
                         message: result.data.data,
-                        duration: 5000,
+                        duration: 2000,
                     });
                 }
 
@@ -118,7 +124,7 @@
                 if(result.data.code=="99999"){
                     Notify({
                         message: result.data.msg,
-                        duration: 5000,
+                        duration: 2000,
                     });
                 }
 
@@ -197,12 +203,14 @@
                 }
             },
             next(){
-                this.getResult()
+               /* this.getResult()*/
                 this.phone=''
+
             },
             getSize(size){
                 this.size=size
-                this.getResult()
+               /* this.getResult()*/
+                this.phone=''
             }
         }
     }

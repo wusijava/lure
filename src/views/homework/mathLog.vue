@@ -11,9 +11,10 @@
          </van-dropdown-menu>-->
 
         <div class="content">
-            <h5 style="text-align: center">总答题:100题,对:99题,错1题</h5>
+            <h5 style="text-align: center">总答对:{{this.right}}题,错{{this.error}}题</h5>
             <div class="list" v-for="item in list" :key="item.id" style="border: #ee0a24 solid 1px">
                 <h5 style="text-align: center">作业日期:{{item.time}}</h5>
+                <h5 style="text-align: center">今日任务:{{item.task}},已做:{{item.yiDo}},未做:{{item.weiDo}},正确:{{item.rightToday}},错误:{{item.errorToday}}</h5>
                 <div class="list2" v-for="item2 in item.list" :key="item2.id" v-if="item.list!=null">
                     <span style="width: 180px">{{item2.content}}</span>
                     <span style="color: #3385ff;margin-left: 10px" v-if="item2.result=='对'">{{item2.result}}</span>
@@ -54,7 +55,9 @@
                 ],
                 spend: '',
                 bonus: '',
-                time: ''
+                time: '',
+                right: '',
+                error: ''
 
 
 
@@ -89,8 +92,8 @@
                     if(result.data.data.length > 0) {
                         this.showEmpty = false;
                         this.list = result.data.data;
-                        /*this.spend=result.data.data[0].spend
-                        this.bonus=result.data.data[0].bonus*/
+                        this.right=result.data.data[0].right
+                        this.error=result.data.data[0].error
                         this.pageTotal = result.data.data[0].totalPage;
                     }else {
                         this.showEmpty = true;

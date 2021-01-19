@@ -60,3 +60,7 @@ export async function checkTi(params){
     const result = await axios.post(api.homework.checkTi,params);
     return result;
 }
+export async function dingDing(params){
+    const result = await axios.post(api.homework.dingDing,params);
+    return result;
+}
