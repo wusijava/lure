@@ -46,7 +46,8 @@ const method = {
         history: '/api/ssq/history',
         gaiLv: '/api/ssq/getHistoryTimes',
         blueThree: '/api/ssq/blueThree',
-        mathLog: '/api/math/homeworkLog'
+        mathLog: '/api/math/homeworkLog',
+        handleState: '/product/handleState'
 
 
 

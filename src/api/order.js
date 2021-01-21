@@ -85,3 +85,7 @@ export async function mathLog(params){
     const result = await axios.post(api.order.mathLog,params);
     return result;
 }
+export async function handleState(params){
+    const result = await axios.post(api.order.handleState,params);
+    return result;
+}

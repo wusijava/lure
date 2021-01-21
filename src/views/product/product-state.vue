@@ -26,6 +26,14 @@
                         :value="state2"
                         @click="showArea=true">
                 </van-field>
+                <van-field
+                        readonly
+                        clickable
+                        placeholder="选择自己商品状态"
+                        is-link
+                        :value="state3"
+                        @click="showArea2=true">
+                </van-field>
                 <van-popup
                         v-model="showArea"
                         position="bottom"
@@ -36,6 +44,18 @@
                               :columns-num="1"
                               @confirm="confirmArea"
                               @cancel="onCancelArea"
+                    />
+                </van-popup>
+                <van-popup
+                        v-model="showArea2"
+                        position="bottom"
+                        :style="{ height: '50%' }"
+                        round
+                >
+                    <van-area :area-list="areaList"
+                              :columns-num="1"
+                              @confirm="confirmArea2"
+                              @cancel="onCancelArea2"
                     />
                 </van-popup>
 
@@ -80,6 +100,9 @@
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
                             产品图片
                         </van-button>
+                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="toHandle(item)" v-if="item.amyState!=item.myState" style="margin-left: 20px">
+                            已处理
+                        </van-button>
                     </van-col>
                 </van-row>
             </div>
@@ -94,11 +117,14 @@
 <script>
     import moment from 'moment';
     import areaJson from '@/util/state'
-    import {showProductState} from "../../api/order";
+    import {showProductState,handleState} from "../../api/order";
     export default {
         name: 'productState',
         data() {
             return {
+                queryModel: '',
+                showArea2: false,
+                state3: '',
                 state2: '',
                 list: [],
                 fontColor:{
@@ -195,9 +221,15 @@
                 if (this.query.model){
                     params.model = this.query.model;
                 }
+                if (this.queryModel){
+                    params.model = this.queryModel;
+                }
                 //amyState
                 if (this.amyState){
                     params.amyState = this.amyState;
+                }
+                if (this.myState){
+                    params.myState = this.myState;
                 }
                 this.$toast.loading({
                     duration: 0, // 持续展示 toast
@@ -241,6 +273,18 @@
                 this.showArea = false;
                 this.area = '';
             },
+        confirmArea2(arr) {
+            console.log(arr)
+            this.state3=arr[0].name
+            this.myState =arr[0].code
+            this.showArea2 = false;
+        },
+        onCancelArea2() {
+            this.state3=''
+            this.myState =''
+            this.showArea2 = false;
+            this.area = '';
+        },
             changeState(index,i){
                 //把index值赋给active，点击改变样式
                 this.activeState=index;
@@ -260,6 +304,20 @@
             },
             back(){
                 this.$router.push({name:'selectAction'});
+            },
+            toHandle:async function(item){
+                this.queryModel=item.model;
+                let params = {};
+                params.id=item.id
+                const result = await handleState(params);
+                if (result.data.code == '20000') {
+                       this.getList(this.currentPage - 1, 10);
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
             }
         }
     }
