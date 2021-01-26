@@ -255,7 +255,22 @@ export default new Router({
             name: 'dingDing',
             component: () => import('./views/homework/dingDing.vue'),
             meta: {
-                title: '线上记录'
+                title: '钉钉群发'
+            }
+        },
+        {    path: '/homework/cuoTi',
+            name: 'cuoTi',
+            component: () => import('./views/homework/cuoTi.vue'),
+            meta: {
+                title: '错题回顾'
+            }
+        }
+        ,
+        {    path: '/homework/homeworktotal',
+            name: 'homeworktotal',
+            component: () => import('./views/homework/homeworktotal.vue'),
+            meta: {
+                title: '作业汇总'
             }
         }
 

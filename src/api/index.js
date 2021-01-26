@@ -47,7 +47,8 @@ const method = {
         gaiLv: '/api/ssq/getHistoryTimes',
         blueThree: '/api/ssq/blueThree',
         mathLog: '/api/math/homeworkLog',
-        handleState: '/product/handleState'
+        handleState: '/product/handleState',
+        homeworkTotal: '/api/math/homeworkTotal'
 
 
 
@@ -70,7 +71,8 @@ const method = {
         getHistory: '/api/ssq/getHistory',
         getTi: '/api/math/getTi',
         checkTi: '/api/math/checkTi',
-        dingDing: '/sendDingDingMessage'
+        dingDing: '/sendDingDingMessage',
+        cuoTi: '/api/math/cuoTi'
 
     }
 }

@@ -145,7 +145,7 @@
                     <p>提醒记录</p>
                 </div>
                 <div class="module" @click="not">
-                    <img src="../../../src/assets/img/wwc.png"/>
+                    <img src="../../../src/assets/img/error.png"/>
                     <p>敬请期待</p>
                 </div>
             </div>
@@ -207,6 +207,16 @@
                 <div class="module" @click="homeworkOnline">
                     <img src="../../../src/assets/img/jpq.png"/>
                     <p>线上作业</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="cuoTi">
+                    <img src="../../../src/assets/img/error.png"/>
+                    <p>错题回顾</p>
+                </div>
+                <div class="module" @click="homeworktotal">
+                    <img src="../../../src/assets/img/aixin.png"/>
+                    <p>作业汇总</p>
                 </div>
             </div>
         </div>
@@ -762,6 +772,12 @@
             },
             dingDing(){
                 this.$router.push({name:'dingDing'});
+            },
+            cuoTi(){
+                this.$router.push({name:'cuoTi'});
+            },
+            homeworktotal(){
+                this.$router.push({name:'homeworktotal'});
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

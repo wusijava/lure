@@ -64,3 +64,7 @@ export async function dingDing(params){
     const result = await axios.post(api.homework.dingDing,params);
     return result;
 }
+export async function cuoTi(params){
+    const result = await axios.post(api.homework.cuoTi,params);
+    return result;
+}
