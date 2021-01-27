@@ -68,3 +68,8 @@ export async function cuoTi(params){
     const result = await axios.post(api.homework.cuoTi,params);
     return result;
 }
+//shouDong
+export async function shouDong(params){
+    const result = await axios.post(api.homework.shouDong,params);
+    return result;
+}

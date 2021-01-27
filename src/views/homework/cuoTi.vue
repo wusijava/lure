@@ -1,6 +1,8 @@
 <template>
     <div>
         <H3 style="text-align: center">当前做的是错题回顾</H3>
+        <H3 style="text-align: center;color: red" v-if="this.title!=''">{{this.title}}</H3>
+        <H3 style="text-align: center;color: red">{{this.source}}</H3>
         <div style="margin-top: 50px">
             <div style="text-align: center;margin-top: 50px" v-if="this.numOne">
                 <span style="font-size: 35px;text-align: center;">{{this.numOne}}{{this.symbolOne}}{{this.numTwo}}{{this.symbolTwo}}{{this.numThree}}
@@ -42,6 +44,7 @@
         name: "cuoTi",
         data() {
             return {
+                source: '',
                 numOne: '',
                 symbolOne: '',
                 numTwo: '',
@@ -72,7 +75,9 @@
                 value2: '',
                 columns: ['吴思', '何浩', 'tomcat', '张皓'],
                 size: '20',
-                phone: ''
+                phone: '',
+                rowId: '',
+                title: ''
             }
         },
         mounted() {
@@ -87,7 +92,9 @@
                 params.symbolTwo=this.symbolTwo
                 params.numThree=this.numThree
                 params.result=this.phone
-
+                if(this.rowId){
+                    params.rowId=this.rowId
+                }
                 let result = await checkTi(params);
                 //console.log(result.data)
                 if (result.data.code == "20000") {
@@ -104,12 +111,21 @@
             },
             getResult: async function(){
                 let result = await cuoTi();
+                console.log(result.data)
                 if(result.data.code=="20000"){
-                    this.numOne=result.data.data.numOne
-                    this.symbolOne=result.data.data.symbolOne
-                    this.numTwo=result.data.data.numTwo
-                    this.symbolTwo=result.data.data.symbolTwo
-                    this.numThree=result.data.data.numThree
+                    if(result.data.data!=''&&result.data.data!=null){
+                        this.numOne=result.data.data.numOne
+                        this.symbolOne=result.data.data.symbolOne
+                        this.numTwo=result.data.data.numTwo
+                        this.symbolTwo=result.data.data.symbolTwo
+                        this.numThree=result.data.data.numThree
+                        this.source=result.data.data.source
+                        this.rowId=result.data.data.rowId
+                    }else{
+                        this.title="暂无错题!"
+                        console.log(this.title)
+                    }
+
                 }
                 if(result.data.code=="99999"){
                     Notify({

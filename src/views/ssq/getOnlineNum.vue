@@ -7,12 +7,18 @@
         <h3 style="text-align: center">本期购买期号:{{this.thisNum}}</h3>
         <div style="font-size: 20px;margin-top: 20px">百度:{{this.term}}&nbsp;红:<span style="color: #ee0a24">{{this.red1}}&nbsp;{{this.red2}}&nbsp;{{this.red3}}&nbsp;{{this.red4}}&nbsp;{{this.red5}}&nbsp;{{this.red6}}</span>&nbsp;<span style="color: #007aff">蓝:{{this.blue}}&nbsp;</span></div>
         <div style="font-size: 20px;margin-top: 20px">彩经:{{this.term2}}&nbsp;红:<span style="color: #ee0a24">{{this.red7}}&nbsp;{{this.red8}}&nbsp;{{this.red9}}&nbsp;{{this.red10}}&nbsp;{{this.red11}}&nbsp;{{this.red12}}</span>&nbsp;<span style="color: #007aff">蓝:{{this.blue2}}</span>&nbsp;</div>
+
+
+
         <!--<div style="margin-top: 50px">
             <van-button round block type="warning" @click="getOnlineNum(1)">百度获取</van-button>
         </div>
         <div style="margin-top: 50px">
             <van-button round block type="warning" @click="getOnlineNum(2)">其他获取</van-button>
         </div>-->
+        <div style="margin-top: 50px">
+            <van-button round block type="info" @click="shouDong">手动核奖</van-button>
+        </div>
         <div style="margin-top: 50px">
             <van-button round block type="info" @click="back">返回首页</van-button>
         </div>
@@ -35,7 +41,7 @@
     import { Picker } from 'vant';
     Vue.use(Picker);
     import { Notify } from 'vant';
-    import {getOnlineNum,faQiDaiMai,suiJi,getResult} from '../../api/homework'
+    import {getOnlineNum,faQiDaiMai,suiJi,getResult,shouDong} from '../../api/homework'
     import { ContactEdit } from 'vant';
     Vue.use(ContactEdit);
     import { Stepper } from 'vant';
@@ -181,6 +187,10 @@
                 let result = await suiJi();
                 console.log(result)
 
+            },
+            async shouDong(){
+                let result = await shouDong();
+                Notify("手动成功!");
             }
         }
     }

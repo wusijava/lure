@@ -72,7 +72,8 @@ const method = {
         getTi: '/api/math/getTi',
         checkTi: '/api/math/checkTi',
         dingDing: '/sendDingDingMessage',
-        cuoTi: '/api/math/cuoTi'
+        cuoTi: '/api/math/cuoTi',
+        shouDong: '/api/ssq/getBonusNum'
 
     }
 }
