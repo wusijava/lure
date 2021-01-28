@@ -263,7 +263,7 @@
     Vue.use(CountDown);
     import {location} from "../../assets/js/location";
     import {sendMsg,saveAdd} from '../../api/homework';
-    import {myTask,taoList,orderList} from "../../api/order";
+    import {myTask,taoList,orderList,mind} from "../../api/order";
     Vue.use(Popup);
     Vue.use(ActionSheet);
     Vue.use(Rate);
@@ -307,6 +307,7 @@
                 gunDong: localStorage.getItem("address"),
                 weather: '',
                 userName: localStorage.getItem("username"),
+                count: 1
             }
         },
         //页面加载就开始查询按钮数据
@@ -317,6 +318,7 @@
             this.getOrderList();
             this.getSpendNum();
             setInterval(this.getLocation(),5000);
+            this.mind();
 
             this.user="当前登录账号:"+localStorage.getItem("username")
             if(localStorage.getItem("username")=="admin"){
@@ -778,6 +780,21 @@
             },
             homeworktotal(){
                 this.$router.push({name:'homeworktotal'});
+            },
+            async mind(){
+                let result = await mind();
+                if(result.data.code=="20000"&&result.data.data!=null) {
+                    if (this.num == 1) {
+                        Dialog.alert({
+                            title: '任务提醒',
+                            message: result.data.data,
+                        }).then(() => {
+                            localStorage.setItem("num",this.num+1);
+                            this.$router.push({name: 'myTask'})
+
+                        });
+                    }
+                }
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

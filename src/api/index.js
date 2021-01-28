@@ -48,7 +48,8 @@ const method = {
         blueThree: '/api/ssq/blueThree',
         mathLog: '/api/math/homeworkLog',
         handleState: '/product/handleState',
-        homeworkTotal: '/api/math/homeworkTotal'
+        homeworkTotal: '/api/math/homeworkTotal',
+        mind: 'api/mind'
 
 
 
