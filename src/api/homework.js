@@ -68,8 +68,23 @@ export async function cuoTi(params){
     const result = await axios.post(api.homework.cuoTi,params);
     return result;
 }
-//shouDong
 export async function shouDong(params){
     const result = await axios.post(api.homework.shouDong,params);
+    return result;
+}
+export async function saveImg(params){
+    const result = await axios.post(api.homework.saveImg,params);
+    return result;
+}
+export async function english(params){
+    const result = await axios.post(api.homework.english,params);
+    return result;
+}
+export async function du(params){
+    const result = await axios.post(api.homework.du,params);
+    return result;
+}
+export async function wangYi(params){
+    const result = await axios.post(api.homework.wangYi,params);
     return result;
 }

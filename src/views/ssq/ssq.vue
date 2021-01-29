@@ -9,7 +9,13 @@
        <!-- <van-dropdown-menu @change.native="changeValue">
             <van-dropdown-item v-model="value1" :options="option1" @click.native="changeValue"/>
         </van-dropdown-menu>-->
-
+        <!-- 详情弹窗 -->
+        <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
+            <h4>彩票照片</h4>
+            <div class="detail-main">
+                    <img :src=this.url style="width: 100%;height:100%" v-if="this.url!=null&&this.url!=''" >
+            </div>
+        </van-popup>
         <div class="content">
             <div class="list" v-for="item in list" :key="item.id" style="border: #ee0a24 solid 1px">
                 <h6 style="text-align: center">期数:{{item.term}}&nbsp;开奖时间:{{item.createTime}}&nbsp;{{item.week}}</h6>
@@ -36,6 +42,9 @@
                     <div class="list2"  v-if="item.list==null">
                         <h4 style="text-align: center">未投注,与五百万擦肩而过~</h4>
                     </div>
+                <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item.url)" style="margin-left: 130px">
+                    彩票照片
+                </van-button>
                 </div>
 
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
@@ -59,6 +68,8 @@
         name: 'ssq',
         data() {
             return {
+                showDetails: false,
+                url: '',
                 list: [],
                 currentPage: 0,
                 pageTotal: 0,
@@ -167,6 +178,11 @@
             changeValue:async function(){
                 this.getList(this.currentPage - 1, 10);
                 console.log(this.value1)
+            },
+            toDetails(url){
+                this.showDetails=true
+                    this.url=url
+                console.log(url)
             }
         }
     }

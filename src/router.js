@@ -272,6 +272,21 @@ export default new Router({
             meta: {
                 title: '作业汇总'
             }
+        },
+        {    path: '/homework/english',
+            name: 'english',
+            component: () => import('./views/homework/english.vue'),
+            meta: {
+                title: '每日英语'
+            }
+        }
+        ,
+        {    path: '/homework/du',
+            name: 'du',
+            component: () => import('./views/homework/du.vue'),
+            meta: {
+                title: '有毒鸡汤'
+            }
         }
 
     ]

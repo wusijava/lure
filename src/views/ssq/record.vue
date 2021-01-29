@@ -6,9 +6,12 @@
         />
 
 
-       <!-- <van-dropdown-menu @change.native="changeValue">
-            <van-dropdown-item v-model="value1" :options="option1" @click.native="changeValue"/>
-        </van-dropdown-menu>-->
+        <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
+            <h4>彩票照片</h4>
+            <div class="detail-main">
+                <img :src=this.url style="width: 100%;height:100%" v-if="this.url!=null&&this.url!=''" >
+            </div>
+        </van-popup>
 
         <div class="content">
             <h5 style="text-align: center">总投资:{{this.spend}}元,总收益:{{this.bonus}}元</h5>
@@ -25,6 +28,9 @@
                         <van-button round type="warning" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.isBonus}}</van-button>
                         <van-button round type="warning" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.num}}注</van-button>
                     </div>
+                <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item.url)" style="margin-left: 130px">
+                    彩票照片
+                </van-button>
                 </div>
 
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
@@ -48,6 +54,8 @@
         name: 'ssqRecord',
         data() {
             return {
+                url: '',
+                showDetails: false,
                 list: [],
                 currentPage: 0,
                 pageTotal: 0,
@@ -160,6 +168,11 @@
             changeValue:async function(){
                 this.getList(this.currentPage - 1, 10);
                 console.log(this.value1)
+            },
+            toDetails(url){
+                this.showDetails=true
+                this.url=url
+                //console.log(url)
             }
         }
     }

@@ -10,17 +10,48 @@
 
 
 
-        <!--<div style="margin-top: 50px">
-            <van-button round block type="warning" @click="getOnlineNum(1)">百度获取</van-button>
-        </div>
-        <div style="margin-top: 50px">
-            <van-button round block type="warning" @click="getOnlineNum(2)">其他获取</van-button>
-        </div>-->
         <div style="margin-top: 50px">
             <van-button round block type="info" @click="shouDong">手动核奖</van-button>
         </div>
         <div style="margin-top: 50px">
             <van-button round block type="info" @click="back">返回首页</van-button>
+        </div>
+        <van-cell-group style="margin-top: 10px" v-if="openImgState == true">
+            <van-row type="flex" justify="space-between">
+                <van-col span="10" class="upload-left">
+                    <p class="upload-title">百万大奖上传</p>
+                    <van-uploader v-if="signImg != ''"
+                                  :before-read="beforeUploadImg"
+                                  :after-read="uploadImg"
+                                  :max-size="3 * 1024 * 1024"
+                                  @oversize="onOversize"
+                    >
+                        <p class="upload-label">重新上传</p>
+                    </van-uploader>
+                </van-col>
+                <van-col span="14" class="upload-right">
+                    <van-uploader style="float: right"
+                                  v-if="signImg == ''"
+                                  :before-read="beforeUploadImg"
+                                  :after-read="uploadImg"
+                                  :max-size="3 * 1024 * 1024"
+                                  @oversize="onOversize"
+                    >
+                        <van-button icon="plus" class="img-upload"></van-button>
+                    </van-uploader>
+                    <div class="sign-img" v-if="signImg != ''" >
+                        <img :src="signImg" @click="preview(signImg,0)"/>
+                    </div>
+                </van-col>
+            </van-row>
+            <van-row>
+                <van-col offset="12" span="12">
+                    <p class="mini-font">文件大小3M以内</p>
+                </van-col>
+            </van-row>
+        </van-cell-group>
+        <div style="margin-top: 50px">
+            <van-button round block type="warning" @click="saveImg">上传照片</van-button>
         </div>
 
     </div>
@@ -29,10 +60,12 @@
 </template>
 
 <script>
+    import * as qiniu from 'qiniu-js';
     import moment from 'moment';
     import Vue from "vue";
     import { Switch } from 'vant';
     Vue.use(Switch);
+    import {ImagePreview} from "vant";
     import { Toast } from 'vant';
     import { Calendar } from 'vant';
     Vue.use(Calendar);
@@ -41,15 +74,18 @@
     import { Picker } from 'vant';
     Vue.use(Picker);
     import { Notify } from 'vant';
-    import {getOnlineNum,faQiDaiMai,suiJi,getResult,shouDong} from '../../api/homework'
+    import {getOnlineNum,faQiDaiMai,suiJi,getResult,shouDong,saveImg} from '../../api/homework'
     import { ContactEdit } from 'vant';
     Vue.use(ContactEdit);
     import { Stepper } from 'vant';
     Vue.use(Stepper);
+
+    import {getUploadToken} from "../../api/upload";
     export default {
         name: "getOnlineNum",
         data() {
             return {
+                signImg: [],
                 red1: '',
                 red2: '',
                 red3: '',
@@ -81,7 +117,9 @@
                 red11: '',
                 red12: '',
                 blue2: '',
-                term2: ''
+                term2: '',
+                openImgState: true,
+                url: ''
             }
         },
         mounted() {
@@ -91,7 +129,6 @@
         },
         methods: {
             getOnlineNum: async function(type){
-                console.log(type)
                 let query=new Object();
                 query.type=type
                 let result = await getOnlineNum(query);
@@ -168,7 +205,6 @@
                 this.$router.push({name:'selectAction'});
             },
         onConfirm2(value, index) {
-            console.log("confirm2")
             this.user=value
             this.userShow=false
             Toast(`已选择任务指派给：${value}`);
@@ -185,12 +221,133 @@
         },
             async suiJi(){
                 let result = await suiJi();
-                console.log(result)
 
             },
             async shouDong(){
                 let result = await shouDong();
                 Notify("手动成功!");
+            },
+            beforeUploadImg(param) {
+                const imgSize = param.size / 1024 / 1024;
+                //图片压缩
+                if(imgSize > 3) {
+                    const _this = this;
+                    return new Promise(resolve => {
+                        const reader = new FileReader();
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        const image = new Image();
+                        image.onload = (imageEvent) => {
+                            const width = image.width;
+                            const height = image.height;
+                            canvas.width = width;
+                            canvas.height = height;
+                            context.clearRect(0,0,width,height);
+                            context.drawImage(image,0,0,width,height);
+                            const dataUrl = canvas.toDataURL(param.type, 0.92);
+                            const blobData = _this.dataURLtoBlob(dataUrl,param.type);
+                            resolve(blobData);
+                        }
+                        reader.onload = (e => {
+                            image.src = e.target.result;
+                        })
+                        reader.readAsDataURL(param);
+                    })
+                }
+                return true;
+            },
+            async uploadImg(files) {
+                let formData = new FormData();
+                formData.append('file',files.file);
+                let file = files.file;
+                let data = await this.getUploadToken("alipays");
+                if (data) {
+                    let url = data.host + data.key;
+                    this.uploadToQiniu(file, data.token, data.key, url, "alipays");
+                }
+            },
+            //校验文件大小是否超出限制
+            onOversize(file){
+                this.$toast({
+                    message: '文件大小不能超过3M',
+                    icon: 'warning-o'
+                });
+            },
+            async getUploadToken(type) {
+                let result = await getUploadToken({outOrderNo:"123", type: 1});
+                let data = result.data;
+                if (data.code == "20000") {
+                    return data.data;
+                } else {
+                    this.$dialog.alert({
+                        message: data.msg,
+                    });
+                }
+            },
+            async uploadToQiniu(file, token, key, url, type) {
+                let config = {
+                    useCdnDomain: true,   //表示是否使用 cdn 加速域名，为布尔值，true 表示使用，默认为 false。
+                    region: qiniu.region.z2     // 根据具体提示修改上传地区,当为 null 或 undefined 时，自动分析上传域名区域
+                };
+                let putExtra = {
+                    fname: file.name,  //文件原文件名
+                    params: {}, //用来放置自定义变量
+                    mimeType: null  //用来限制上传文件类型，为 null 时表示不对文件类型限制；限制类型放到数组里： ["image/png", "image/jpeg", "image/gif"]
+                };
+                let observable = qiniu.upload(file, key, token, putExtra, config);
+
+                observable.subscribe({
+                    next: (result) => {
+                        // 主要用来展示进度
+                        console.log(result)
+                    },
+                    error: (errResult) => {
+                        // 失败报错信息
+                        console.log(errResult)
+                        this.$dialog.alert({
+                            message: '上传失败，请重试',
+                        });
+                    },
+                    complete: (result) => {
+                        // 接收成功后返回的信息
+                        this.signImg = url;
+                    }
+                })
+            },
+            //上传图片
+            async uploadImg(files) {
+                let formData = new FormData();
+                formData.append('file',files.file);
+                let file = files.file;
+                let data = await this.getUploadToken("alipays");
+                if (data) {
+                    let url = data.host + data.key;
+                    this.uploadToQiniu(file, data.token, data.key, url, "alipays");
+                }
+            },
+            //预览图片
+            preview(images,index) {
+                let arr = new Array()
+                arr.push(images)
+                ImagePreview({
+                    images: arr,
+                    showIndex:false,
+                    loop:false, //是否循环播放
+                    startPosition:index
+                })
+            },
+            async saveImg() {
+                let params = {}
+                params.term=this.thisNum
+                params.url=this.signImg
+                let result = await saveImg(params);
+                console.log(result.data)
+                if(result.data.code=="20000"){
+                    Toast(result.data.data);
+                    this.signImg=''
+                }else{
+                    Toast(result.data.msg);
+                }
             }
         }
     }

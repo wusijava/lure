@@ -74,7 +74,11 @@ const method = {
         checkTi: '/api/math/checkTi',
         dingDing: '/sendDingDingMessage',
         cuoTi: '/api/math/cuoTi',
-        shouDong: '/api/ssq/getBonusNum'
+        shouDong: '/api/ssq/getBonusNum',
+        saveImg: '/api/ssq/saveImg',
+        english: '/english',
+        du: '/du',
+        wangYi: '/wangYi'
 
     }
 }

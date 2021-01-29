@@ -1,5 +1,4 @@
 <template>
-
     <div class="box">
         <van-overlay :show="showOver" @click="showOver = false" />
         <van-notice-bar
@@ -217,6 +216,16 @@
                 <div class="module" @click="homeworktotal">
                     <img src="../../../src/assets/img/aixin.png"/>
                     <p>作业汇总</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="dayEnglish">
+                    <img src="../../../src/assets/img/lizi.png"/>
+                    <p>每日英语</p>
+                </div>
+                <div class="module" @click="du">
+                    <img src="../../../src/assets/img/xi.png"/>
+                    <p>有毒鸡汤</p>
                 </div>
             </div>
         </div>
@@ -795,6 +804,12 @@
                         });
                     }
                 }
+            },
+            dayEnglish(){
+                this.$router.push({name: 'english'})
+            },
+            du(){
+                this.$router.push({name: 'du'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {
