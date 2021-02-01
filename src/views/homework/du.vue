@@ -17,6 +17,39 @@
                 type="textarea"
                 show-word-limit
         />
+        <h3 style="margin-top: 30px ;text-align: center">神回复</h3>
+        <van-field
+                v-model="this.answer"
+                rows="2"
+                autosize
+                type="textarea"
+                show-word-limit
+        />
+        <van-field
+                v-model="this.ask"
+                rows="2"
+                autosize
+                type="textarea"
+                show-word-limit
+        />
+        <h3 style="margin-top: 30px ;text-align: center">最美宋词</h3>
+        <van-field
+                v-model="this.songCi"
+                rows="2"
+                autosize
+                type="textarea"
+                show-word-limit
+        />
+        <span style="font-size: 12px;margin-left: 100px">出自:{{this.chuZi}}</span>
+        <h3 style="margin-top: 30px ;text-align: center">经典台词</h3>
+        <van-field
+                v-model="this.taiCi"
+                rows="2"
+                autosize
+                type="textarea"
+                show-word-limit
+        />
+        <span style="font-size: 12px;margin-left: 100px">出自:{{this.laiZi}}</span>
     <div>
 
     </div>
@@ -36,22 +69,31 @@
     import { Image as VanImage } from 'vant';
 
     Vue.use(VanImage);
-    import {du,wangYi} from '../../api/homework'
+    import {du,wangYi,huiFu,getSongCi,getTaiCi} from '../../api/homework'
 
     export default {
         name: "du",
         data() {
             return {
+                taiCi: '',
                 eng: '',
                 chi: '1',
                 mp3: '',
                 source: '',
-                url: ''
+                url: '',
+                answer: '',
+                ask: '',
+                songCi: '',
+                chuZi: '',
+                laiZi: ''
             }
         },
         mounted() {
             this.wangYi();
             this.du();
+            this.huiFu();
+            this.getSongCi()
+            this.getTaiCi()
 
         },
         methods: {
@@ -74,6 +116,30 @@
             next(){
                 this.du()
                 this.wangYi()
+                this.huiFu()
+                this.getSongCi()
+                this.getTaiCi()
+            },
+            async huiFu(){
+                let result = await huiFu();
+                if(result.data.code=="200"){
+                    this.answer=result.data.newslist[0].title
+                    this.ask=result.data.newslist[0].content
+                }
+            },
+            async getSongCi(){
+                let result = await getSongCi();
+                if(result.data.code=="200"){
+                    this.songCi=result.data.newslist[0].content
+                    this.chuZi=result.data.newslist[0].source
+                }
+            },
+            async getTaiCi(){
+                let result = await getTaiCi();
+                if(result.data.code=="200"){
+                    this.taiCi=result.data.newslist[0].dialogue
+                    this.laiZi=result.data.newslist[0].source
+                }
             }
         }
     }

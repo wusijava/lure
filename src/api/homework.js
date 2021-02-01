@@ -88,3 +88,19 @@ export async function wangYi(params){
     const result = await axios.post(api.homework.wangYi,params);
     return result;
 }
+export async function changeBlue(params){
+    const result = await axios.post(api.homework.changeBlue,params);
+    return result;
+}
+export async function huiFu(params){
+    const result = await axios.post(api.homework.huiFu,params);
+    return result;
+}
+export async function getSongCi(params){
+    const result = await axios.post(api.homework.getSongCi,params);
+    return result;
+}
+export async function getTaiCi(params){
+    const result = await axios.post(api.homework.getTaiCi,params);
+    return result;
+}

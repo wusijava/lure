@@ -82,6 +82,9 @@
             <van-button round block type="warning" @click="getHistory"  >历史查询</van-button>
         </div>
         <div style="margin-top: 20px">
+            <van-button round block type="info" @click="changeBlue">一键转运</van-button>
+        </div>
+        <div style="margin-top: 20px">
             <van-button round block type="primary" @click="back">返回首页</van-button>
         </div>
 
@@ -103,7 +106,7 @@
     import { Picker } from 'vant';
     Vue.use(Picker);
     import { Notify } from 'vant';
-    import {getResult,addSsq,ssqQuick,getHistory} from '../../api/homework'
+    import {getResult,addSsq,ssqQuick,getHistory,changeBlue} from '../../api/homework'
     import { ContactEdit } from 'vant';
     Vue.use(ContactEdit);
     import { Stepper } from 'vant';
@@ -194,8 +197,6 @@
                 this.showFix=false
                 this.chooseMyself=true
                 let result = await ssqQuick();
-                console.log(result.data.code)
-                console.log(result.data.data)
                 if (result.data.code == "20000") {
                     this.list=result.data.data
                 } else {
@@ -260,6 +261,22 @@
                 } else {
                     Notify({
                         message: data.msg,
+                        duration: 5000,
+                    });
+                }
+            },
+            async changeBlue(){
+                let result = await changeBlue();
+                //console.log(result)
+                if (result.data.code == "20000") {
+                    Notify({
+                            message:  result.data.data,
+                            duration: 3000
+                        }
+                    );
+                } else {
+                    Notify({
+                        message: result.msg,
                         duration: 5000,
                     });
                 }

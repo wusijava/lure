@@ -78,7 +78,11 @@ const method = {
         saveImg: '/api/ssq/saveImg',
         english: '/english',
         du: '/du',
-        wangYi: '/wangYi'
+        wangYi: '/wangYi',
+        changeBlue: '/api/ssq/changeBlue',
+        huiFu: '/huiFu',
+        getSongCi: '/songCi',
+        getTaiCi: '/dialogue'
 
     }
 }
