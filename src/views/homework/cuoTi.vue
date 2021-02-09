@@ -13,7 +13,7 @@
             </div>
             <van-button round block type="warning" @click="checkTi" style="margin-top: 100px">确认提交</van-button>
         </div>
-        <div style="margin-top: 20px">
+        <div style="margin-top: 20px;margin-top: 120px">
             <van-button round block type="info" @click="back">返回首页</van-button>
         </div>
 

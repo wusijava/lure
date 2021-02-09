@@ -15,7 +15,7 @@
         <div class="content">
             <van-count-down :time="chuXi" style="margin-bottom: 20px">
                 <template #default="timeData">
-                    <span class="colon">距离2021年除夕:</span>
+                    <span class="colon">距离2021年上班:</span>
                     <span class="block">{{ timeData.days }}</span>
                     <span class="colon">天</span>
                     <span class="block">{{ timeData.hours }}</span>
@@ -284,7 +284,7 @@
             return{
                 isLoading: false,
                 count: 0,
-                chuXi: 1612972801000-(new Date()).getTime(),
+                chuXi: 1613577601000-(new Date()).getTime(),
                 time: 1614268801000-(new Date()).getTime(),
                 value: 0,
                 showRate: true,
