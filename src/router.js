@@ -287,6 +287,13 @@ export default new Router({
             meta: {
                 title: '有毒鸡汤'
             }
+        },
+        {    path: '/register',
+            name: 'register',
+            component: () => import('./views/register.vue'),
+            meta: {
+                title: '用户注册'
+            }
         }
 
     ]

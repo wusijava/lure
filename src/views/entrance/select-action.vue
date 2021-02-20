@@ -15,7 +15,7 @@
         <div class="content">
             <van-count-down :time="chuXi" style="margin-bottom: 20px">
                 <template #default="timeData">
-                    <span class="colon">距离2021年上班:</span>
+                    <span class="colon">距离2021年五一:</span>
                     <span class="block">{{ timeData.days }}</span>
                     <span class="colon">天</span>
                     <span class="block">{{ timeData.hours }}</span>
@@ -228,6 +228,16 @@
                     <p>有毒鸡汤</p>
                 </div>
             </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="zhuCe">
+                    <img src="../../../src/assets/img/zc.png"/>
+                    <p>用户注册</p>
+                </div>
+                <div class="module" @click="du">
+                    <img src="../../../src/assets/img/xi.png"/>
+                    <p>有毒鸡汤</p>
+                </div>
+            </div>
         </div>
         </van-pull-refresh>
         <van-cell title="显示分享面板" @click="showShare = true" />
@@ -284,7 +294,7 @@
             return{
                 isLoading: false,
                 count: 0,
-                chuXi: 1613577601000-(new Date()).getTime(),
+                chuXi: 1619798401000-(new Date()).getTime(),
                 time: 1614268801000-(new Date()).getTime(),
                 value: 0,
                 showRate: true,
@@ -543,7 +553,7 @@
                 this.$router.push({name:'toTask'})};
             },
             myAdd(){
-                window.location.href="https://m.amap.com/navi/?dest="+this.jwd+"&destName=%E6%88%91%E7%9A%84%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=9138ad0023cb8e79ca816509aac42747"
+                window.location.href="http://m.amap.com/navi/?dest="+this.jwd+"&destName=%E6%88%91%E7%9A%84%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=9138ad0023cb8e79ca816509aac42747"
             }, getLocation() {
                 let _that = this;
                 let geolocation = location.initMap("map-container"); //定位
@@ -590,7 +600,7 @@
                 });
             },
             goHome(){
-                window.location.href="https://m.amap.com/navi/?start="+this.jwd+"&dest=114.148418,30.485467&destName=回家路线&key=9138ad0023cb8e79ca816509aac42747"
+                window.location.href="http://m.amap.com/navi/?start="+this.jwd+"&dest=114.148418,30.485467&destName=回家路线&key=9138ad0023cb8e79ca816509aac42747"
             },
             distanceCat(){
                 //var dis = ''
@@ -737,6 +747,7 @@
                 this.getLocation()
             },
             getWeath:async  function(jwd){
+                console.log(jwd+"DDFDFd")
                 let res= await  fetch('https://geoapi.qweather.com/v2/city/lookup?location='+jwd+'&key=b941bbcd687b486aa07aab8586dc115e')
                 let result = await res.json()
                 let res2= await  fetch('https://devapi.qweather.com/v7/weather/3d?location='+result.location[0].id+'&key=b941bbcd687b486aa07aab8586dc115e')
@@ -810,6 +821,9 @@
             },
             du(){
                 this.$router.push({name: 'du'})
+            },
+            zhuCe(){
+                this.$router.push({name: 'register'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {
