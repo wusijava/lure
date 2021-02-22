@@ -94,7 +94,7 @@
 
         <!-- 详情弹窗 -->
         <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
-            <h4>消费截图</h4>
+            <h4>我的鱼获</h4>
             <div class="detail-main">
                 <van-row type="flex" justify="space-between" v-for="item in detailList" style="margin-bottom: 10px;">
                     <img :src=item.url style="width: 100%;height:100%" v-if="item.url!=null&&item.url!=''" >

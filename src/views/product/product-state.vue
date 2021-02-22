@@ -14,9 +14,9 @@
                 <van-field
                         name="'产品型号"
                         placeholder="输入产品型号"
-                        clearable
                         type="text"
-                        v-model.trim="query.model"
+                        clearable
+                        v-model="query.name"
                 />
                 <van-field
                         readonly
@@ -218,11 +218,11 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                if (this.query.model){
-                    params.model = this.query.model;
+                if (this.query.name){
+                    params.model = this.query.name;
                 }
-                if (this.queryModel){
-                    params.model = this.queryModel;
+                if (this.query.name){
+                    params.model = this.query.name;
                 }
                 //amyState
                 if (this.amyState){
@@ -243,7 +243,7 @@
                         this.showEmpty = false;
                         this.list = result.data.data.content;
                         this.pageTotal = result.data.data.totalPages;
-                        this.query.model=''
+                        //this.query.name=''
                     }else {
                         this.showEmpty = true;
                         this.list = [];
