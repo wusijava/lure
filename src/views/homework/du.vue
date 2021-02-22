@@ -77,7 +77,7 @@
             return {
                 taiCi: '',
                 eng: '',
-                chi: '1',
+                chi: '',
                 mp3: '',
                 source: '',
                 url: '',

@@ -8,6 +8,9 @@
         />
 
         <div class="content">
+           <!-- <van-dialog v-model="show" title="标题" show-cancel-button>
+                <img src="https://img01.yzcdn.cn/vant/apple-3.jpg" />
+            </van-dialog>-->
             <div>
                 <Verify
                         @success='success'
@@ -60,6 +63,7 @@
                 </div>
             </van-form>
         </div>
+
     </div>
 </template>
 
@@ -98,6 +102,13 @@
                 this.$refs.verify.show()
             },
             register(){
+                Dialog.alert({
+                    title: '小柠檬',
+                    message: '暂未开放注册,敬请期待~',
+                    theme: 'round-button',
+                }).then(() => {
+                    this.show=false
+                });
 
             }
         }
