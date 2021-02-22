@@ -233,9 +233,9 @@
                     <img src="../../../src/assets/img/zc.png"/>
                     <p>用户注册</p>
                 </div>
-                <div class="module" @click="du">
-                    <img src="../../../src/assets/img/xi.png"/>
-                    <p>有毒鸡汤</p>
+                <div class="module" @click="myFish">
+                    <img src="../../../src/assets/img/yu.png"/>
+                    <p>我的鱼获</p>
                 </div>
             </div>
         </div>
@@ -336,6 +336,7 @@
             this.getTo();
             this.getOrderList();
             this.getSpendNum();
+            this.getLocation();
             setInterval(this.getLocation(),5000);
             this.mind();
 
@@ -553,7 +554,7 @@
                 this.$router.push({name:'toTask'})};
             },
             myAdd(){
-                window.location.href="http://m.amap.com/navi/?dest="+this.jwd+"&destName=%E6%88%91%E7%9A%84%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=9138ad0023cb8e79ca816509aac42747"
+                window.location.href="https://m.amap.com/navi/?dest="+this.jwd+"&destName=%E6%88%91%E7%9A%84%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=9138ad0023cb8e79ca816509aac42747"
             }, getLocation() {
                 let _that = this;
                 let geolocation = location.initMap("map-container"); //定位
@@ -600,7 +601,7 @@
                 });
             },
             goHome(){
-                window.location.href="http://m.amap.com/navi/?start="+this.jwd+"&dest=114.148418,30.485467&destName=回家路线&key=9138ad0023cb8e79ca816509aac42747"
+                window.location.href="https://m.amap.com/navi/?start="+this.jwd+"&dest=114.148418,30.485467&destName=回家路线&key=9138ad0023cb8e79ca816509aac42747"
             },
             distanceCat(){
                 //var dis = ''
@@ -749,6 +750,7 @@
             getWeath:async  function(jwd){
                 console.log(jwd+"DDFDFd")
                 let res= await  fetch('https://geoapi.qweather.com/v2/city/lookup?location='+jwd+'&key=b941bbcd687b486aa07aab8586dc115e')
+                console.log(res)
                 let result = await res.json()
                 let res2= await  fetch('https://devapi.qweather.com/v7/weather/3d?location='+result.location[0].id+'&key=b941bbcd687b486aa07aab8586dc115e')
                 let result2 = await res2.json()
@@ -824,6 +826,9 @@
             },
             zhuCe(){
                 this.$router.push({name: 'register'})
+            },
+            myFish(){
+                this.$router.push({name: 'myFish'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

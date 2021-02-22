@@ -294,6 +294,13 @@ export default new Router({
             meta: {
                 title: '用户注册'
             }
+        },
+        {    path: '/myFish',
+            name: 'myFish',
+            component: () => import('./views/order/fishList.vue'),
+            meta: {
+                title: '我的鱼获'
+            }
         }
 
     ]
