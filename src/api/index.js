@@ -49,7 +49,8 @@ const method = {
         mathLog: '/api/math/homeworkLog',
         handleState: '/product/handleState',
         homeworkTotal: '/api/math/homeworkTotal',
-        mind: 'api/mind'
+        mind: 'api/mind',
+        getTime: 'getTime'
 
 
 

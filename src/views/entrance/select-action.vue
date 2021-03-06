@@ -13,9 +13,10 @@
            <!-- <p>刷新次数: {{ count }}</p>-->
 
         <div class="content">
-            <van-count-down :time="chuXi" style="margin-bottom: 20px">
+            <span class="colon">距离{{this.fes1}}</span>
+            <van-count-down :time="chuXi" style="margin-bottom: 20px" >
                 <template #default="timeData">
-                    <span class="colon">距离2021年五一:</span>
+                   <!-- <span class="colon">{{this.fes1}}</span>-->
                     <span class="block">{{ timeData.days }}</span>
                     <span class="colon">天</span>
                     <span class="block">{{ timeData.hours }}</span>
@@ -26,9 +27,9 @@
                     <span class="colon">秒</span>
                 </template>
             </van-count-down>
+            <span class="colon" >距离{{this.fes2}}</span>
             <van-count-down :time="time" style="margin-bottom: 20px">
                 <template #default="timeData">
-                    <span class="colon">距离2021年元宵:</span>
                     <span class="block">{{ timeData.days }}</span>
                     <span class="colon">天</span>
                     <span class="block">{{ timeData.hours }}</span>
@@ -282,7 +283,7 @@
     Vue.use(CountDown);
     import {location} from "../../assets/js/location";
     import {sendMsg,saveAdd} from '../../api/homework';
-    import {myTask,taoList,orderList,mind} from "../../api/order";
+    import {myTask,taoList,orderList,mind,getTime} from "../../api/order";
     Vue.use(Popup);
     Vue.use(ActionSheet);
     Vue.use(Rate);
@@ -292,6 +293,8 @@
         name: "selectAction",
         data(){
             return{
+                fes1: '1',
+                fes2: '2',
                 isLoading: false,
                 count: 0,
                 chuXi: 1619798401000-(new Date()).getTime(),
@@ -339,7 +342,7 @@
             this.getLocation();
             setInterval(this.getLocation(),5000);
             this.mind();
-
+            this.getTime()
             this.user="当前登录账号:"+localStorage.getItem("username")
             if(localStorage.getItem("username")=="admin"){
                 this.user="当前登录账号:吴思"
@@ -829,6 +832,18 @@
             },
             myFish(){
                 this.$router.push({name: 'myFish'})
+            },
+            async getTime(){
+                let result = await getTime();
+                console.log(result.data[0].name)
+                console.log(result.status)
+                if(result.status=="200") {
+                    this.chuXi=result.data[0].time-(new Date()).getTime(),
+                    this.fes1=result.data[0].name
+                    this.time=result.data[1].time-(new Date()).getTime()
+                    this.fes2=result.data[1].name
+                    console.log(this.fes1)
+                }
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

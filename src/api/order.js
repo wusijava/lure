@@ -97,3 +97,7 @@ export async function mind(params){
     const result = await axios.post(api.order.mind,params);
     return result;
 }
+export async function getTime(params){
+    const result = await axios.post(api.order.getTime,params);
+    return result;
+}
