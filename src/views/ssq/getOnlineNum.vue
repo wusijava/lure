@@ -256,6 +256,17 @@
                 }
                 return true;
             },
+            dataURLtoBlob(dataURI) { // 将base64转换为file文件
+                const arr = dataURI.split(',')
+                const mime = arr[0].match(/:(.*?);/)[1]
+                const bstr = atob(arr[1])
+                let n = bstr.length
+                const u8arr = new Uint8Array(n)
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n)
+                }
+                return new Blob([u8arr],  { type: mime })
+            },
             async uploadImg(files) {
                 let formData = new FormData();
                 formData.append('file',files.file);
@@ -268,6 +279,7 @@
             },
             //校验文件大小是否超出限制
             onOversize(file){
+                console.log("太大了")
                 this.$toast({
                     message: '文件大小不能超过3M',
                     icon: 'warning-o'
