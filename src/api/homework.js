@@ -104,3 +104,11 @@ export async function getTaiCi(params){
     const result = await axios.post(api.homework.getTaiCi,params);
     return result;
 }
+export async function getTiKindTwo(params){
+    const result = await axios.post(api.homework.getTiKindTwo,params);
+    return result;
+}
+export async function checkTiKindTwo(params){
+    const result = await axios.post(api.homework.checkTiKindTwo,params);
+    return result;
+}

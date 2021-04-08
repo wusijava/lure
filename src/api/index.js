@@ -50,7 +50,8 @@ const method = {
         handleState: '/product/handleState',
         homeworkTotal: '/api/math/homeworkTotal',
         mind: 'api/mind',
-        getTime: 'getTime'
+        getTime: 'getTime',
+        monthSpend: '/monthSpend'
 
 
 
@@ -83,7 +84,9 @@ const method = {
         changeBlue: '/api/ssq/changeBlue',
         huiFu: '/huiFu',
         getSongCi: '/songCi',
-        getTaiCi: '/dialogue'
+        getTaiCi: '/dialogue',
+        getTiKindTwo: '/api/math/getTiKindTwo',
+        checkTiKindTwo: '/api/math/checkTiKindTwo'
 
     }
 }

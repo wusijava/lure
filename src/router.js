@@ -301,6 +301,13 @@ export default new Router({
             meta: {
                 title: '我的鱼获'
             }
+        },
+        {    path: '/tiKindTwo',
+            name: 'tiKindTwo',
+            component: () => import('./views/homework/tiKindTwo.vue'),
+            meta: {
+                title: '数学变形'
+            }
         }
 
     ]

@@ -239,6 +239,16 @@
                     <p>我的鱼获</p>
                 </div>
             </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="tiKindTwo">
+                    <img src="../../../src/assets/img/jisuanqi.png"/>
+                    <p>算数变形</p>
+                </div>
+                <div class="module" @click="not">
+                    <img src="../../../src/assets/img/error.png"/>
+                    <p>敬请期待</p>
+                </div>
+            </div>
         </div>
         </van-pull-refresh>
         <van-cell title="显示分享面板" @click="showShare = true" />
@@ -567,7 +577,7 @@
                     this.lat=result.position.lat;
                     this.lng = result.position.lng;
                     this.jwd=(result.position.lng)+","+(result.position.lat);
-                    console.log(this.jwd)
+                    //console.log(this.jwd)
                     this.getWeath(this.jwd)
                     _that.province = result.addressComponent.province;
                     _that.city = result.addressComponent.city;
@@ -628,7 +638,7 @@
                                 }).then(() => {
                                 });
                             } else {
-                                console.log(result)
+                                //console.log(result)
                             }
 
                         }
@@ -751,9 +761,9 @@
                 this.getLocation()
             },
             getWeath:async  function(jwd){
-                console.log(jwd+"DDFDFd")
+                //console.log(jwd+"DDFDFd")
                 let res= await  fetch('https://geoapi.qweather.com/v2/city/lookup?location='+jwd+'&key=b941bbcd687b486aa07aab8586dc115e')
-                console.log(res)
+                //console.log(res)
                 let result = await res.json()
                 let res2= await  fetch('https://devapi.qweather.com/v7/weather/3d?location='+result.location[0].id+'&key=b941bbcd687b486aa07aab8586dc115e')
                 let result2 = await res2.json()
@@ -835,15 +845,18 @@
             },
             async getTime(){
                 let result = await getTime();
-                console.log(result.data[0].name)
-                console.log(result.status)
+                //console.log(result.data[0].name)
+                //console.log(result.status)
                 if(result.status=="200") {
                     this.chuXi=result.data[0].time-(new Date()).getTime(),
                     this.fes1=result.data[0].name
                     this.time=result.data[1].time-(new Date()).getTime()
                     this.fes2=result.data[1].name
-                    console.log(this.fes1)
+                    //console.log(this.fes1)
                 }
+            },
+            tiKindTwo(){
+                this.$router.push({name: 'tiKindTwo'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

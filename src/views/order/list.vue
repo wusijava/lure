@@ -144,7 +144,7 @@
     import { Notify } from 'vant';
     import { PullRefresh } from 'vant';
     Vue.use(PullRefresh);
-    import {orderList,orderDetail,deleteRow} from "../../api/order";
+    import {orderList,orderDetail,deleteRow,monthSpend} from "../../api/order";
     export default {
         name: 'order-list',
         data() {
@@ -196,11 +196,13 @@
                 },
                 showEmpty: false,
                 rowId: '',
-                isLoading :false
+                isLoading :false,
+                monthSum: ''
             }
         },
         mounted() {
             this.getList(this.currentPage - 1, 10);
+            this.monthSpend();
         },
         methods: {
             showPopup() {
@@ -364,12 +366,18 @@
                 }
             },
             onRefresh() {
-                console.log(666)
                 setTimeout(() => {
                     Toast('刷新成功');
                     this.isLoading = false;
                 }, 1000);
             },
+            monthSpend: async function(){
+
+                const result = await monthSpend();
+                console.log(result)
+                Notify({ type: 'warning', message: result.data.data,
+                    duration: 10000 });
+            }
         }
     }
 </script>
