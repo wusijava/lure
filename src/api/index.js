@@ -51,7 +51,9 @@ const method = {
         homeworkTotal: '/api/math/homeworkTotal',
         mind: 'api/mind',
         getTime: 'getTime',
-        monthSpend: '/monthSpend'
+        monthSpend: '/monthSpend',
+        shouDongSaoMiao: '/product/getProductState',
+        refundMoney: 'refundMoney'
 
 
 

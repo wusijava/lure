@@ -22,7 +22,8 @@
                 </van-cell-group>
                 </div>
 
-            <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
+            <van-button class="button" @click="back" type="info" size="large" >返回菜单</van-button>
+            <van-button class="button" @click="shouDongSaoMiao" type="warning" size="large" style="margin-top: 20px">手动扫描</van-button>
         </div>
         <div class="footer">
             <van-pagination v-model="currentPage" :page-count="pageTotal" mode="simple" @change="changePage"/>
@@ -31,7 +32,7 @@
 </template>
 
 <script>
-    import {monitorRecord,changeState} from "../../api/order";
+    import {monitorRecord,changeState,shouDongSaoMiao} from "../../api/order";
     import Vue from 'vue';
     import { Toast } from 'vant';
     import { DropdownMenu, DropdownItem } from 'vant';
@@ -150,7 +151,10 @@
             },
             changeValue:async function(){
                 this.getList(this.currentPage - 1, 10);
-                console.log(this.value1)
+                //console.log(this.value1)
+            },
+            shouDongSaoMiao: async function(){
+                const result = await shouDongSaoMiao();
             }
         }
     }

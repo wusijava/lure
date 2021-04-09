@@ -91,7 +91,6 @@
                 </div>
             </van-form>
         </van-popup>
-
         <!-- 详情弹窗 -->
         <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
             <h4>消费截图</h4>
@@ -119,6 +118,9 @@
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
                             消费截图
                         </van-button>
+                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="refund(item)" style="margin-left: 20px" v-if="item.price!=0">
+                            退款
+                        </van-button>
                     </van-col>
                 </van-row>
                 <template #right>
@@ -127,6 +129,11 @@
             </van-swipe-cell>
             </div>
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
+            <van-dialog v-model="showInput" title="请输入退款金额" show-cancel-button @confirm="refundPart">
+                <van-field v-model="number" type="number" label="金额" />
+            </van-dialog>
+            <van-dialog v-model="refundAll" title="请确认操作?" show-cancel-button @confirm="refundAllMoney">
+            </van-dialog>
         </div>
         <div class="footer">
             <van-pagination v-model="currentPage" :page-count="pageTotal" mode="simple" @change="changePage"/>
@@ -144,11 +151,14 @@
     import { Notify } from 'vant';
     import { PullRefresh } from 'vant';
     Vue.use(PullRefresh);
-    import {orderList,orderDetail,deleteRow,monthSpend} from "../../api/order";
+    import {orderList,orderDetail,deleteRow,monthSpend,refundMoney} from "../../api/order";
     export default {
         name: 'order-list',
         data() {
             return {
+                refundAll: false,
+                number: '',
+                showInput: false,
                 list: [],
                 fontColor:{
                     color: '#666'
@@ -197,7 +207,8 @@
                 showEmpty: false,
                 rowId: '',
                 isLoading :false,
-                monthSum: ''
+                monthSum: '',
+                refundId: ''
             }
         },
         mounted() {
@@ -374,9 +385,68 @@
             monthSpend: async function(){
 
                 const result = await monthSpend();
-                console.log(result)
+                //console.log(result)
                 Notify({ type: 'warning', message: result.data.data,
                     duration: 10000 });
+            },
+            refund(item){
+                this.refundId=item.id
+                Dialog.confirm({
+                    message: '请选择是部分退款还是全额退款?',
+                    confirmButtonText: '部分退款',
+                    cancelButtonText: '全额退款'
+                })
+                    .then(() => {
+                       this.showInput=true
+                    })
+                    .catch(() => {
+                        this.refundAll=true
+                    });
+            },
+            refundAllMoney: async function(){
+                let params = {}
+                params.id = this.refundId
+                const result = await refundMoney(params);
+                if (result.data.code == "20000") {
+                    Notify({
+                        message: result.data.data,
+                        duration: 5000,
+                    });
+                    this.getList(this.currentPage - 1, 10);
+                }else{
+                    Notify({
+                        message: result.data.msg,
+                        duration: 5000,
+                    });
+                }
+            },
+            refundPart: async function(){
+                let params = {}
+                params.id = this.refundId
+                params.amount=this.number
+                if(this.number==''){
+                    Dialog.alert({
+                        message: '退款金额必填!',
+                        theme: 'round-button',
+                    }).then(() => {
+                       return
+                    });
+                    return
+                }
+                const result = await refundMoney(params);
+                if (result.data.code == "20000") {
+                    Notify({
+                        message: result.data.data,
+                        duration: 5000,
+                    });
+                    this.getList(this.currentPage - 1, 10);
+                }else{
+                    Notify({
+                        message: result.data.msg,
+                        duration: 5000,
+                    });
+                }
+                this.number=''
             }
         }
     }

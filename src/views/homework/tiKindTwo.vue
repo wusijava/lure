@@ -86,6 +86,11 @@
                         message: result.data.data,
                         duration: 2000,
                     });
+                }else{
+                    Notify({
+                        message: result.data.msg,
+                        duration: 2000,
+                    });
                 }
 
             },
