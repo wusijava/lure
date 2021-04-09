@@ -308,6 +308,13 @@ export default new Router({
             meta: {
                 title: '数学变形'
             }
+        },
+        {    path: '/suggest',
+            name: 'suggest',
+            component: () => import('./views/homework/suggest.vue'),
+            meta: {
+                title: '意见反馈'
+            }
         }
 
     ]

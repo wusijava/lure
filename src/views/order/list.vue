@@ -130,7 +130,7 @@
             </div>
             <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
             <van-dialog v-model="showInput" title="请输入退款金额" show-cancel-button @confirm="refundPart">
-                <van-field v-model="number" type="number" label="金额" />
+                <van-field v-model="number" type="number" label="金额:" autofocus/>
             </van-dialog>
             <van-dialog v-model="refundAll" title="请确认操作?" show-cancel-button @confirm="refundAllMoney">
             </van-dialog>
@@ -394,7 +394,9 @@
                 Dialog.confirm({
                     message: '请选择是部分退款还是全额退款?',
                     confirmButtonText: '部分退款',
-                    cancelButtonText: '全额退款'
+                    cancelButtonText: '全额退款',
+                    overlay: true,
+                    closeOnClickOverlay: true
                 })
                     .then(() => {
                        this.showInput=true

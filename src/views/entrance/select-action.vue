@@ -244,9 +244,9 @@
                     <img src="../../../src/assets/img/jisuanqi.png"/>
                     <p>算数变形</p>
                 </div>
-                <div class="module" @click="not">
-                    <img src="../../../src/assets/img/error.png"/>
-                    <p>敬请期待</p>
+                <div class="module" @click="suggest">
+                    <img src="../../../src/assets/img/suggest.png"/>
+                    <p>意见反馈</p>
                 </div>
             </div>
         </div>
@@ -857,6 +857,9 @@
             },
             tiKindTwo(){
                 this.$router.push({name: 'tiKindTwo'})
+            },
+            suggest(){
+                this.$router.push({name: 'suggest'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {
