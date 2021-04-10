@@ -1,8 +1,9 @@
 <template>
     <div>
-        <H3 style="text-align: center">当前做的是错题回顾</H3>
+        <H3 style="text-align: center;margin-top: 40px">当前做的是错题回顾</H3>
         <H3 style="text-align: center;color: red" v-if="this.title!=''">{{this.title}}</H3>
         <H3 style="text-align: center;color: red">{{this.source}}</H3>
+        <H3 style="text-align: center;color: red" v-if="this.num!=null">今日任务剩余:{{this.num}}题!</H3>
         <div style="margin-top: 50px">
             <div style="text-align: center;margin-top: 50px" v-if="this.numOne">
                 <span style="font-size: 35px;text-align: center;">{{this.numOne}}{{this.symbolOne}}{{this.numTwo}}{{this.symbolTwo}}{{this.numThree}}
@@ -77,7 +78,8 @@
                 size: '20',
                 phone: '',
                 rowId: '',
-                title: ''
+                title: '',
+                num: ''
             }
         },
         mounted() {
@@ -121,6 +123,7 @@
                         this.numThree=result.data.data.numThree
                         this.source=result.data.data.source
                         this.rowId=result.data.data.rowId
+                        this.num=result.data.data.num
                     }else{
                         this.title="暂无错题!"
                         console.log(this.title)

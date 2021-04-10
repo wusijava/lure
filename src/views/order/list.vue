@@ -115,11 +115,11 @@
                 <van-row>
                     <van-col span="12"><p style="margin-top: 5px;">消费者：{{item.consumer}}  备注：{{item.remark}}</p></van-col>
                     <van-col span="12" style="text-align: right">
-                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
-                            消费截图
-                        </van-button>
-                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="refund(item)" style="margin-left: 20px" v-if="item.price!=0">
+                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="refund(item)"  v-if="item.price!=0">
                             退款
+                        </van-button>
+                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)" style="margin-left: 20px">
+                            消费截图
                         </van-button>
                     </van-col>
                 </van-row>
@@ -148,6 +148,8 @@
     import { Dialog } from 'vant';
     import { SwipeCell } from 'vant';
     Vue.use(SwipeCell);
+    import { Toast } from 'vant';
+    Vue.use(Toast);
     import { Notify } from 'vant';
     import { PullRefresh } from 'vant';
     Vue.use(PullRefresh);
@@ -395,8 +397,7 @@
                     message: '请选择是部分退款还是全额退款?',
                     confirmButtonText: '部分退款',
                     cancelButtonText: '全额退款',
-                    overlay: true,
-                    closeOnClickOverlay: true
+                    closeOnPopstate: true
                 })
                     .then(() => {
                        this.showInput=true
@@ -404,6 +405,25 @@
                     .catch(() => {
                         this.refundAll=true
                     });
+                /*const toast = Toast.loading({
+                    duration: 0, // 持续展示 toast
+                    forbidClick: true,
+                    position: 'top'
+                });*/
+                let second = 8;
+                const timer = setInterval(() => {
+                    second--;
+                    if (second) {
+                        Notify(` ${second} 秒后自动关闭退款操作!`);
+                        //toast.message = ` ${second} 秒后自动关闭退款操作!`;
+                    } else {
+                        clearInterval(timer);
+                        // 手动清除 Toast
+                        Toast.clear();
+                        Dialog.close()
+                    }
+                }, 1000);
+
             },
             refundAllMoney: async function(){
                 let params = {}

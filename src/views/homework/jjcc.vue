@@ -7,6 +7,7 @@
             <van-button type="default" style="margin-left: 20px" @click="getSize(100)">100以内</van-button>
         </div>
         <H3 style="text-align: center">当前做的是{{this.size}}以内混合运算</H3>
+        <H3 style="text-align: center;color: red" v-if="this.num!=null">今日任务剩余:{{this.num}}题!</H3>
         <div style="margin-top: 50px">
             <!--<h4 style="text-align: center;color: #ee0a24">100以内三个数加减混合运算</h4>-->
             <div style="text-align: center;margin-top: 50px" v-if="this.numOne">
@@ -80,7 +81,8 @@
                 value2: '',
                 columns: ['吴思', '何浩', 'tomcat', '张皓'],
                 size: '20',
-                phone: ''
+                phone: '',
+                num: ''
             }
         },
         mounted() {
@@ -120,6 +122,7 @@
                     this.numTwo=result.data.data.numTwo
                     this.symbolTwo=result.data.data.symbolTwo
                     this.numThree=result.data.data.numThree
+                    this.num=result.data.data.num
                 }
                 if(result.data.code=="99999"){
                     Notify({

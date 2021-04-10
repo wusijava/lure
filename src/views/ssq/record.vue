@@ -25,9 +25,9 @@
                         <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.red5}}</van-button>
                         <van-button round type="danger" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.red6}}</van-button>
                         <van-button round type="info" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.blue}}</van-button>
-                        <van-button round color="#CCCCCC" style="margin-left: 10px;margin-bottom: 5px" size="mini" v-if="item2.isBonus=='未中奖'">{{item2.isBonus}}</van-button>
+                        <van-button round color="#696969" style="margin-left: 10px;margin-bottom: 5px" size="mini" v-if="item2.isBonus=='未中奖'">{{item2.isBonus}}</van-button>
                         <van-button round type="primary" style="margin-left: 10px;margin-bottom: 5px" size="mini" v-if="item2.isBonus=='已中奖'">{{item2.isBonus}}</van-button>
-                        <van-button round type="info" style="margin-left: 10px;margin-bottom: 5px" size="mini" v-if="item2.isBonus=='待开奖'">{{item2.isBonus}}</van-button>
+                        <van-button round color="#FFD700" style="margin-left: 10px;margin-bottom: 5px" size="mini" v-if="item2.isBonus=='待开奖'">{{item2.isBonus}}</van-button>
                         <van-button round type="warning" style="margin-left: 10px;margin-bottom: 5px" size="mini">{{item2.num}}注</van-button>
                     </div>
                 <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item.url)" style="margin-left: 130px">

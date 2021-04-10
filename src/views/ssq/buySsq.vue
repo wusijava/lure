@@ -274,6 +274,7 @@
                             duration: 3000
                         }
                     );
+                    this.ssqQuick()
                 } else {
                     Notify({
                         message: result.msg,
