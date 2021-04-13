@@ -90,11 +90,11 @@
             <div class="list" v-for="item in list" :key="item.id">
                 <van-row style="padding: 5px 0;">
                     <van-col span="12"><h4>产品型号</h4></van-col>
-                    <van-col span="12"><h4 style="text-align: right">{{item.model}}</h4></van-col>
+                    <van-col span="12"><p><h4>{{item.model}}</h4></p></van-col>
                 </van-row>
                 <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;color: crimson" v-if="item.amyState=='offline'">艾美：{{item.amyStateDesc}}    </p></van-col>
-                    <van-col span="12"><p style="margin-top: 5px;" v-if="item.amyState=='online'"><strong>艾美：{{item.amyStateDesc}}  </strong>  </p></van-col>
+                    <van-col span="12"><p style="margin-top: 5px;color: crimson" v-show="item.amyState=='offline'">艾美：{{item.amyStateDesc}}    </p></van-col>
+                    <van-col span="12"><p style="margin-top: 5px;" v-if="item.amyState=='online'">艾美：{{item.amyStateDesc}} </p></van-col>
                     <van-col span="12"><p style="margin-top: 5px;">我的：{{item.myStateDesc}}</p></van-col>
                     <van-col span="12" style="text-align: right">
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
@@ -102,6 +102,9 @@
                         </van-button>
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toHandle(item)" v-if="item.amyState!=item.myState" style="margin-left: 20px">
                             已处理
+                        </van-button>
+                        <van-button type="primary" plain hairline round size="small" class="btn-small" @click="copy(item.model)" style="margin-left: 10px">
+                            复制名称
                         </van-button>
                     </van-col>
                 </van-row>
@@ -116,8 +119,10 @@
 
 <script>
     import moment from 'moment';
+    import copy from '../../components/verifition/utils/copy';
     import areaJson from '@/util/state'
     import {showProductState,handleState} from "../../api/order";
+    import { Notify } from 'vant';
     export default {
         name: 'productState',
         data() {
@@ -168,7 +173,8 @@
                 },
                 showEmpty: false,
                 image: '',
-                amyState: ''
+                amyState: '',
+                productName: ''
             }
         },
         mounted() {
@@ -318,6 +324,20 @@
                         icon: 'warning-o'
                     });
                 }
+            },
+            copy(item) {
+                this.productName=item
+                copy.handleClipboard(this.productName, event, () => {
+                    Notify({
+                        type: 'success',
+                        message: '复制名称成功',
+                    });
+                }, () => {
+                    Notify({
+                        type: 'danger',
+                        message: '复制名称失败',
+                    });
+                })
             }
         }
     }

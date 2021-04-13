@@ -82,8 +82,8 @@
                 if (result.data.code == "20000") {
                     if(result.data.data=='答对了,小柠檬不错哦~'){
                         this.phone=''
-                        this.getResult()
                     }
+                    this.getResult()
                     Notify({
                         message: result.data.data,
                         duration: 2000,

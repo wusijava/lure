@@ -97,12 +97,14 @@
                 params.symbolTwo=this.symbolTwo
                 params.numThree=this.numThree
                 params.result=this.phone
-
+                params.type=0
                 let result = await checkTi(params);
                 //console.log(result.data)
                 if (result.data.code == "20000") {
                     if(result.data.data=='答对了,小柠檬不错哦~'){
                         this.phone=''
+                        this.getResult()
+                    }else{
                         this.getResult()
                     }
                     Notify({
