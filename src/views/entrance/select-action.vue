@@ -144,9 +144,13 @@
                     <img src="../../../src/assets/img/nz.png"/>
                     <p>提醒记录</p>
                 </div>
-                <div class="module" @click="not">
+               <!-- <div class="module" @click="not">
                     <img src="../../../src/assets/img/error.png"/>
                     <p>敬请期待</p>
+                </div>-->
+                <div class="module" @click="password">
+                    <img src="../../../src/assets/img/key.png"/>
+                    <p>密码管理</p>
                 </div>
             </div>
             <div style="margin-top: 25px">
@@ -860,6 +864,9 @@
             },
             suggest(){
                 this.$router.push({name: 'suggest'})
+            },
+            password(){
+                this.$router.push({name: 'password'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

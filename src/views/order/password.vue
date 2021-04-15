@@ -12,66 +12,13 @@
             <van-form class="filter" @submit="toSearch(0)">
                 <!-- 1 -->
                 <van-field
-                        name="费用名称"
-                        placeholder="输入消费项目"
+                        name="名称"
+                        placeholder="输入账号名称"
                         clearable
                         type="text"
-                        v-model.trim="query.item"
+                        v-model.trim="query.acount"
                 />
 
-                <!-- 4 -->
-                <!-- 选择开始时间弹窗 -->
-                <van-field
-                        readonly
-                        clickable
-                        name="datetimePicker"
-                        :value="date"
-                        placeholder="请选择时间"
-                        @click="showStartDate = true"
-                />
-                <van-popup v-model="showStartDate" position="bottom">
-                    <van-datetime-picker
-                            title="选择时间"
-                            type="date"
-                            :min-date="minDate"
-                            :max-date="maxDate"
-                            @confirm="onConfirmDate"
-                            @cancel="onCancelDate"
-                    />
-                </van-popup>
-                <!-- 选择结束时间弹窗 -->
-                <van-popup v-model="showEndDate" position="bottom">
-                    <van-datetime-picker
-                            title="选择时间"
-                            type="date"
-                            :min-date="minDate"
-                            :max-date="maxDate"
-                            @confirm="onEndDate"
-                            @cancel="onCancelDate"
-                    />
-                </van-popup>
-                <!-- 选择地区弹窗 -->
-                <van-field
-                        readonly
-                        clickable
-                        :value="area"
-                        placeholder="请选择消费者"
-                        @click="showArea = true"
-                >
-                </van-field>
-                <van-popup
-                        v-model="showArea"
-                        position="bottom"
-                        :style="{ height: '50%' }"
-                        round
-                >
-                    <van-area :area-list="areaList"
-                          value="420000"
-                          :columns-num="1"
-                          @confirm="confirmArea"
-                          @cancel="onCancelArea"
-                    />
-                </van-popup>
 
 
 
@@ -102,37 +49,29 @@
         </van-popup>
 
         <div class="content">
-            <van-empty image="search" description="暂无消费记录" v-show="showEmpty"/>
+            <van-empty image="search" description="暂无账号记录" v-show="showEmpty"/>
             <div class="list" v-for="item in list" :key="item.id">
             <van-swipe-cell :before-close="beforeClose">
-                <van-row style="border-bottom: 1px solid #E6EBF2; padding-bottom: 5px">
-                    <van-col span="20"><p style="text-align: right"><h5>消费时间:{{item.date}}     消费项目：{{item.item}}</h5></p></van-col>
-                </van-row>
-                <van-row style="padding: 5px 0;">
-                    <van-col span="12"><h4>消费金额</h4></van-col>
-                    <van-col span="12"><h4 style="text-align: right">{{item.price}}</h4></van-col>
-                </van-row>
-                <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;">消费者：{{item.consumer}}  备注：{{item.remark}}</p></van-col>
-                    <van-col span="12" style="text-align: right">
-                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="refund(item)"  v-if="item.price!=0">
-                            退款
-                        </van-button>
-                        <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)" style="margin-left: 20px">
-                            消费截图
-                        </van-button>
-                    </van-col>
+                <van-row style="border-bottom: 1px solid #E6EBF2; padding-bottom: 5px;height: 45px">
+                    <van-col span="20"><p style="text-align: center">{{item.acount}}     </p></van-col>
+                    <van-button type="info" plain hairline round size="small" class="btn-small" @click="showPassword(item)" style="margin-left: 110px" >
+                        显示密码
+                    </van-button>
                 </van-row>
                 <template #right>
-                    <van-button square type="danger" text="删除" style="margin-top: 45px;margin-left: 10px" @click="cl(item.id)"/>
+                    <van-button square type="danger" text="删除" style="margin-left: 10px" @click="cl(item.id)"/>
                 </template>
             </van-swipe-cell>
             </div>
-            <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
-            <van-dialog v-model="showInput" title="请输入退款金额" show-cancel-button @confirm="refundPart">
-                <van-field v-model="number" type="number" label="金额:" autofocus/>
+            <van-button class="button" @click="back" type="info" size="large" >返回菜单</van-button>
+            <van-button class="button" @click="save" type="warning" size="large"  style="margin-top: 20px">新增记录</van-button>
+            <van-dialog v-model="showInput" title="账号及密码" show-cancel-button @confirm="submitSave" @cancel="cancelSave">
+                <van-field v-model="acount" label="名称" clearable autofocus/>
+                <van-field v-model="password" label="密码" type="password" clearable/>
+                <van-field v-model="pwdAgain" label="确认密码"type="password" clearable />
             </van-dialog>
-            <van-dialog v-model="refundAll" title="请确认操作?" show-cancel-button @confirm="refundAllMoney">
+            <van-dialog v-model="inputPassword" title="请输入查看密码" show-cancel-button @confirm="submitShow" @cancel="cancelInput">
+                <van-field v-model="lookPwd" label="查看密码" type="password" autofocus clearable/>
             </van-dialog>
         </div>
         <div class="footer">
@@ -153,9 +92,9 @@
     import { Notify } from 'vant';
     import { PullRefresh } from 'vant';
     Vue.use(PullRefresh);
-    import {orderList,orderDetail,deleteRow,monthSpend,refundMoney} from "../../api/order";
+    import {passwordList,save,showPwd,deletePassword} from "../../api/order";
     export default {
-        name: 'order-list',
+        name: 'password',
         data() {
             return {
                 refundAll: false,
@@ -209,13 +148,15 @@
                 showEmpty: false,
                 rowId: '',
                 isLoading :false,
-                monthSum: '',
-                refundId: ''
+                acount: '',
+                password: '',
+                pwdAgain: '',
+                inputPassword: false,
+                lookPwd: ''
             }
         },
         mounted() {
             this.getList(this.currentPage - 1, 10);
-            this.monthSpend();
         },
         methods: {
             showPopup() {
@@ -225,35 +166,7 @@
                 this.rowId=id
             },
             cancelPopup() {
-                this.show = false;
-                this.query.outTradeNo = '';
-                this.query.wayId = '';
-                this.query.sellerNo = '';
-                this.query.phoneNumber = '';
-                this.area = '';
-                this.areaCode = ''
-                this.date = '';
-                this.activeState = 0;
-                this.activeType = 0;
-            },
-            onConfirmDate(startDate) {
-                this.showStartDate = false;
-                this.beginDate = moment(startDate).format('YYYY-MM-DD');
-                this.onEndDate();
-                this.showEndDate = true;
-            },
-            onEndDate(endDate) {
-                this.overDate = moment(endDate).format('YYYY-MM-DD');
-                if(this.beginDate > this.overDate){
-                    this.overDate = this.beginDate;
-                }
-                this.date = this.beginDate + '－' + this.overDate;
-                this.showEndDate = false;
-            },
-            onCancelDate() {
-                this.date = ''
-                this.showStartDate = false;
-                //this.showEndDate = false;
+                this.acount = '';
             },
             toSearch(isSearch) {
                 this.show = false;
@@ -266,30 +179,15 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                if (this.query.item){
-                    params.item = this.query.item;
+                if (this.query.acount){
+                    params.acount = this.query.acount;
                 }
-
-
-                if(this.area != '') {
-                    if(this.query.storeCityCode == '420001') {
-                        params.consumer = this.query.storeProvinceCode
-                    }else {
-                        params.consumer = this.query.storeProvinceCode
-                    }
-                }
-
-                if (this.date != '') {
-                    params.startTime = this.beginDate;
-                    params.endTime = this.overDate;
-                }
-
                 this.$toast.loading({
                     duration: 0, // 持续展示 toast
                     forbidClick: true,
                     message: '请稍后...',
                 });
-                const result = await orderList(params);
+                const result = await passwordList(params);
                 this.$toast.clear();
                 if (result.data.code == '20000') {
                     if(result.data.data.content.length > 0) {
@@ -340,20 +238,6 @@
                 this.activeType=index;
                 this.type=i;
             },
-            toDetails: async function(info) {
-                let params = {}
-                params.id = info.id
-                const result = await orderDetail(params)
-                if(result.data.code == '20000') {
-                    this.showDetails = true;
-                    this.detailList = result.data
-                }else {
-                    this.$toast({
-                        message: result.data.msg,
-                        icon: 'warning-o'
-                    });
-                }
-            },
             back(){
                 this.$router.push({name:'selectAction'});
             },
@@ -366,14 +250,27 @@
                             instance.close();
                             let query = {}
                             query.id = this.rowId
-                            deleteRow(query)
+                            deletePassword(query)
                             Notify({
                                 message: '删除成功了,伙计!',
                                 color: '#ad0000',
                                 background: '#ffe1e1',
                                 duration: 2000,
                             });
-                            this.getList(this.currentPage - 1, 10);
+                            let second = 3;
+                            const timer = setInterval(() => {
+                                second--;
+                                if (second) {
+                                    Notify(` ${second} 秒后自动刷新!`);
+                                    //toast.message = ` ${second} 秒后自动关闭退款操作!`;
+                                } else {
+                                    clearInterval(timer);
+                                    // 手动清除 Toast
+                                    Toast.clear();
+                                    Dialog.close()
+                                    this.getList(this.currentPage - 1, 10);
+                                }
+                            }, 1000);
                         });
                         break;
                 }
@@ -384,88 +281,61 @@
                     this.isLoading = false;
                 }, 1000);
             },
-            monthSpend: async function(){
-
-                const result = await monthSpend();
-                //console.log(result)
-                Notify({ type: 'warning', message: result.data.data,
-                    duration: 10000 });
+            save(){
+                this.acount=''
+                this.pwd=''
+                this.pwdAgain=''
+                this.showInput=true
             },
-            refund(item){
-                this.refundId=item.id
-                Dialog.confirm({
-                    message: '请选择是部分退款还是全额退款?',
-                    confirmButtonText: '部分退款',
-                    cancelButtonText: '全额退款',
-                    closeOnPopstate: true
-                })
-                    .then(() => {
-                       this.showInput=true
-                    })
-                    .catch(() => {
-                        this.refundAll=true
-                    });
-                /*const toast = Toast.loading({
-                    duration: 0, // 持续展示 toast
-                    forbidClick: true,
-                    position: 'top'
-                });*/
-                let second = 8;
-                const timer = setInterval(() => {
-                    second--;
-                    if (second) {
-                        Notify(` ${second} 秒后自动关闭退款操作!`);
-                        //toast.message = ` ${second} 秒后自动关闭退款操作!`;
-                    } else {
-                        clearInterval(timer);
-                        // 手动清除 Toast
-                        Toast.clear();
-                        Dialog.close()
-                    }
-                }, 1000);
-
-            },
-            refundAllMoney: async function(){
-                let params = {}
-                params.id = this.refundId
-                const result = await refundMoney(params);
-                if (result.data.code == "20000") {
+            submitSave:async function(){
+                let params = {};
+                params.acount=this.acount
+                params.pwd=this.password
+                params.pwdAgain=this.pwdAgain
+                const result = await save(params);
+                if(result.data.code == '20000') {
                     Notify({
                         message: result.data.data,
-                        duration: 5000,
+                        duration: 2000,
                     });
+                    this.showInput=false;
                     this.getList(this.currentPage - 1, 10);
                 }else{
+                    this.showInput=true
                     Notify({
                         message: result.data.msg,
-                        duration: 5000,
+                        duration: 2000,
                     });
                 }
             },
-            refundPart: async function(){
-                let params = {}
-                params.id = this.refundId
-                params.amount=this.number
-                if(this.number==''){
-                    Dialog.alert({
-                        message: '退款金额必填!',
-                        theme: 'round-button',
-                    }).then(() => {
-                       return
-                    });
-                    return
-                }
-                const result = await refundMoney(params);
-                if (result.data.code == "20000") {
-                    Notify({
-                        message: result.data.data,
-                        duration: 5000,
-                    });
-                    this.getList(this.currentPage - 1, 10);
+            cancelSave(){
+                this.acount=''
+                this.pwd=''
+                this.pwdAgain=''
+            },
+            showPassword(id){
+               this.rowId=id.id;
+                this.inputPassword=true
+            },
+            cancelInput(){
+               this.lookPwd=''
+            },
+            submitShow:async function(){
+                let params = {};
+                params.rowId=this.rowId
+                params.pwd=this.lookPwd
+                const result = await showPwd(params);
+                if(result.data.code == '20000') {
+                    this.inputPassword=false
+                    Dialog({ message: result.data.data, });
                 }else{
-                    Dialog({ message: result.data.msg, });
+                    this.inputPassword=true
+                    Notify({
+                        message: result.data.msg,
+                        duration: 2000,
+                    });
                 }
-                this.number=''
+                this.lookPwd=''
             }
         }
     }

@@ -315,6 +315,13 @@ export default new Router({
             meta: {
                 title: '意见反馈'
             }
+        },
+        {    path: '/password',
+            name: 'password',
+            component: () => import('./views/order/password.vue'),
+            meta: {
+                title: '密码管理'
+            }
         }
 
     ]

@@ -113,3 +113,19 @@ export async function refundMoney(params){
     const result = await axios.post(api.order.refundMoney,params);
     return result;
 }
+export async function passwordList(params){
+    const result = await axios.post(api.order.passwordList,params);
+    return result;
+}
+export async function save(params){
+    const result = await axios.post(api.order.save,params);
+    return result;
+}
+export async function showPwd(params){
+    const result = await axios.post(api.order.showPwd,params);
+    return result;
+}
+export async function deletePassword(params){
+    const result = await axios.post(api.order.deletePassword,params);
+    return result;
+}

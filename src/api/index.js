@@ -53,7 +53,11 @@ const method = {
         getTime: 'getTime',
         monthSpend: '/monthSpend',
         shouDongSaoMiao: '/product/getProductState',
-        refundMoney: 'refundMoney'
+        refundMoney: 'refundMoney',
+        passwordList: 'api/password/list',
+        save: 'api/password/save',
+        showPwd: 'api/password/showPassword',
+        deletePassword: 'api/password/deletePassword'
 
 
 
