@@ -112,3 +112,11 @@ export async function checkTiKindTwo(params){
     const result = await axios.post(api.homework.checkTiKindTwo,params);
     return result;
 }
+export async function getchengChuTi(params){
+    const result = await axios.post(api.homework.getchengChuTi,params);
+    return result;
+}
+export async function checkChengChu(params){
+    const result = await axios.post(api.homework.checkChengChu,params);
+    return result;
+}

@@ -206,7 +206,7 @@
             <div style="margin-top: 25px">
                 <div class="module" style="margin-right: 25px" @click="jjcc">
                     <img src="../../../src/assets/img/jjcc.png"/>
-                    <p>加减乘除</p>
+                    <p>加减运算</p>
                 </div>
                 <div class="module" @click="homeworkOnline">
                     <img src="../../../src/assets/img/jpq.png"/>
@@ -251,6 +251,16 @@
                 <div class="module" @click="suggest">
                     <img src="../../../src/assets/img/suggest.png"/>
                     <p>意见反馈</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="chengChu">
+                    <img src="../../../src/assets/img/chengchu.png"/>
+                    <p>乘除运算</p>
+                </div>
+                <div class="module" @click="jiangLi">
+                    <img src="../../../src/assets/img/jiangli.png"/>
+                    <p>我的奖励</p>
                 </div>
             </div>
         </div>
@@ -867,6 +877,12 @@
             },
             password(){
                 this.$router.push({name: 'password'})
+            },
+            chengChu(){
+                this.$router.push({name: 'chengChu'})
+            },
+            jiangLi(){
+                this.$router.push({name: 'jiangLi'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

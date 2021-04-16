@@ -57,7 +57,9 @@ const method = {
         passwordList: 'api/password/list',
         save: 'api/password/save',
         showPwd: 'api/password/showPassword',
-        deletePassword: 'api/password/deletePassword'
+        deletePassword: 'api/password/deletePassword',
+        getAwardList: '/api/math/getAwardList',
+        handleAwardState: '/api/math/handleAwardState'
 
 
 
@@ -92,7 +94,9 @@ const method = {
         getSongCi: '/songCi',
         getTaiCi: '/dialogue',
         getTiKindTwo: '/api/math/getTiKindTwo',
-        checkTiKindTwo: '/api/math/checkTiKindTwo'
+        checkTiKindTwo: '/api/math/checkTiKindTwo',
+        getchengChuTi: '/api/math/getchengChuTi',
+        checkChengChu: '/api/math/checkChengChu'
 
     }
 }

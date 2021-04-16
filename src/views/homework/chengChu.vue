@@ -6,19 +6,17 @@
             <van-button type="default" style="margin-left: 20px" @click="getSize(50)">较难</van-button>
             <van-button type="default" style="margin-left: 20px" @click="getSize(100)">最难</van-button>
         </div>
-        <H3 style="text-align: center">当前做的是{{this.size}}以内混合运算</H3>
+        <H3 style="text-align: center">当前难度等级:{{this.level}}</H3>
         <H3 style="text-align: center;color: red" v-if="this.num!=null">今日任务剩余:{{this.num}}题!</H3>
         <div style="margin-top: 50px">
-            <!--<h4 style="text-align: center;color: #ee0a24">100以内三个数加减混合运算</h4>-->
-            <div style="text-align: center;margin-top: 50px" v-if="this.numOne">
-                <span style="font-size: 35px;text-align: center;">{{this.numOne}}{{this.symbolOne}}{{this.numTwo}}{{this.symbolTwo}}{{this.numThree}}
-                =
+            <div style="text-align: center;margin-top: 50px" >
+                <span style="font-size: 35px;text-align: center;">{{this.numOne}}{{this.symbolOne}}{{this.numTwo}}
+                =<input type="number" v-model="phone" placeholder="" class="input" style="font-size: 40px;width: 80px;margin-top: 20px" >
                 </span></div>
             <div>
-                <input type="number" v-model="phone" placeholder="" class="input" style="margin-left: 120px;font-size: 40px;width: 180px;margin-top: 20px" >
+
             </div>
             <van-button round block type="warning" @click="checkTi" style="margin-top: 100px">确认提交</van-button>
-            <!--<van-button round block type="primary" @click="next" style="margin-top: 80px">换下一题</van-button>-->
         </div>
         <div style="margin-top: 20px;margin-top: 120px">
             <van-button round block type="info" @click="back">返回首页</van-button>
@@ -42,13 +40,13 @@
     import { Picker } from 'vant';
     Vue.use(Picker);
     import { Notify } from 'vant';
-    import {getTi,faQiDaiMai,suiJi,checkTi} from '../../api/homework'
+    import {getchengChuTi,checkChengChu} from '../../api/homework'
     import { ContactEdit } from 'vant';
     Vue.use(ContactEdit);
     import { Stepper } from 'vant';
     Vue.use(Stepper);
     export default {
-        name: "jjcc",
+        name: "chengChu",
         data() {
             return {
                 numOne: '',
@@ -79,10 +77,10 @@
                 userShow: false,
                 ssqNum: '',
                 value2: '',
-                columns: ['吴思', '何浩', 'tomcat', '张皓'],
-                size: '20',
                 phone: '',
-                num: ''
+                num: '',
+                level: '简单',
+                size: 5
             }
         },
         mounted() {
@@ -94,11 +92,8 @@
                 params.numOne=this.numOne
                 params.symbolOne=this.symbolOne
                 params.numTwo=this.numTwo
-                params.symbolTwo=this.symbolTwo
-                params.numThree=this.numThree
                 params.result=this.phone
-                params.type=0
-                let result = await checkTi(params);
+                let result = await checkChengChu(params);
                 //console.log(result.data)
                 if (result.data.code == "20000") {
                     if(result.data.data=='答对了,小柠檬不错哦~'){
@@ -111,19 +106,23 @@
                         message: result.data.data,
                         duration: 2000,
                     });
+                }else{
+                    Notify({
+                        message: result.data.msg,
+                        duration: 2000,
+                    });
                 }
 
             },
             getResult: async function(){
                 let params = {}
                 params.size=this.size
-                let result = await getTi(params);
+                let result = await getchengChuTi(params);
                 if(result.data.code=="20000"){
                     this.numOne=result.data.data.numOne
                     this.symbolOne=result.data.data.symbolOne
                     this.numTwo=result.data.data.numTwo
-                    this.symbolTwo=result.data.data.symbolTwo
-                    this.numThree=result.data.data.numThree
+
                     this.num=result.data.data.num
                 }
                 if(result.data.code=="99999"){
@@ -134,45 +133,6 @@
                 }
 
 
-
-            },
-            formatDate(date) {
-                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-            },
-            onConfirm1(date) {
-                this.show = false;
-                this.date = this.formatDate(date);
-            },
-            async onSubmit(values) {
-                let params = {}
-                params.red1=this.red1
-                params.red2=this.red2
-                params.red3=this.red3
-                params.red4=this.red4
-                params.red5=this.red5
-                params.red6=this.red6
-                params.blue=this.blue
-                params.term=this.ssqNum
-                params.num=this.value
-                params.buyer=this.user
-                params.rate=this.value2
-                params.type=2
-                let result = await faQiDaiMai(params);
-                let data = result.data;
-                if (data.code == "20000") {
-                    Notify(result.data.data);
-                    this.content=''
-                    this.remark=''
-                    this.checked=''
-                    this.date=''
-                    this.user=''
-                    this.$router.push({name:'ssqRecord'});
-                } else {
-                    Notify({
-                        message: data.msg,
-                        duration: 5000,
-                    });
-                }
 
             },
             back(){
@@ -194,19 +154,6 @@
         userOpen(){
             this.userShow=true
         },
-            async suiJi(){
-                let result = await suiJi();
-                console.log(result)
-                if (result.data.code == "20000") {
-                    this.red1=result.data.data.red1
-                    this.red2=result.data.data.red2
-                    this.red3=result.data.data.red3
-                    this.red4=result.data.data.red4
-                    this.red5=result.data.data.red5
-                    this.red6=result.data.data.red6
-                    this.blue=result.data.data.blue
-                }
-            },
             next(){
                /* this.getResult()*/
                 this.phone=''
@@ -214,7 +161,15 @@
             },
             getSize(size){
                 this.size=size
-               /* this.getResult()*/
+                if(size==20){
+                   this.level='简单'
+                }else if(size==30){
+                    this.level='一般'
+                }else if(size==50){
+                    this.level='较难'
+                }else{
+                    this.level='最难'
+                }
                 this.phone=''
             }
         }

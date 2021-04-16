@@ -322,6 +322,20 @@ export default new Router({
             meta: {
                 title: '密码管理'
             }
+        },
+        {    path: '/chengChu',
+            name: 'chengChu',
+            component: () => import('./views/homework/chengChu.vue'),
+            meta: {
+                title: '乘除运算'
+            }
+        },
+        {    path: '/jiangLi',
+            name: 'jiangLi',
+            component: () => import('./views/homework/jiangLi.vue'),
+            meta: {
+                title: '乘除运算'
+            }
         }
 
     ]
