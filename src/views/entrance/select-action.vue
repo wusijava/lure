@@ -66,7 +66,7 @@
             <div style="margin-top: 25px">
                 <div class="module" style="margin-right: 25px" @click="monitor">
                     <img src="../../../src/assets/img/jk.png"/>
-                    <p>监控记录</p>
+                    <p>淘宝监控</p>
                 </div>
                 <div class="module" @click="proState">
                     <img src="../../../src/assets/img/gu2.png"/>
@@ -261,6 +261,16 @@
                 <div class="module" @click="jiangLi">
                     <img src="../../../src/assets/img/jiangli.png"/>
                     <p>我的奖励</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="paiBan">
+                    <img src="../../../src/assets/img/plan.png"/>
+                    <p>排班计划</p>
+                </div>
+                 <div class="module" @click="not">
+                    <img src="../../../src/assets/img/error.png"/>
+                    <p>敬请期待</p>
                 </div>
             </div>
         </div>
@@ -883,6 +893,9 @@
             },
             jiangLi(){
                 this.$router.push({name: 'jiangLi'})
+            },
+            paiBan(){
+                this.$router.push({name: 'paiBan'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

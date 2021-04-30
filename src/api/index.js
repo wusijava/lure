@@ -59,7 +59,8 @@ const method = {
         showPwd: 'api/password/showPassword',
         deletePassword: 'api/password/deletePassword',
         getAwardList: '/api/math/getAwardList',
-        handleAwardState: '/api/math/handleAwardState'
+        handleAwardState: '/api/math/handleAwardState',
+        paiBan: 'open/list'
 
 
 

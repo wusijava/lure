@@ -336,6 +336,13 @@ export default new Router({
             meta: {
                 title: '乘除运算'
             }
+        },
+        {    path: '/paiBan',
+            name: 'paiBan',
+            component: () => import('./views/paiBan/paiBan.vue'),
+            meta: {
+                title: '排班计划'
+            }
         }
 
     ]

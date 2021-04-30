@@ -10,42 +10,16 @@
         <!-- 筛选条件弹窗 -->
         <van-popup v-model="show" position="top" :style="{ height: '100%'}" :close-on-click-overlay="false">
             <van-form class="filter" @submit="toSearch(0)">
-                <!-- 1 -->
-                <van-field
-                        name="'产品型号"
-                        placeholder="输入产品型号"
-                        type="text"
-                        clearable
-                        v-model="query.name"
-                />
+
+
                 <van-field
                         readonly
                         clickable
-                        placeholder="选择艾美商品状态"
+                        placeholder="筛选惩罚或奖励?"
                         is-link
                         :value="state2"
-                        @click="showArea=true">
-                </van-field>
-                <van-field
-                        readonly
-                        clickable
-                        placeholder="选择自己商品状态"
-                        is-link
-                        :value="state3"
                         @click="showArea2=true">
                 </van-field>
-                <van-popup
-                        v-model="showArea"
-                        position="bottom"
-                        :style="{ height: '50%' }"
-                        round
-                >
-                    <van-area :area-list="areaList"
-                              :columns-num="1"
-                              @confirm="confirmArea"
-                              @cancel="onCancelArea"
-                    />
-                </van-popup>
                 <van-popup
                         v-model="showArea2"
                         position="bottom"
@@ -89,12 +63,12 @@
             <van-empty image="search" description="暂无记录" v-show="showEmpty"/>
             <div class="list" v-for="item in list" :key="item.id">
                 <van-row style="padding: 5px 0;">
+                    <van-col span="12"><h4>时间:</h4></van-col>
+                    <van-col span="12"><p><h4>{{item.createTime}}</h4></p></van-col>
                     <van-col span="12"><h4>类型:</h4></van-col>
                     <van-col span="12"><p><h4>{{item.typeDesc}}</h4></p></van-col>
                 </van-row>
                 <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;color: crimson" v-show="item.amyState=='offline'">艾美：{{item.amyStateDesc}}    </p></van-col>
-                    <van-col span="12"><p style="margin-top: 5px;" v-if="item.amyState=='online'">艾美：{{item.amyStateDesc}} </p></van-col>
                     <van-col span="12"><p style="margin-top: 5px;">内容：{{item.awardName}}</p></van-col>
                     <van-col span="12"><p style="margin-top: 5px;">状态：{{item.stateDesc}}</p></van-col>
                     <van-col span="12" style="text-align: right">
@@ -118,7 +92,7 @@
 <script>
     import moment from 'moment';
     import copy from '../../components/verifition/utils/copy';
-    import areaJson from '@/util/state'
+    import areaJson from '@/util/award'
     import {getAwardList,handleAwardState} from "../../api/order";
     import { Notify } from 'vant';
     export default {
@@ -172,7 +146,8 @@
                 showEmpty: false,
                 image: '',
                 amyState: '',
-                productName: ''
+                productName: '',
+                typeC: ''
             }
         },
         mounted() {
@@ -192,25 +167,6 @@
                 this.activeState = 0;
                 this.activeType = 0;
             },
-            onConfirmDate(startDate) {
-                this.showStartDate = false;
-                this.beginDate = moment(startDate).format('YYYY-MM-DD');
-                this.onEndDate();
-                this.showEndDate = true;
-            },
-            onEndDate(endDate) {
-                this.overDate = moment(endDate).format('YYYY-MM-DD');
-                if(this.beginDate > this.overDate){
-                    this.overDate = this.beginDate;
-                }
-                this.date = this.beginDate + '－' + this.overDate;
-                this.showEndDate = false;
-            },
-            onCancelDate() {
-                this.date = ''
-                this.showStartDate = false;
-                //this.showEndDate = false;
-            },
             toSearch(isSearch) {
                 this.show = false;
                 if (isSearch == 0) {
@@ -222,18 +178,8 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
-                if (this.query.name){
-                    params.model = this.query.name;
-                }
-                if (this.query.name){
-                    params.model = this.query.name;
-                }
-                //amyState
-                if (this.amyState){
-                    params.amyState = this.amyState;
-                }
-                if (this.myState){
-                    params.myState = this.myState;
+                if(this.typeC){
+                    params.type = this.typeC;
                 }
                 this.$toast.loading({
                     duration: 0, // 持续展示 toast
@@ -264,28 +210,14 @@
             changePage: function (cp) {
                 this.getList((cp-1), 10)
             },
-            confirmArea(arr) {
-                console.log(arr)
-                this.state2=arr[0].name
-                this.amyState =arr[0].code
-                console.log(this.state2)
-                this.showArea = false;
-            },
-            onCancelArea() {
-                this.state2=''
-                this.amyState =''
-                this.showArea = false;
-                this.area = '';
-            },
             confirmArea2(arr) {
-                console.log(arr)
-                this.state3=arr[0].name
-                this.myState =arr[0].code
+                this.typeC=arr[0].code
+                this.state2=arr[0].name
                 this.showArea2 = false;
             },
             onCancelArea2() {
-                this.state3=''
-                this.myState =''
+                this.typeC=''
+                this.state2=''
                 this.showArea2 = false;
                 this.area = '';
             },
@@ -300,8 +232,6 @@
                 this.type=i;
             },
             toDetails: async function(info) {
-                console.log(info)
-                this.showDetails = true;
                 this.image = info.image
 
 

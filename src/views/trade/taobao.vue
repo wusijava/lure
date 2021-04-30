@@ -107,6 +107,7 @@
                     input-align="right"
                     label-width="110"
                     label="选择销售渠道"
+                    @click="showCashier"
             />
 
             <van-popup

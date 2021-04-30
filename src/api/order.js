@@ -137,3 +137,7 @@ export async function handleAwardState(params){
     const result = await axios.post(api.order.handleAwardState,params);
     return result;
 }
+export async function paiBan(params){
+    const result = await axios.post(api.order.paiBan,params);
+    return result;
+}

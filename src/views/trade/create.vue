@@ -74,6 +74,7 @@
                     input-align="right"
                     label-width="110"
                     label="选择消费者"
+                    @click="showCashier"
             />
 
             <van-popup
