@@ -60,7 +60,8 @@ const method = {
         deletePassword: 'api/password/deletePassword',
         getAwardList: '/api/math/getAwardList',
         handleAwardState: '/api/math/handleAwardState',
-        paiBan: 'open/list'
+        paiBan: 'api/open/list',
+        waterLevel: 'waterLevel/getWaterLevelList'
 
 
 

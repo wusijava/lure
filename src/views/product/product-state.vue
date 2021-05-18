@@ -93,7 +93,7 @@
                     <van-col span="12"><p><h4>{{item.model}}</h4></p></van-col>
                 </van-row>
                 <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;color: crimson" v-show="item.amyState=='offline'">艾美：{{item.amyStateDesc}}    </p></van-col>
+                    <van-col span="12"><p style="margin-top: 5px;color: crimson" v-show="item.amyState=='offline'||item.amyState=='del'">艾美：{{item.amyStateDesc}}    </p></van-col>
                     <van-col span="12"><p style="margin-top: 5px;" v-if="item.amyState=='online'">艾美：{{item.amyStateDesc}} </p></van-col>
                     <van-col span="12"><p style="margin-top: 5px;">我的：{{item.myStateDesc}}</p></van-col>
                     <van-col span="12" style="text-align: right">

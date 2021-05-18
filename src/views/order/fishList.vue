@@ -103,17 +103,16 @@
         </van-popup>
 
         <div class="content">
-            <van-empty image="search" description="暂无消费记录" v-show="showEmpty"/>
+            <van-empty image="search" description="暂无记录" v-show="showEmpty"/>
             <div class="list" v-for="item in list" :key="item.id">
             <van-swipe-cell :before-close="beforeClose">
                 <van-row style="border-bottom: 1px solid #E6EBF2; padding-bottom: 5px">
                     <van-col span="20"><p style="text-align: right"><h5>野钓时间:{{item.date}}    </h5></p></van-col>
                 </van-row>
                 <van-row style="padding: 5px 0;">
-                    <van-col span="12"><h4>野钓地点:{{item.remark}}</h4></van-col>
+                    <van-col ><h4>地点及收货:{{item.remark}}</h4></van-col>
                 </van-row>
                 <van-row>
-                    <van-col span="12"><p style="margin-top: 5px;">钓鱼者：{{item.consumer}}  </p></van-col>
                     <van-col span="12" style="text-align: right">
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
                             鱼获展示

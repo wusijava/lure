@@ -186,7 +186,7 @@
                 cashier: '选择学科',
                 cashierCode: '',
                 url: '',
-                cashierList:  [{id: 1, name: "语文"}, {id: 2, name: "数学"}, {id: 3, name: "英语"}, {id: 4, name: "舞蹈"}, {id: 5, name: "其他"}],
+                cashierList:  [{id: 1, name: "语文"}, {id: 2, name: "数学"}, {id: 3, name: "英语"}, {id: 4, name: "舞蹈"}, {id: 5, name: "小主持人课"}, {id: 6, name: "书法"}, {id: 7, name: "其他"}],
                 tradeNo: '',
                 newDate: (new Date()).valueOf(),
                 openImgState: true,
@@ -212,7 +212,6 @@
                 console.log(startDate)
                 this.showStartDate = false;
                 this.beginDate = moment(startDate).format('YYYY-MM-DD');
-                console.log(this.beginDate )
                 this.date = this.beginDate
                 //this.onEndDate();
             }

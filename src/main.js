@@ -15,6 +15,7 @@ Vue.use(back)
 const whiteList = [
     '/login',
     '/entrance/select-action',
+    '/paiBan'
 
 ]
 

@@ -268,9 +268,13 @@
                     <img src="../../../src/assets/img/plan.png"/>
                     <p>排班计划</p>
                 </div>
-                 <div class="module" @click="not">
+                 <!--<div class="module" @click="not">
                     <img src="../../../src/assets/img/error.png"/>
                     <p>敬请期待</p>
+                </div>-->
+                <div class="module" @click="waterLevel">
+                    <img src="../../../src/assets/img/waterLevel.png"/>
+                    <p>汉口水位</p>
                 </div>
             </div>
         </div>
@@ -327,8 +331,8 @@
         name: "selectAction",
         data(){
             return{
-                fes1: '1',
-                fes2: '2',
+                fes1: '',
+                fes2: '',
                 isLoading: false,
                 count: 0,
                 chuXi: 1619798401000-(new Date()).getTime(),
@@ -896,6 +900,9 @@
             },
             paiBan(){
                 this.$router.push({name: 'paiBan'})
+            },
+            waterLevel(){
+                this.$router.push({name: 'waterLevel'})
             }
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {

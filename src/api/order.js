@@ -141,3 +141,7 @@ export async function paiBan(params){
     const result = await axios.post(api.order.paiBan,params);
     return result;
 }
+export async function waterLevel(params){
+    const result = await axios.post(api.order.waterLevel,params);
+    return result;
+}

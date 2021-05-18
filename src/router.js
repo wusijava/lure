@@ -343,6 +343,13 @@ export default new Router({
             meta: {
                 title: '排班计划'
             }
+        },
+        {    path: '/waterLevel',
+            name: 'waterLevel',
+            component: () => import('./views/paiBan/waterLevel.vue'),
+            meta: {
+                title: '汉口水位'
+            }
         }
 
     ]
