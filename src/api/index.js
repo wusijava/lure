@@ -61,7 +61,8 @@ const method = {
         getAwardList: '/api/math/getAwardList',
         handleAwardState: '/api/math/handleAwardState',
         paiBan: 'api/open/list',
-        waterLevel: 'waterLevel/getWaterLevelList'
+        waterLevel: 'waterLevel/getWaterLevelList',
+        getWaterLevel: 'waterLevel/getTodayData'
 
 
 

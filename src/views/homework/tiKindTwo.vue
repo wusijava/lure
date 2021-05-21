@@ -50,7 +50,8 @@
                 numThree: '',
                 phone: '',
                 result: '',
-                num: ''
+                num: '',
+                index: ''
             }
         },
         mounted() {
@@ -78,6 +79,7 @@
                     params.numThree=this.numThree
                 }
                 params.result=this.result
+                params.index=this.index
                 let result = await checkTiKindTwo(params);
                 if (result.data.code == "20000") {
                     if(result.data.data=='答对了,小柠檬不错哦~'){
@@ -118,6 +120,7 @@
                     }
                     this.result=result.data.data.result
                     this.num=result.data.data.num
+                    this.index=result.data.data.index
                 }
                 if(result.data.code=="99999"){
                     Notify({

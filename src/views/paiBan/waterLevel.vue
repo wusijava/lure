@@ -16,6 +16,7 @@
             <van-cell title="搜索,点击右侧，弹出日历-＞" :value="date" @click="show = true" style="margin-top: 20px"/>
             <van-calendar v-model="show" @confirm="onConfirm1" type="range" allow-same-day  :min-date="minDate"/>
             <van-button class="button" @click="toSearch(0)" type="warning" size="large" style="margin-bottom: 10px">日期查询</van-button>
+            <van-button class="button" @click="getWaterLevel" type="primary" size="large" style="margin-bottom: 10px">获取水位</van-button>
             <van-button class="button" @click="back" type="info" size="large" >返回菜单</van-button>
         </div>
 
@@ -27,11 +28,11 @@
 </template>
 
 <script>
-    import {waterLevel} from "../../api/order";
+    import {waterLevel,getWaterLevel} from "../../api/order";
     import Vue from 'vue';
     import { Toast } from 'vant';
     import { DropdownMenu, DropdownItem } from 'vant';
-
+    import { Notify } from 'vant';
     Vue.use(DropdownMenu);
     Vue.use(DropdownItem);
     Vue.use(Toast);
@@ -91,13 +92,13 @@
                 });
                 const result = await waterLevel(params);
                 this.$toast.clear();
-                console.log(result.data.code)
+                //console.log(result.data.code)
                 if (result.data.code == '20000') {
-                    console.log(result.data.data)
+                    //console.log(result.data.data)
                     if(result.data.data.content.length > 0) {
                         this.showEmpty = false;
                         this.list = result.data.data.content;
-                        console.log(this.list)
+                        //console.log(this.list)
                         this.pageTotal = result.data.data.totalPages;
                     }else {
                         this.showEmpty = true;
@@ -135,6 +136,15 @@
             formatDate(date) {
                 return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
             },
+            getWaterLevel: async function(){
+                const result = await getWaterLevel();
+
+                    Notify({
+                        message: "获取成功",
+                        duration: 2000,
+                    });
+
+            }
         }
     }
 </script>

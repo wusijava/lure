@@ -145,3 +145,7 @@ export async function waterLevel(params){
     const result = await axios.post(api.order.waterLevel,params);
     return result;
 }
+export async function getWaterLevel(params){
+    const result = await axios.post(api.order.getWaterLevel,params);
+    return result;
+}
