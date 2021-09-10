@@ -4,100 +4,26 @@
                 left-icon="volume-o"
                 text="年年有余~年年有鱼~年年有余~年年有鱼~年年有余~年年有鱼~年年有余~年年有鱼~年年有余~年年有鱼~"
         />
-        <!--<div class="header">
-            <van-button icon="filter-o" type="info" block size="small" @click="showPopup" class="filter-head">筛选</van-button>
-        </div>-->
-        <!-- 筛选条件弹窗 -->
-       <!-- <van-popup v-model="show" position="top" :style="{ height: '100%'}" :close-on-click-overlay="false">
-            <van-form class="filter" @submit="toSearch(0)">
-                &lt;!&ndash; 1 &ndash;&gt;
-                <van-field
-                        name="费用名称"
-                        placeholder="输入消费项目"
-                        clearable
-                        type="text"
-                        v-model.trim="query.item"
-                />
 
-                &lt;!&ndash; 4 &ndash;&gt;
-                &lt;!&ndash; 选择开始时间弹窗 &ndash;&gt;
-                <van-field
-                        readonly
-                        clickable
-                        name="datetimePicker"
-                        :value="date"
-                        placeholder="请选择时间"
-                        @click="showStartDate = true"
-                />
-                <van-popup v-model="showStartDate" position="bottom">
-                    <van-datetime-picker
-                            title="选择时间"
-                            type="date"
-                            :min-date="minDate"
-                            :max-date="maxDate"
-                            @confirm="onConfirmDate"
-                            @cancel="onCancelDate"
-                    />
-                </van-popup>
-                &lt;!&ndash; 选择结束时间弹窗 &ndash;&gt;
-                <van-popup v-model="showEndDate" position="bottom">
-                    <van-datetime-picker
-                            title="选择时间"
-                            type="date"
-                            :min-date="minDate"
-                            :max-date="maxDate"
-                            @confirm="onEndDate"
-                            @cancel="onCancelDate"
-                    />
-                </van-popup>
-                &lt;!&ndash; 选择地区弹窗 &ndash;&gt;
-                <van-field
-                        readonly
-                        clickable
-                        :value="area"
-                        placeholder="请选择消费者"
-                        @click="showArea = true"
-                >
-                </van-field>
-                <van-popup
-                        v-model="showArea"
-                        position="bottom"
-                        :style="{ height: '50%' }"
-                        round
-                >
-                    <van-area :area-list="areaList"
-                          value="420000"
-                          :columns-num="1"
-                          @confirm="confirmArea"
-                          @cancel="onCancelArea"
-                    />
-                </van-popup>
-
-
-
-                <div class="search">
-                    <van-row>
-                        <van-col span="10">
-                            <van-button type="default" class="btn-cancel" @click="cancelPopup">
-                                取消
-                            </van-button>
-                        </van-col>
-                        <van-col span="14" style="text-align: right">
-                            <van-button type="info" native-type="submit" class="btn-search">
-                                查询
-                            </van-button>
-                        </van-col>
-                    </van-row>
-                </div>
-            </van-form>
-        </van-popup>-->
-
-        <!-- 详情弹窗 -->
         <van-popup v-model="showDetails" class="detail" :close-on-click-overlay="false" closeable >
             <h4>我的鱼获</h4>
             <div class="detail-main">
                 <van-row type="flex" justify="space-between" v-for="item in detailList" style="margin-bottom: 10px;">
                     <img :src=item.url style="width: 100%;height:100%" v-if="item.url!=null&&item.url!=''" >
+                </van-row>
+            </div>
+        </van-popup>
+        <van-popup v-model="showWeather" class="detail" :close-on-click-overlay="false" closeable >
+            <h4>天气及水位</h4>
+            <div class="detail-main">
+                <van-row   v-for="item in weatherList" >
+                    <van-cell title="白天天气描述" :value=item.condTxtDay />
+                    <van-cell title="夜晚天气描述" :value="item.condTxtNight" />
+                    <van-cell title="气压" :value="item.pres" />
+                    <van-cell title="温度" :value="item.temp" />
+                    <van-cell title="风向" :value="item.windDir" />
+                    <van-cell title="风力" :value="item.windSc" />
+                    <van-cell title="水位" :value="item.waterLevel" />
                 </van-row>
             </div>
         </van-popup>
@@ -117,6 +43,9 @@
                         <van-button type="info" plain hairline round size="small" class="btn-small" @click="toDetails(item)">
                             鱼获展示
                         </van-button>
+                        <van-button style="margin-left: 10px" type="info" plain hairline round size="small" class="btn-small" @click="weatherInfo(item)">
+                            天气及水位
+                        </van-button>
                     </van-col>
                 </van-row>
                 <template #right>
@@ -124,7 +53,7 @@
                 </template>
             </van-swipe-cell>
             </div>
-            <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
+            <van-button class="button" @click="back" type="info" size="large" >返回菜单</van-button>
         </div>
         <div class="footer">
             <van-pagination v-model="currentPage" :page-count="pageTotal" mode="simple" @change="changePage"/>
@@ -142,11 +71,13 @@
     import { Notify } from 'vant';
     import { PullRefresh } from 'vant';
     Vue.use(PullRefresh);
-    import {orderList,orderDetail,deleteRow} from "../../api/order";
+    import {orderList,orderDetail,deleteRow,weatherInfo} from "../../api/order";
     export default {
         name: 'myFish',
         data() {
             return {
+                condTxtNight:'',
+                showWeather: false,
                 list: [],
                 fontColor:{
                     color: '#666'
@@ -194,7 +125,8 @@
                 },
                 showEmpty: false,
                 rowId: '',
-                isLoading :false
+                isLoading :false,
+                weatherList: ''
             }
         },
         mounted() {
@@ -368,6 +300,21 @@
                     this.isLoading = false;
                 }, 1000);
             },
+            weatherInfo :async function (item){
+                let params = {}
+                params.date=item.date
+                const result = await weatherInfo(params)
+                if(result.data.code == '20000') {
+                    this.showWeather = true;
+                    this.weatherList = result.data.data
+                    console.log(this.weatherList)
+                }else {
+                    this.$toast({
+                        message: result.data.msg,
+                        icon: 'warning-o'
+                    });
+                }
+            }
         }
     }
 </script>

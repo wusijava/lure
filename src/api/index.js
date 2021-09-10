@@ -63,7 +63,8 @@ const method = {
         paiBan: 'api/open/list',
         waterLevel: 'waterLevel/getWaterLevelList',
         getWaterLevel: 'waterLevel/getTodayData',
-        weatherList: 'api/open/weather/list'
+        weatherList: 'api/open/weather/list',
+        weatherInfo: 'api/open/weather/weatherInfo'
 
 
 

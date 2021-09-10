@@ -11,6 +11,7 @@
         </van-dropdown-menu>-->
 
         <div class="content">
+            <van-empty image="search" description="暂无此日期天气" v-show="showEmpty"/>
             <div class="list" v-for="item in list" :key="item.id" >
                 <van-cell-group >
                     <van-cell title="日期" :value="item.date" />
@@ -29,7 +30,10 @@
                 </van-cell-group>
                 </div>
 
-            <van-button class="button" @click="back" type="info" size="large" >回菜单</van-button>
+            <van-cell title="选择查询时间" :value="date" @click="show = true" style="margin-top: 20px"/>
+            <van-calendar v-model="show" @confirm="onConfirm1" :min-date="miniDate"/>
+            <van-button class="button" @click="query" type="primary" size="large" >查询天气</van-button>
+            <van-button class="button" @click="back" type="info" size="large" style="margin-top: 10px" >返回菜单</van-button>
         </div>
         <div class="footer">
             <van-pagination v-model="currentPage" :page-count="pageTotal" mode="simple" @change="changePage"/>
@@ -50,6 +54,10 @@
         name: 'weather',
         data() {
             return {
+                miniDate:  new Date(2010, 0, 1),
+                showEmpty: false,
+                date: '',
+                show: false,
                 list: [],
                 currentPage: 0,
                 pageTotal: 0,
@@ -81,6 +89,9 @@
                 let params = {};
                 params.page = cp;
                 params.limit = c;
+                if(this.date!=null||this.date!=''){
+                    params.startTime = this.date;
+                }
                 const result = await weatherList(params);
                 this.$toast.clear();
                 if (result.data.code == '20000') {
@@ -145,6 +156,16 @@
             changeValue:async function(){
                 this.getList(this.currentPage - 1, 10);
                 console.log(this.value1)
+            },
+            formatDate(date) {
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            },
+            onConfirm1(date) {
+                this.show = false;
+                this.date = this.formatDate(date);
+            },
+            query(){
+                this.getList(this.currentPage - 1, 10);
             }
         }
     }
