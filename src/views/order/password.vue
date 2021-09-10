@@ -93,6 +93,7 @@
     import { PullRefresh } from 'vant';
     Vue.use(PullRefresh);
     import {passwordList,save,showPwd,deletePassword} from "../../api/order";
+    import copy from '../../components/verifition/utils/copy';
     export default {
         name: 'password',
         data() {
@@ -152,7 +153,8 @@
                 password: '',
                 pwdAgain: '',
                 inputPassword: false,
-                lookPwd: ''
+                lookPwd: '',
+                pwd: ''
             }
         },
         mounted() {
@@ -327,7 +329,10 @@
                 const result = await showPwd(params);
                 if(result.data.code == '20000') {
                     this.inputPassword=false
-                    Dialog({ message: result.data.data, });
+                    this.pwd=result.data.data
+                    Dialog.confirm({ message: result.data.data, }).then(() => {
+                        this.copy(this.pwd);
+                    });;
                 }else{
                     this.inputPassword=true
                     Notify({
@@ -336,6 +341,20 @@
                     });
                 }
                 this.lookPwd=''
+            },
+            copy(item) {
+                this.pwd=item
+                copy.handleClipboard(this.pwd, event, () => {
+                    Notify({
+                        type: 'success',
+                        message: '复制名称成功',
+                    });
+                }, () => {
+                    Notify({
+                        type: 'danger',
+                        message: '复制名称失败',
+                    });
+                })
             }
         }
     }

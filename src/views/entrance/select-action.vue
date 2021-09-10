@@ -277,6 +277,26 @@
                     <p>汉口水位</p>
                 </div>
             </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="weatherRouter">
+                    <img src="../../../src/assets/img/wea.png"/>
+                    <p>天气预报</p>
+                </div>
+                 <div class="module" @click="compare">
+                    <img src="../../../src/assets/img/jingyu.png"/>
+                    <p>数的比较</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="festival">
+                    <img src="../../../src/assets/img/cake.png"/>
+                    <p>假期修改</p>
+                </div>
+                 <div class="module" @click="not">
+                     <img src="../../../src/assets/img/error.png"/>
+                     <p>敬请期待</p>
+                 </div>
+            </div>
         </div>
         </van-pull-refresh>
         <van-cell title="显示分享面板" @click="showShare = true" />
@@ -903,7 +923,17 @@
             },
             waterLevel(){
                 this.$router.push({name: 'waterLevel'})
+            },
+            weatherRouter(){
+                this.$router.push({name: 'weather'})
             }
+            ,
+            compare(){
+                this.$router.push({name: 'biJiaoDaXiao'})
+            },
+            festival(){
+            this.$router.push({name: 'festival'})
+             },
            /* getAddress(){
                 AMap.plugin('AMap.Geocoder', function() {
                     var geocoder = new AMap.Geocoder({

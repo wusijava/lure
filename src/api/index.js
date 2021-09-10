@@ -62,7 +62,8 @@ const method = {
         handleAwardState: '/api/math/handleAwardState',
         paiBan: 'api/open/list',
         waterLevel: 'waterLevel/getWaterLevelList',
-        getWaterLevel: 'waterLevel/getTodayData'
+        getWaterLevel: 'waterLevel/getTodayData',
+        weatherList: 'api/open/weather/list'
 
 
 
@@ -99,7 +100,10 @@ const method = {
         getTiKindTwo: '/api/math/getTiKindTwo',
         checkTiKindTwo: '/api/math/checkTiKindTwo',
         getchengChuTi: '/api/math/getchengChuTi',
-        checkChengChu: '/api/math/checkChengChu'
+        checkChengChu: '/api/math/checkChengChu',
+        compareNum: '/api/math/compareNum',
+        checkCompare: '/api/math/checkCompare',
+        changeFestival: '/api/math/changeFestival'
 
     }
 }

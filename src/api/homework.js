@@ -120,3 +120,15 @@ export async function checkChengChu(params){
     const result = await axios.post(api.homework.checkChengChu,params);
     return result;
 }
+export async function compareNum(params){
+    const result = await axios.post(api.homework.compareNum,params);
+    return result;
+}
+export async function checkCompare(params){
+    const result = await axios.post(api.homework.checkCompare,params);
+    return result;
+}
+export async function changeFestival(params){
+    const result = await axios.post(api.homework.changeFestival,params);
+    return result;
+}

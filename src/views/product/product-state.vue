@@ -326,6 +326,7 @@
                 }
             },
             copy(item) {
+                console.log(item)
                 this.productName=item
                 copy.handleClipboard(this.productName, event, () => {
                     Notify({

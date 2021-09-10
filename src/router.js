@@ -350,6 +350,29 @@ export default new Router({
             meta: {
                 title: '汉口水位'
             }
+        },
+        {    path: '/weather',
+            name: 'weather',
+            component: () => import('./views/housework/weather.vue'),
+            meta: {
+                title: '天气预报'
+            }
+        }
+        ,
+        {    path: '/compare',
+            name: 'biJiaoDaXiao',
+            component: () => import('./views/homework/compare.vue'),
+            meta: {
+                title: '数的比较'
+            }
+        }
+        ,
+        {    path: '/festival',
+            name: 'festival',
+            component: () => import('./views/housework/festival.vue'),
+            meta: {
+                title: '假期修改'
+            }
         }
 
     ]
