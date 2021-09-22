@@ -12,12 +12,17 @@
                 <h5 style="text-align: center;color: red;font-weight: bolder">日期:{{item.createTime}}&nbsp;</h5>
                 <h5 style="text-align: center;font-weight: bolder">地址:{{item.address}}&nbsp;</h5>
                 <h5 style="text-align: center;font-weight: bolder">水位:{{item.waterLevel}}&nbsp;</h5>
-                </div>
+                <van-button @click="toHref(item.href)" v-if="item.href!=null" type="primary" style="margin-left: 60px">查看源网页</van-button>
+                <van-button @click="change(item.id)"  type="primary" style="margin-left: 110px">修改</van-button>
+            </div>
             <van-cell title="搜索,点击右侧，弹出日历-＞" :value="date" @click="show = true" style="margin-top: 20px"/>
             <van-calendar v-model="show" @confirm="onConfirm1" type="range" allow-same-day  :min-date="minDate"/>
             <van-button class="button" @click="toSearch(0)" type="warning" size="large" style="margin-bottom: 10px">日期查询</van-button>
             <van-button class="button" @click="getWaterLevel" type="primary" size="large" style="margin-bottom: 10px">获取水位</van-button>
             <van-button class="button" @click="back" type="info" size="large" >返回菜单</van-button>
+            <van-dialog v-model="showInput" title="手动修改水位值" show-cancel-button @confirm="submitSave" @cancel="cancelSave">
+                <van-field v-model="mi" label="水位" clearable autofocus/>
+            </van-dialog>
         </div>
 
 
@@ -28,7 +33,7 @@
 </template>
 
 <script>
-    import {waterLevel,getWaterLevel} from "../../api/order";
+    import {waterLevel,getWaterLevel,change} from "../../api/order";
     import Vue from 'vue';
     import { Toast } from 'vant';
     import { DropdownMenu, DropdownItem } from 'vant';
@@ -57,8 +62,10 @@
                 bonus: '',
                 date: '',
                 startTime: '',
-                endTime: ''
-
+                endTime: '',
+                mi: '',
+                showInput: false,
+                id: ''
 
 
 
@@ -138,12 +145,43 @@
             },
             getWaterLevel: async function(){
                 const result = await getWaterLevel();
-
                     Notify({
                         message: "获取成功",
                         duration: 2000,
                     });
 
+            },
+            toHref(url){
+                window.location.href = url
+            },
+            cancelSave(){
+                this.mi=''
+                this.showInput=false
+            },
+            submitSave: async function(){
+                let params = {};
+                params.mi=this.mi
+                params.id=this.id
+                const result = await change(params);
+                if(result.data.code == '20000') {
+                    Notify({
+                        message: result.data.data,
+                        duration: 2000,
+                    });
+                    this.showInput=false;
+                    this.getList(this.currentPage - 1, 10);
+                }else{
+                    this.showInput=true
+                    Notify({
+                        message: result.data.msg,
+                        duration: 2000,
+                    });
+                }
+                this.mi=''
+            },
+            change(id){
+                this.showInput=true
+                this.id=id
             }
         }
     }

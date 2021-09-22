@@ -158,3 +158,7 @@ export async function weatherInfo(params){
     const result = await axios.post(api.order.weatherInfo,params);
     return result;
 }
+export async function change(params){
+    const result = await axios.post(api.order.change,params);
+    return result;
+}

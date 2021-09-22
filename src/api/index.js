@@ -64,7 +64,8 @@ const method = {
         waterLevel: 'waterLevel/getWaterLevelList',
         getWaterLevel: 'waterLevel/getTodayData',
         weatherList: 'api/open/weather/list',
-        weatherInfo: 'api/open/weather/weatherInfo'
+        weatherInfo: 'api/open/weather/weatherInfo',
+        change: 'waterLevel/change'
 
 
 
