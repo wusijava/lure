@@ -155,7 +155,7 @@
     Vue.use(PullRefresh);
     import {orderList,orderDetail,deleteRow,monthSpend,refundMoney} from "../../api/order";
     export default {
-        name: 'order-list',
+        name: 'order-list2',
         data() {
             return {
                 refundAll: false,

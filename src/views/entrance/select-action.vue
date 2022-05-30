@@ -10,7 +10,6 @@
                 :text=this.weather
         />
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-           <!-- <p>刷新次数: {{ count }}</p>-->
 
         <div class="content">
             <span class="colon">距离{{this.fes1}}</span>
@@ -44,237 +43,21 @@
             <div style="margin-bottom: 25px">
                 <div class="module" style="margin-right: 25px" @click="toBusiness(1)">
                     <img src="../../../src/assets/img/gu.png"/>
-                    <p>新增销售</p>
+                    <p>新增鱼获</p>
                 </div>
                 <div class="module" @click="toSign">
                     <img src="../../../src/assets/img/jita.png"/>
-                    <p>新增消费</p>
+                    <p>买了装备</p>
                 </div>
             </div>
             <div>
                 <div class="module" style="margin-right: 25px" @click="toRefund">
-                    <!--<img src="../../../src/assets/img/jita2.png"/>-->
                     <van-icon name="../lq.png" size="33" :badge="this.orderNum"/>
-                    <p>销售记录</p>
-                </div>
-                <div class="module" @click="spend">
-                    <!--<img src="../../../src/assets/img/mai.png"/>-->
-                    <van-icon name="../fj.png" size="33" :badge="this.spendNum"/>
-                    <p>消费记录</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="monitor">
-                    <img src="../../../src/assets/img/jk.png"/>
-                    <p>淘宝监控</p>
-                </div>
-                <div class="module" @click="proState">
-                    <img src="../../../src/assets/img/gu2.png"/>
-                    <p>商品状态</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="homework">
-                    <img src="../../../src/assets/img/book.png"/>
-                    <p>添加作业</p>
-                </div>
-                <div class="module" @click="homeworkList">
-                    <img src="sxj.png"/>
-                    <p>作业记录</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-
-                <div class="module" style="margin-right: 25px" @click="toSearch">
-                    <img src="../../../src/assets/img/Guitar.png"/>
-                    <p>用户登录</p>
-                </div>
-                <div class="module" @click="logout">
-                    <img src="../../../src/assets/img/ex.png"/>
-                    <p>退出系统</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-
-                <div class="module" style="margin-right: 25px" @click="register">
-                    <img src="../../../src/assets/img/jl.png"/>
-                    <p>显示距离</p>
-                </div>
-                <div class="module" @click="housework">
-                    <img src="../../../src/assets/img/qd.png"/>
-                    <p>家务安排</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-
-                <div class="module" style="margin-right: 25px" @click="myTask">
-                    <van-icon name="../bf.png" size="33" :badge="this.pageTotal"/>
-                   <!-- <img src="../../../src/assets/img/dog2.png"/>-->
-                    <p>我的任务</p>
-                </div>
-
-                <div class="module" @click="toTask">
-                    <van-icon name="../xj.png" size="33" :badge="this.pageTotalTo"/>
-                    <!--<img src="../../../src/assets/img/mt.png"/>-->
-                    <p>我指派的</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="myAdd">
-                    <img src="../../../src/assets/img/ditu.png"/>
-                    <p>我的位置</p>
-                </div>
-                <div class="module" @click="goHome">
-                    <img src="../../../src/assets/img/pc.png"/>
-                    <p>回家之路</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="address">
-                    <img src="../../../src/assets/img/zj.png"/>
-                    <p>我的足迹</p>
-                </div>
-                <div class="module" @click="ssq">
-                    <img src="../../../src/assets/img/ssq.png"/>
-                    <p>人生巅峰</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="remind">
-                    <img src="../../../src/assets/img/nz.png"/>
-                    <p>提醒记录</p>
-                </div>
-               <!-- <div class="module" @click="not">
-                    <img src="../../../src/assets/img/error.png"/>
-                    <p>敬请期待</p>
-                </div>-->
-                <div class="module" @click="password">
-                    <img src="../../../src/assets/img/key.png"/>
-                    <p>密码管理</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="goodLuck">
-                    <img src="../../../src/assets/img/mt.png"/>
-                    <p>飞黄腾达</p>
-                </div>
-                <div class="module" @click="buyLuck">
-                    <img src="../../../src/assets/img/money.png"/>
-                    <p>衣锦还乡</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="faQiDaiMai">
-                    <img src="../../../src/assets/img/buy.png"/>
-                    <p>发起代买</p>
-                </div>
-                <div class="module" @click="myOrder">
-                    <img src="../../../src/assets/img/cai.png"/>
-                    <p>代买订单</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="changePassWord">
-                    <img src="../../../src/assets/img/mm.png"/>
-                    <p>修改密码</p>
-                </div>
-                <div class="module" @click="getOnlineNum">
-                    <img src="../../../src/assets/img/dn.png"/>
-                    <p>获取开奖</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="history">
-                    <img src="../../../src/assets/img/dog2.png"/>
-                    <p>历史开奖</p>
-                </div>
-                <div class="module" @click="gaiLv">
-                    <img src="../../../src/assets/img/ly.png"/>
-                    <p>概率统计</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="blue">
-                    <img src="../../../src/assets/img/lq.png"/>
-                    <p>蓝球之谜</p>
-                </div>
-                <div class="module" @click="dingDing">
-                    <img src="../../../src/assets/img/gb.png"/>
-                    <p>钉钉群发</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="jjcc">
-                    <img src="../../../src/assets/img/jjcc.png"/>
-                    <p>加减运算</p>
-                </div>
-                <div class="module" @click="homeworkOnline">
-                    <img src="../../../src/assets/img/jpq.png"/>
-                    <p>线上作业</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="cuoTi">
-                    <img src="../../../src/assets/img/error.png"/>
-                    <p>错题回顾</p>
-                </div>
-                <div class="module" @click="homeworktotal">
-                    <img src="../../../src/assets/img/aixin.png"/>
-                    <p>作业汇总</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="dayEnglish">
-                    <img src="../../../src/assets/img/lizi.png"/>
-                    <p>每日英语</p>
-                </div>
-                <div class="module" @click="du">
-                    <img src="../../../src/assets/img/xi.png"/>
-                    <p>有毒鸡汤</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="zhuCe">
-                    <img src="../../../src/assets/img/zc.png"/>
-                    <p>用户注册</p>
-                </div>
-                <div class="module" @click="myFish">
-                    <img src="../../../src/assets/img/yu.png"/>
                     <p>我的鱼获</p>
                 </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="tiKindTwo">
-                    <img src="../../../src/assets/img/jisuanqi.png"/>
-                    <p>算数变形</p>
-                </div>
-                <div class="module" @click="suggest">
-                    <img src="../../../src/assets/img/suggest.png"/>
-                    <p>意见反馈</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="chengChu">
-                    <img src="../../../src/assets/img/chengchu.png"/>
-                    <p>乘除运算</p>
-                </div>
-                <div class="module" @click="jiangLi">
-                    <img src="../../../src/assets/img/jiangli.png"/>
-                    <p>我的奖励</p>
-                </div>
-            </div>
-            <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="paiBan">
-                    <img src="../../../src/assets/img/plan.png"/>
-                    <p>排班计划</p>
-                </div>
-                 <!--<div class="module" @click="not">
-                    <img src="../../../src/assets/img/error.png"/>
-                    <p>敬请期待</p>
-                </div>-->
-                <div class="module" @click="waterLevel">
-                    <img src="../../../src/assets/img/waterLevel.png"/>
-                    <p>汉口水位</p>
+                <div class="module" @click="spend">
+                    <van-icon name="../fj.png" size="33" :badge="this.spendNum"/>
+                    <p>路亚花费</p>
                 </div>
             </div>
             <div style="margin-top: 25px">
@@ -282,33 +65,36 @@
                     <img src="../../../src/assets/img/wea.png"/>
                     <p>天气预报</p>
                 </div>
-                 <div class="module" @click="compare">
-                    <img src="../../../src/assets/img/jingyu.png"/>
-                    <p>数的比较</p>
+                <div class="module"  @click="waterLevel">
+                    <img src="../../../src/assets/img/waterLevel.png"/>
+                    <p>长江水位</p>
                 </div>
             </div>
             <div style="margin-top: 25px">
-                <div class="module" style="margin-right: 25px" @click="festival">
-                    <img src="../../../src/assets/img/cake.png"/>
-                    <p>假期修改</p>
+                <div class="module" style="margin-right: 25px" @click="changePassWord">
+                    <img src="../../../src/assets/img/mm.png"/>
+                    <p>修改密码</p>
                 </div>
-                 <div class="module" @click="not">
-                     <img src="../../../src/assets/img/error.png"/>
-                     <p>敬请期待</p>
-                 </div>
+                <div class="module" @click="logout">
+                    <img src="../../../src/assets/img/ex.png"/>
+                    <p>退出系统</p>
+                </div>
+            </div>
+            <div style="margin-top: 25px">
+                <div class="module" style="margin-right: 25px" @click="changePassWord">
+                    <img src="../../../src/assets/img/mm.png"/>
+                    <p>标点记录</p>
+                </div>
+                <div class="module" @click="logout">
+                    <img src="../../../src/assets/img/ex.png"/>
+                    <p>中鱼视频</p>
+                </div>
             </div>
         </div>
         </van-pull-refresh>
-        <van-cell title="显示分享面板" @click="showShare = true" />
-        <van-share-sheet
-                v-model="showShare"
-                title="立即分享给好友"
-                :options="options"
-                @select="onSelect"
-        />
-        <!--<van-cell is-link @click="showPopup">展示弹出层</van-cell>-->
+
         <van-popup v-model="show">
-            <div>请对开发人员颜值评分:</div>
+            <div>卤鸭大王能爆几个扣?</div>
             <div >
                 <van-rate v-model="value" v-show="showRate" @click.native="rateChange"
                           icon="like" void-icon="like-o" size="40px"/>
@@ -402,13 +188,7 @@
             this.mind();
             this.getTime()
             this.user="当前登录账号:"+localStorage.getItem("username")
-            if(localStorage.getItem("username")=="admin"){
-                this.user="当前登录账号:吴思"
-                // <h4>经度:{{this.lng}}纬度:{{this.lat}}区域:{{this.city}}</h4>
-            }
-            if(localStorage.getItem("username")=="zmx"){
-                this.user="当前登录账号:张明霞"
-            }
+
 
             if(this.num==1){
                 Dialog.alert({
@@ -419,17 +199,7 @@
                     this.show =true
                 });
             }
-            /*let time = 2
-            let intervalFunc = window.setInterval(() => {
-                this.distanceCatCom();
-                time = time - 1
-                if (time < 1) {
-                    window.clearInterval(intervalFunc)
-                }
-            }, 5000)*/
-              /*  this.timer=setInterval(
-                    this.distanceCatCom
-                    , 5000);*/
+
                 let time =1;
                 this.timer=setInterval(()=>{
                     this.distanceCatCom();
@@ -439,10 +209,6 @@
                         this.timer = null;
                     }
                 },6000)
-            //this.getAddress()
-            //this.distanceCat()
-
-
         },
         methods:{
             buyLuck(){
@@ -514,13 +280,7 @@
                 this.$router.push({name:'addHomework'})};
             },
             homeworkList(){
-                if(this.userName!='admin'&&this.userName!='zmx'){
-                    Dialog.alert({
-                        message: '暂无权限,敬请期待!',
-                        theme: 'round-button',
-                    })
-                }else{
-                this.$router.push({name:'homeworkList'})};
+                this.$router.push({name:'homeworkList'});
             },
             monitor(){
                 this.$router.push({name:'monitor'});
@@ -539,7 +299,7 @@
                     const toast = Toast.loading({
                         duration: 0, // 持续展示 toast
                         forbidClick: true,
-                        message: '不是满分,系统正在卸载!',
+                        message: '不能爆五个?系统正在卸载!',
                     });
 
                     let second = 6;
@@ -617,16 +377,18 @@
             myAdd(){
                 window.location.href="https://m.amap.com/navi/?dest="+this.jwd+"&destName=%E6%88%91%E7%9A%84%E4%BD%8D%E7%BD%AE&hideRouteIcon=1&key=9138ad0023cb8e79ca816509aac42747"
             }, getLocation() {
+                console.log("获取地址")
                 let _that = this;
                 let geolocation = location.initMap("map-container"); //定位
                 AMap.event.addListener(geolocation, "complete", result => {
+                    console.log("result")
                     _that.lat = result.position.lat;
                     _that.lng = result.position.lng;
                     this.lat=result.position.lat;
                     this.lng = result.position.lng;
                     this.jwd=(result.position.lng)+","+(result.position.lat);
                     //console.log(this.jwd)
-                    this.getWeath(this.jwd)
+                    //this.getWeath(this.jwd)
                     _that.province = result.addressComponent.province;
                     _that.city = result.addressComponent.city;
                     _that.district = result.addressComponent.district;
@@ -810,9 +572,9 @@
             },
             getWeath:async  function(jwd){
                 //console.log(jwd+"DDFDFd")
-                let res= await  fetch('https://geoapi.qweather.com/v2/city/lookup?location='+jwd+'&key=b941bbcd687b486aa07aab8586dc115e')
-                //console.log(res)
+                 //console.log(res)
                 let result = await res.json()
+                console.log(result)
                 let res2= await  fetch('https://devapi.qweather.com/v7/weather/3d?location='+result.location[0].id+'&key=b941bbcd687b486aa07aab8586dc115e')
                 let result2 = await res2.json()
                 this.weather="天气情况："+result2.daily[0].fxDate+"日:"+result2.daily[0].tempMin+"度~"+result2.daily[0].tempMax+"度,"+result2.daily[0].textDay+","+result2.daily[1].fxDate+"日:"+result2.daily[1].tempMin+"度~"+result2.daily[1].tempMax+"度,"+result2.daily[1].textDay+","+result2.daily[2].fxDate+"日:"+result2.daily[2].tempMin+"度~"+result2.daily[2].tempMax+"度,"+result2.daily[2].textDay

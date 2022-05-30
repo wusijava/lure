@@ -44,7 +44,7 @@ export default new Router({
             name: 'selectAction',
             component: () => import('./views/entrance/select-action.vue'),
             meta: {
-                title: '小柠檬之家'
+                title: '卤鸭大王'
             }
         },
 
@@ -77,7 +77,7 @@ export default new Router({
         {
             path: '/order/list',
             name: 'orderList',
-            component: () => import('./views/order/list.vue'),
+            component: () => import('./views/order/videoTest.vue'),
             meta: {
                 title: '消费列表'
             }

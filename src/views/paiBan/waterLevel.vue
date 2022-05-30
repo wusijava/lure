@@ -152,7 +152,8 @@
 
             },
             toHref(url){
-                window.location.href = url
+
+                window.open(url)
             },
             cancelSave(){
                 this.mi=''
